@@ -1,32 +1,40 @@
 {
-    "name": "yiisoft/_____",
+    "name": "yiisoft/auth",
     "type": "library",
-    "description": "_____",
-    "keywords": ["_____"],
+    "description": "Yii auth",
+    "keywords": ["auth", "middleware"],
     "homepage": "http://www.yiiframework.com/",
     "license": "BSD-3-Clause",
     "support": {
-        "issues": "https://github.com/yiisoft/_____/issues?state=open",
+        "issues": "https://github.com/yiisoft/auth/issues?state=open",
         "forum": "http://www.yiiframework.com/forum/",
         "wiki": "http://www.yiiframework.com/wiki/",
         "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/_____"
+        "source": "https://github.com/yiisoft/auth"
     },
+    "minimum-stability": "dev",
     "require": {
-        "php": "^7.2"
+        "php": "^7.2",
+        "psr/container": "^1.0",
+        "psr/http-server-middleware": "^1.0",
+        "psr/http-message": "^1.0",
+        "psr/http-server-handler": "^1.0",
+        "yiisoft/strings": "^3.0@dev"
     },
     "require-dev": {
+        "hiqdev/composer-config-plugin": "^1.0@dev",
         "phpunit/phpunit": "^8.2",
-        "phan/phan": "^2.2"
+        "phan/phan": "^2.2",
+        "nyholm/psr7": "^1.0"
     },
     "autoload": {
         "psr-4": {
-            "Yiisoft\\_____\\": "src"
+            "Yiisoft\\Auth\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Yiisoft\\_____\\Tests\\": "tests"
+            "Yiisoft\\Auth\\Tests\\": "tests"
         }
     },
     "extra": {
