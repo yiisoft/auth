@@ -1,4 +1,4 @@
-# _____ Change Log
+# Yii Auth Change Log
 
 ## 1.0.0 under development
 
