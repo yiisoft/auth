@@ -19,7 +19,8 @@
         "psr/http-server-middleware": "^1.0",
         "psr/http-message": "^1.0",
         "psr/http-server-handler": "^1.0",
-        "yiisoft/strings": "^3.0@dev"
+        "yiisoft/strings": "^3.0@dev",
+        "yiisoft/web": "^3.0@dev"
     },
     "require-dev": {
         "hiqdev/composer-config-plugin": "^1.0@dev",
