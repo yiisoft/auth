@@ -11,8 +11,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Auth\AuthInterface;
 use Yiisoft\Auth\Middleware\Auth;
+use Yiisoft\Auth\IdentityInterface;
 use PHPUnit\Framework\TestCase;
-use Yiisoft\Yii\Web\User\IdentityInterface;
 
 class AuthMiddlewareTest extends TestCase
 {
@@ -100,7 +100,7 @@ class AuthMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method('challenge')
             ->willReturnCallback(
-                function (ResponseInterface $response) use ($header, $headerValue) {
+                static function (ResponseInterface $response) use ($header, $headerValue) {
                     return $response->withHeader($header, $headerValue);
                 }
             );

@@ -5,7 +5,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthInterface;
-use Yiisoft\Yii\Web\User\IdentityInterface;
+use Yiisoft\Auth\IdentityInterface;
 
 /**
  * CompositeAuth allows multiple authentication methods at the same time.

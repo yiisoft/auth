@@ -4,8 +4,8 @@ namespace Yiisoft\Auth\Method;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthInterface;
-use Yiisoft\Yii\Web\User\IdentityInterface;
-use Yiisoft\Yii\Web\User\IdentityRepositoryInterface;
+use Yiisoft\Auth\IdentityInterface;
+use Yiisoft\Auth\IdentityRepositoryInterface;
 
 /**
  * QueryParamAuth supports the authentication based on the access token passed through a query parameter.

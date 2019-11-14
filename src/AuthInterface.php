@@ -3,7 +3,6 @@ namespace Yiisoft\Auth;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Yii\Web\User\IdentityInterface;
 
 /**
  * AuthInterface is the interface that should be implemented by auth method classes.
