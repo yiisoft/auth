@@ -2,7 +2,10 @@
     "name": "yiisoft/auth",
     "type": "library",
     "description": "Yii auth",
-    "keywords": ["auth", "middleware"],
+    "keywords": [
+        "auth",
+        "middleware"
+    ],
     "homepage": "http://www.yiiframework.com/",
     "license": "BSD-3-Clause",
     "support": {
@@ -44,5 +47,8 @@
     },
     "scripts": {
         "phan": "phan --progress-bar -o analysis.txt"
+    },
+    "config": {
+        "sort-packages": true
     }
 }
