@@ -8,13 +8,10 @@ env:
 
 matrix:
   include:
-    - php: '7.2'
-      env:
-        - TASK_TESTS_COVERAGE=1
-    - php: '7.3'
+    - php: "7.4"
       env:
         - TASK_STATIC_ANALYSIS=0 # set to 1 to enable static analysis
-    - php: '7.4snapshot'
+        - TASK_TESTS_COVERAGE=1
 
 # faster builds on new travis setup not using sudo
 sudo: false
@@ -62,3 +59,20 @@ after_script:
       travis_retry wget https://scrutinizer-ci.com/ocular.phar
       php ocular.phar code-coverage:upload --format=php-clover coverage.clover
     fi
+
+notifications:
+  slack:
+    -
+      rooms:
+        -
+          secure: SgnG7ga66YNOpGwrD6Ziu3/mKhYt71sqKZmKJg5L2EAI2xxqQM+zJwu59lXzq621w8Jeip2vACZ6qkZQdORHWmEqnjSeuNKOeeqJKMEBS4biGGbiadTdJmxNKyLZ4JE0UIoOvqhb1pZIDBHgim/ERUkXf3h7teRnV94Xy67W7JMhRcje5nWUfPdV01d1KwNB0xhpp4GFeClzGAav4aP/we8yGp5UAq1Ey22mtdrQpynHFYjQ22CphMlD3P2bJEw5HReSj+lThmE4xCturPM1OhKQoh3iqUz/Zi0CPA6G96ekfpbkwV9i2DuTHHBDb1/5eWREdwm6fi6i0SIVYSEk4IwSG6fgtwFPsioXU535Z/U2BcBQLupStHxeB5LPYFO6J7detSrRLuxgM/p/6cVyYObEGK9tIieZot6Nyj3gdvI8E3Y4qGr3124QMM69JJ4taUDIfzD8rtGIliXxHBQt9St9UBI1kVsHC0aHmmu+m1VOZsPDSXlNYIH8Jnp4krNNUZOJKlwsFwREnZbDvTRm1DePD/ZVLPvGkrKRwm88HsQU+ERtG3KtAm0N471XQDVXbrwTtRG9swngJWO87ExLmqxB/pY9881q5BslBqI4KhLO5L/IOSyf4rANXtz9B2q6ycqhtiiFjiqnFw6ZoMMsMlCnin7zXQBW3d0nG/JFnVw=
+      on_success: always
+      on_failure: never
+      on_pull_requests: false
+    -
+      rooms:
+        -
+          secure: m/mX4YmCauiHzOvxp5PKY/E1ccb6apriKIPlvJh4XR+sDVeCXtYlr2C6aQfvAdxKzQx0FFfrQ8nJ1jPMvpi8qgawYFEWTKKTosYvVwevWtXg1Ge89a6K1pBPF1C8KawLEiCEt5aaXgawrpM2uO0lXgoVSxUB/p1m9SbTEvHAY+8kY6acz9QgfeVHWAx7NBDB0RFudbOb71FKQ6C6pxPVIgPN8rnfoVyNZ1Pe7UEOYE35ZczI2y3X83fNyM9QBe23fifed7deTdGzeox2ADInEP3a49+gtquy1bJv1nId+HacePHiQyB2oLR2I9rlfIQMJPZHaTsH5mkaz6EXNyRqXWVBxUw1q2QHhsXlb5Fu3fqS6hPkxgpCmmgq0I56wHMTnzLPwYKiYL+8TKY+gPOeazyO0rOfnus1g7+kj5BNjo0BGPJhVvHgWIuMzB7Twc6PWO+K24ZzTGFhk38eWtCbsQLA0xM4yQCRou0cmbzznkPcXU+vaQx12/5ii6vwp5NII34OeDLFMOq3N0LDdLIhnJVS94GKoWkTC5Yt0rAAQMWNWEHr7NxdiioLST3Ku3RP4u6DsMMuQb6e4P59+L1zvMkvopXrKXM616TFN2pR/pkCo1A48Pe6xkowkoTuNKu6TP+chcODOQgtHw/STmgOVTU2ofuyjVqYUVSbMmjUdLY=
+      on_success: never
+      on_failure: always
+      on_pull_requests: false
