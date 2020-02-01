@@ -1,4 +1,5 @@
 <?php
+
 namespace Yiisoft\Auth\Middleware;
 
 use Psr\Http\Message\ResponseFactoryInterface;
