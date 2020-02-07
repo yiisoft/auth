@@ -26,7 +26,7 @@
     },
     "require-dev": {
         "hiqdev/composer-config-plugin": "^1.0@dev",
-        "phpunit/phpunit": "^8.4",
+        "phpunit/phpunit": "^9.0",
         "phan/phan": "^2.2",
         "nyholm/psr7": "^1.0"
     },
