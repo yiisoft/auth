@@ -27,7 +27,7 @@
     "require-dev": {
         "yiisoft/composer-config-plugin": "^1.0@dev",
         "phpunit/phpunit": "^9.0",
-        "phan/phan": "^2.2",
+        "phan/phan": "^2.2 || ^3.0",
         "nyholm/psr7": "^1.0"
     },
     "autoload": {
