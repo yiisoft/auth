@@ -285,7 +285,7 @@ return [
     // directories/files, unanalyzable files, or files that
     // can't be removed for whatever reason.
     // (e.g. `'@Test\.php$@'`, or `'@vendor/.*/(tests|Tests)/@'`)
-    'exclude_file_regex' => '@^vendor/.*/(tests?|Tests?)/@',
+    'exclude_file_regex' => '@^vendor/.*/(tests?|Tests?|vendor)/@',
 
     // A file list that defines files that will be excluded
     // from parsing and analysis and will not be read at all.
@@ -364,8 +364,7 @@ return [
     // your application should be included in this list.
     'directory_list' => [
         'src',
-        'vendor/phpunit/phpunit/src',
-        'vendor/psr/',
+        'vendor'
     ],
 
     // A list of individual files to include in analysis
