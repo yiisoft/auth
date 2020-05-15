@@ -17,11 +17,9 @@ final class QueryParam implements AuthInterface
     /**
      * @var string the parameter name for passing the access token
      */
-    private $tokenParam = self::TOKEN_PARAM;
-    /**
-     * @var IdentityRepositoryInterface
-     */
-    private $identityRepository;
+    private string $tokenParam = self::TOKEN_PARAM;
+
+    private IdentityRepositoryInterface $identityRepository;
 
     public function __construct(IdentityRepositoryInterface $identityRepository)
     {

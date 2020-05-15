@@ -21,12 +21,12 @@ class HttpHeader implements AuthInterface
     /**
      * @var string the HTTP header name
      */
-    protected $headerName = self::HEADER_NAME;
+    protected string $headerName = self::HEADER_NAME;
 
     /**
      * @var string a pattern to use to extract the HTTP authentication value
      */
-    protected $pattern;
+    protected string $pattern;
 
     /**
      * @var IdentityRepositoryInterface

@@ -14,10 +14,10 @@ final class Auth implements MiddlewareInterface
 {
     private const REQUEST_NAME = 'auth_user';
 
-    private $requestName = self::REQUEST_NAME;
-    private $responseFactory;
-    private $authenticator;
-    private $optional = [];
+    private string $requestName = self::REQUEST_NAME;
+    private ResponseFactoryInterface $responseFactory;
+    private AuthInterface $authenticator;
+    private array $optional = [];
 
     public function __construct(ResponseFactoryInterface $responseFactory, AuthInterface $authenticator)
     {

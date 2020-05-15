@@ -12,12 +12,12 @@ final class HttpBearer extends HttpHeader
     private const HEADER_NAME = 'Authorization';
     private const PATTERN = '/^Bearer\s+(.*?)$/';
 
-    protected $headerName = self::HEADER_NAME;
-    protected $pattern = self::PATTERN;
+    protected string $headerName = self::HEADER_NAME;
+    protected string $pattern = self::PATTERN;
     /**
      * @var string the HTTP authentication realm
      */
-    private $realm = 'api';
+    private string $realm = 'api';
 
     public function challenge(ResponseInterface $response): ResponseInterface
     {

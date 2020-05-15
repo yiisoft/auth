@@ -23,7 +23,7 @@ final class HttpBasic implements AuthInterface
     /**
      * @var string the HTTP authentication realm
      */
-    private $realm = 'api';
+    private string $realm = 'api';
     /**
      * @var callable a PHP callable that will authenticate the user with the HTTP basic auth information.
      * The callable receives a username and a password as its parameters. It should return an identity object
@@ -35,10 +35,8 @@ final class HttpBasic implements AuthInterface
      * method will be called to authenticate and login the user.
      */
     private $auth;
-    /**
-     * @var IdentityRepositoryInterface
-     */
-    private $identityRepository;
+
+    private IdentityRepositoryInterface $identityRepository;
 
     public function __construct(IdentityRepositoryInterface $identityRepository)
     {
@@ -51,14 +49,10 @@ final class HttpBasic implements AuthInterface
 
         if ($this->auth) {
             if ($username !== null || $password !== null) {
-                $identity = \call_user_func($this->auth, $username, $password);
-
-                return $identity;
+                return \call_user_func($this->auth, $username, $password);
             }
         } elseif ($username !== null) {
-            $identity = $this->identityRepository->findIdentityByToken($username, get_class($this));
-
-            return $identity;
+            return $this->identityRepository->findIdentityByToken($username, get_class($this));
         }
 
         return null;
