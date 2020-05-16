@@ -19,11 +19,9 @@ final class Composite implements AuthInterface
     /**
      * @var AuthInterface[]
      */
-    private $authMethods = [];
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private array $authMethods = [];
+
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {

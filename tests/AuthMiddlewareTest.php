@@ -14,13 +14,12 @@ use Yiisoft\Auth\Middleware\Auth;
 use Yiisoft\Auth\IdentityInterface;
 use PHPUnit\Framework\TestCase;
 
-class AuthMiddlewareTest extends TestCase
+final class AuthMiddlewareTest extends TestCase
 {
-    /** @var ResponseFactoryInterface */
-    private $responseFactory;
+    private ResponseFactoryInterface $responseFactory;
 
     /** @var AuthInterface|MockObject */
-    private $authenticator;
+    private AuthInterface $authenticator;
 
     protected function setUp(): void
     {
@@ -28,10 +27,7 @@ class AuthMiddlewareTest extends TestCase
         $this->authenticator = $this->createMock(AuthInterface::class);
     }
 
-    /**
-     * @test
-     */
-    public function shouldAuthenticateAndSetAttribute(): void
+    public function testShouldAuthenticateAndSetAttribute(): void
     {
         $request = new ServerRequest('GET', '/');
         $identity = $this->createMock(IdentityInterface::class);
@@ -59,10 +55,7 @@ class AuthMiddlewareTest extends TestCase
         $auth->process($request, $handler);
     }
 
-    /**
-     * @test
-     */
-    public function shouldSkipCheckForOptionalPath(): void
+    public function testShouldSkipCheckForOptionalPath(): void
     {
         $path = '/optional';
         $request = new ServerRequest('GET', $path);
@@ -82,10 +75,7 @@ class AuthMiddlewareTest extends TestCase
         $auth->process($request, $handler);
     }
 
-    /**
-     * @test
-     */
-    public function shouldNotExecuteHandlerAndReturn401OnAuthenticationFailure(): void
+    public function testShouldNotExecuteHandlerAndReturn401OnAuthenticationFailure(): void
     {
         $request = new ServerRequest('GET', '/');
         $header = 'Authenticated';
