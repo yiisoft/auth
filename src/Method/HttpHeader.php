@@ -69,7 +69,7 @@ class HttpHeader implements AuthInterface
     {
         $authHeaders = $request->getHeader($this->headerName);
         $authHeader = \reset($authHeaders);
-        if ($authHeader !== null) {
+        if (!empty($authHeader)) {
             if ($this->pattern !== null) {
                 if (preg_match($this->pattern, $authHeader, $matches)) {
                     $authHeader = $matches[1];
