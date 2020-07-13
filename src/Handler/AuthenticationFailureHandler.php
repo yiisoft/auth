@@ -1,0 +1,28 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Yiisoft\Auth\Handler;
+
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Yiisoft\Http\Status;
+
+final class AuthenticationFailureHandler implements RequestHandlerInterface
+{
+    private ResponseFactoryInterface $responseFactory;
+
+    public function __construct(ResponseFactoryInterface $responseFactory)
+    {
+        $this->responseFactory = $responseFactory;
+    }
+
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        $response = $this->responseFactory->createResponse(Status::UNAUTHORIZED);
+        $response->getBody()->write('Your request was made with invalid credentials.');
+        return $response;
+    }
+}

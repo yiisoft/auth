@@ -16,17 +16,19 @@
         "source": "https://github.com/yiisoft/auth"
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8.0",
         "psr/container": "^1.0",
         "psr/http-server-middleware": "^1.0",
         "psr/http-message": "^1.0",
         "psr/http-server-handler": "^1.0",
-        "yiisoft/strings": "^3.0@dev"
+        "yiisoft/strings": "^3.0@dev",
+        "yiisoft/http": "1.0.x-dev"
     },
     "require-dev": {
         "yiisoft/composer-config-plugin": "^1.0@dev",
-        "phpunit/phpunit": "^9.0",
+        "phpunit/phpunit": "^9.2",
         "phan/phan": "^3.0",
         "nyholm/psr7": "^1.0"
     },
