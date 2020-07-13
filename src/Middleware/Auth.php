@@ -14,7 +14,7 @@ use Yiisoft\Strings\StringHelper;
 
 final class Auth implements MiddlewareInterface
 {
-    private const REQUEST_NAME = 'auth_user';
+    public const REQUEST_NAME = 'auth_user';
 
     private string $requestName = self::REQUEST_NAME;
     private ResponseFactoryInterface $responseFactory;
