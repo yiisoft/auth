@@ -10,6 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Auth\AuthInterface;
+use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
 use Yiisoft\Strings\StringHelper;
 
 final class Auth implements MiddlewareInterface
@@ -17,14 +18,19 @@ final class Auth implements MiddlewareInterface
     public const REQUEST_NAME = 'auth_user';
 
     private string $requestName = self::REQUEST_NAME;
-    private ResponseFactoryInterface $responseFactory;
     private AuthInterface $authenticator;
+    private RequestHandlerInterface $authenticationFailureHandler;
     private array $optional = [];
 
-    public function __construct(ResponseFactoryInterface $responseFactory, AuthInterface $authenticator)
-    {
-        $this->responseFactory = $responseFactory;
+    public function __construct(
+        AuthInterface $authenticator,
+        ResponseFactoryInterface $responseFactory,
+        RequestHandlerInterface $authenticationFailureHandler = null
+    ) {
         $this->authenticator = $authenticator;
+        $this->authenticationFailureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
+            $responseFactory
+        );
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -33,11 +39,9 @@ final class Auth implements MiddlewareInterface
         $request = $request->withAttribute($this->requestName, $identity);
 
         if ($identity === null && !$this->isOptional($request)) {
-            $response = $this->responseFactory->createResponse(401);
-            $response = $this->authenticator->challenge($response);
-            $response->getBody()->write('Your request was made with invalid credentials.');
-
-            return $response;
+            return $this->authenticator->challenge(
+                $this->authenticationFailureHandler->handle($request)
+            );
         }
 
         return $handler->handle($request);
@@ -64,7 +68,6 @@ final class Auth implements MiddlewareInterface
                 return true;
             }
         }
-
         return false;
     }
 }

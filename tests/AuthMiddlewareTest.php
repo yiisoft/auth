@@ -15,6 +15,7 @@ use Yiisoft\Auth\AuthInterface;
 use Yiisoft\Auth\Middleware\Auth;
 use Yiisoft\Auth\IdentityInterface;
 use PHPUnit\Framework\TestCase;
+use Yiisoft\Http\Status;
 
 final class AuthMiddlewareTest extends TestCase
 {
@@ -52,7 +53,7 @@ final class AuthMiddlewareTest extends TestCase
                 }
             );
 
-        $auth = new Auth($this->responseFactory, $this->authenticator);
+        $auth = new Auth($this->authenticator, $this->responseFactory);
         $auth->setRequestName($identityAttribute);
         $auth->process($request, $handler);
     }
@@ -72,7 +73,7 @@ final class AuthMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method('handle');
 
-        $auth = new Auth($this->responseFactory, $this->authenticator);
+        $auth = new Auth($this->authenticator, $this->responseFactory);
         $auth->setOptional([$path]);
         $auth->process($request, $handler);
     }
@@ -102,9 +103,68 @@ final class AuthMiddlewareTest extends TestCase
             ->expects($this->never())
             ->method('handle');
 
-        $auth = new Auth($this->responseFactory, $this->authenticator);
+        $auth = new Auth($this->authenticator, $this->responseFactory);
         $response = $auth->process($request, $handler);
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals($headerValue, $response->getHeaderLine($header));
+    }
+
+    public function testCustomAuthenticationFailureResponse()
+    {
+        $request = new ServerRequest('GET', '/');
+        $header = 'Authenticated';
+        $headerValue = 'false';
+
+        $this->authenticator
+            ->expects($this->once())
+            ->method('authenticate')
+            ->willReturn(null);
+
+        $this->authenticator
+            ->expects($this->once())
+            ->method('challenge')
+            ->willReturnCallback(
+                static function (ResponseInterface $response) use ($header, $headerValue) {
+                    return $response->withHeader($header, $headerValue);
+                }
+            );
+
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler
+            ->expects($this->never())
+            ->method('handle');
+
+        $failureResponse = 'test custom response';
+
+        $auth = new Auth(
+            $this->authenticator,
+            $this->responseFactory,
+            $this->createAuthenticationFailureHandler($failureResponse)
+        );
+        $response = $auth->process($request, $handler);
+        $this->assertEquals(401, $response->getStatusCode());
+        $this->assertEquals($headerValue, $response->getHeaderLine($header));
+        $this->assertEquals($failureResponse, (string)$response->getBody());
+    }
+
+    private function createAuthenticationFailureHandler(string $failureResponse): RequestHandlerInterface
+    {
+        return new class($failureResponse, new Psr17Factory()) implements RequestHandlerInterface {
+            private string $failureResponse;
+            private ResponseFactoryInterface $responseFactory;
+
+            public function __construct(string $failureResponse, ResponseFactoryInterface $responseFactory)
+            {
+                $this->failureResponse = $failureResponse;
+                $this->responseFactory = $responseFactory;
+            }
+
+            public function handle(ServerRequestInterface $request): ResponseInterface
+            {
+                $response = $this->responseFactory->createResponse(Status::UNAUTHORIZED);
+                $response->getBody()->write($this->failureResponse);
+                return $response;
+            }
+        };
     }
 }
