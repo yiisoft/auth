@@ -53,7 +53,7 @@ final class AuthMiddlewareTest extends TestCase
                 }
             );
 
-        $auth = new Auth($this->responseFactory, $this->authenticator);
+        $auth = new Auth($this->authenticator, $this->responseFactory);
         $auth->setRequestName($identityAttribute);
         $auth->process($request, $handler);
     }
@@ -73,7 +73,7 @@ final class AuthMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method('handle');
 
-        $auth = new Auth($this->responseFactory, $this->authenticator);
+        $auth = new Auth($this->authenticator, $this->responseFactory);
         $auth->setOptional([$path]);
         $auth->process($request, $handler);
     }
@@ -103,7 +103,7 @@ final class AuthMiddlewareTest extends TestCase
             ->expects($this->never())
             ->method('handle');
 
-        $auth = new Auth($this->responseFactory, $this->authenticator);
+        $auth = new Auth($this->authenticator, $this->responseFactory);
         $response = $auth->process($request, $handler);
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals($headerValue, $response->getHeaderLine($header));
@@ -137,8 +137,8 @@ final class AuthMiddlewareTest extends TestCase
         $failureResponse = 'test custom response';
 
         $auth = new Auth(
-            $this->responseFactory,
             $this->authenticator,
+            $this->responseFactory,
             $this->createAuthenticationFailureHandler($failureResponse)
         );
         $response = $auth->process($request, $handler);

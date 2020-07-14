@@ -18,17 +18,15 @@ final class Auth implements MiddlewareInterface
     private const REQUEST_NAME = 'auth_user';
 
     private string $requestName = self::REQUEST_NAME;
-    private ResponseFactoryInterface $responseFactory;
     private AuthInterface $authenticator;
     private RequestHandlerInterface $authenticationFailureHandler;
     private array $optional = [];
 
     public function __construct(
-        ResponseFactoryInterface $responseFactory,
         AuthInterface $authenticator,
+        ResponseFactoryInterface $responseFactory,
         RequestHandlerInterface $authenticationFailureHandler = null
     ) {
-        $this->responseFactory = $responseFactory;
         $this->authenticator = $authenticator;
         $this->authenticationFailureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
                 $responseFactory
@@ -41,10 +39,9 @@ final class Auth implements MiddlewareInterface
         $request = $request->withAttribute($this->requestName, $identity);
 
         if ($identity === null && !$this->isOptional($request)) {
-            $response = $this->authenticationFailureHandler->handle($request);
-            $response = $this->authenticator->challenge($response);
-
-            return $response;
+            return $this->authenticator->challenge(
+                $this->authenticationFailureHandler->handle($request)
+            );
         }
 
         return $handler->handle($request);
