@@ -29,8 +29,8 @@ final class Auth implements MiddlewareInterface
     ) {
         $this->authenticator = $authenticator;
         $this->authenticationFailureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
-                $responseFactory
-            );
+            $responseFactory
+        );
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
