@@ -15,7 +15,7 @@ final class HttpBearer extends HttpHeader
     private const PATTERN = '/^Bearer\s+(.*?)$/';
 
     protected string $headerName = self::HEADER_NAME;
-    protected string $pattern = self::PATTERN;
+    protected ?string $pattern = self::PATTERN;
     /**
      * @var string the HTTP authentication realm
      */

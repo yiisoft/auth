@@ -28,12 +28,12 @@ class HttpHeader implements AuthInterface
     /**
      * @var string a pattern to use to extract the HTTP authentication value
      */
-    protected string $pattern;
+    protected ?string $pattern = null;
 
     /**
      * @var IdentityRepositoryInterface
      */
-    protected $identityRepository;
+    protected IdentityRepositoryInterface $identityRepository;
 
     public function __construct(IdentityRepositoryInterface $identityRepository)
     {
