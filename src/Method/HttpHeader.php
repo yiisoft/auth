@@ -30,9 +30,6 @@ class HttpHeader implements AuthInterface
      */
     protected ?string $pattern = null;
 
-    /**
-     * @var IdentityRepositoryInterface
-     */
     protected IdentityRepositoryInterface $identityRepository;
 
     public function __construct(IdentityRepositoryInterface $identityRepository)
