@@ -32,9 +32,6 @@ class HttpHeader implements AuthInterface
      */
     protected string $pattern = self::PATTERN;
 
-    /**
-     * @var IdentityRepositoryInterface
-     */
     protected IdentityRepositoryInterface $identityRepository;
 
     public function __construct(IdentityRepositoryInterface $identityRepository)
