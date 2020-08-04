@@ -20,6 +20,8 @@ use Yiisoft\Auth\IdentityRepositoryInterface;
 class HttpHeader implements AuthInterface
 {
     private const HEADER_NAME = 'X-Api-Key';
+    private const PATTERN = '/(.*)/';
+
     /**
      * @var string the HTTP header name
      */
@@ -28,12 +30,9 @@ class HttpHeader implements AuthInterface
     /**
      * @var string a pattern to use to extract the HTTP authentication value
      */
-    protected string $pattern;
+    protected string $pattern = self::PATTERN;
 
-    /**
-     * @var IdentityRepositoryInterface
-     */
-    protected $identityRepository;
+    protected IdentityRepositoryInterface $identityRepository;
 
     public function __construct(IdentityRepositoryInterface $identityRepository)
     {
@@ -70,12 +69,10 @@ class HttpHeader implements AuthInterface
         $authHeaders = $request->getHeader($this->headerName);
         $authHeader = \reset($authHeaders);
         if (!empty($authHeader)) {
-            if ($this->pattern !== null) {
-                if (preg_match($this->pattern, $authHeader, $matches)) {
-                    $authHeader = $matches[1];
-                } else {
-                    return null;
-                }
+            if (preg_match($this->pattern, $authHeader, $matches)) {
+                $authHeader = $matches[1];
+            } else {
+                return null;
             }
             return $authHeader;
         }
