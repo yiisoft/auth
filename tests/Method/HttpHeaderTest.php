@@ -23,6 +23,7 @@ final class HttpHeaderTest extends TestCase
             $this->createRequest(['X-Api-Key' => 'api-key'])
         );
 
+        $this->assertNotNull($result);
         $this->assertEquals('test-id', $result->getId());
     }
 
