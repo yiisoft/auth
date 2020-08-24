@@ -115,7 +115,7 @@ final class HttpBasic implements AuthInterface
     private function extractCredentialsFromHeader(string $authToken): array
     {
         return array_map(
-            fn($value) => $value === '' ? null : $value,
+            fn ($value) => $value === '' ? null : $value,
             explode(':', base64_decode(mb_substr($authToken, 6)), 2)
         );
     }
