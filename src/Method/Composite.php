@@ -11,9 +11,6 @@ use Yiisoft\Auth\IdentityInterface;
 
 /**
  * Composite allows multiple authentication methods at the same time.
- *
- * The authentication methods contained by Composite are configured via {@see setAuthMethods()},
- * which is a list of supported authentication class configurations.
  */
 final class Composite implements AuthenticationMethodInterface
 {
@@ -22,6 +19,9 @@ final class Composite implements AuthenticationMethodInterface
      */
     private array $authenticationMethods;
 
+    /**
+     * @param AuthenticationMethodInterface[] $methods
+     */
     public function __construct(array $methods)
     {
         $this->authenticationMethods = $methods;
@@ -29,7 +29,11 @@ final class Composite implements AuthenticationMethodInterface
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
     {
-        foreach ($this->authenticationMethods as $i => $authenticationMethod) {
+        foreach ($this->authenticationMethods as $authenticationMethod) {
+            if (!$authenticationMethod instanceof AuthenticationMethodInterface) {
+                throw new \RuntimeException('Authentication method must be an instance of ' . AuthenticationMethodInterface::class . '.');
+            }
+
             $identity = $authenticationMethod->authenticate($request);
             if ($identity !== null) {
                 return $identity;
