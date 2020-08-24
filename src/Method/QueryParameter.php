@@ -15,9 +15,6 @@ use Yiisoft\Auth\IdentityRepositoryInterface;
  */
 final class QueryParameter implements AuthenticationMethodInterface
 {
-    /**
-     * @var string The parameter name for passing the access token.
-     */
     private string $parameterName = 'access-token';
 
     private IdentityRepositoryInterface $identityRepository;
@@ -42,6 +39,10 @@ final class QueryParameter implements AuthenticationMethodInterface
         return $response;
     }
 
+    /**
+     * @param string $name The parameter name for passing the access token.
+     * @return self
+     */
     public function withParameterName(string $name): self
     {
         $new = clone $this;

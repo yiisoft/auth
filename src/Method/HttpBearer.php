@@ -13,9 +13,6 @@ final class HttpBearer extends HttpHeader
 {
     protected string $headerName = 'Authorization';
     protected string $pattern = '/^Bearer\s+(.*?)$/';
-    /**
-     * @var string The HTTP authentication realm.
-     */
     private string $realm = 'api';
 
     public function challenge(ResponseInterface $response): ResponseInterface
@@ -23,6 +20,10 @@ final class HttpBearer extends HttpHeader
         return $response->withHeader('WWW-Authenticate', "{$this->headerName} realm=\"{$this->realm}\"");
     }
 
+    /**
+     * @param string $realm The HTTP authentication realm.
+     * @return self
+     */
     public function withRealm(string $realm): self
     {
         $new = clone $this;

@@ -23,20 +23,10 @@ use Yiisoft\Auth\IdentityRepositoryInterface;
  */
 final class HttpBasic implements AuthenticationMethodInterface
 {
-    /**
-     * @var string The HTTP authentication realm.
-     */
     private string $realm = 'api';
 
     /**
-     * @var callable a PHP callable that will authenticate the user with the HTTP basic auth information.
-     * The callable receives a username and a password as its parameters. It should return an identity object
-     * that matches the username and password. Null should be returned if there is no such identity.
-     * The callable will be called only if current user is not authenticated.
-     *
-     * If this property is not set, the username information will be considered as an access token
-     * while the password information will be ignored. The {@see \Yiisoft\Auth\IdentityRepositoryInterface::findIdentityByToken()}
-     * method will be called to authenticate an identity.
+     * @var callable|null
      */
     private $authenticationCallback;
 
@@ -51,13 +41,12 @@ final class HttpBasic implements AuthenticationMethodInterface
     {
         [$username, $password] = $this->getAuthenticationCredentials($request);
 
-
-        if ($this->authenticationCallback && ($username !== null || $password !== null)) {
+        if ($this->authenticationCallback !== null && ($username !== null || $password !== null)) {
             return \call_user_func($this->authenticationCallback, $username, $password);
         }
 
         if ($username !== null) {
-            return $this->identityRepository->findIdentityByToken($username, get_class($this));
+            return $this->identityRepository->findIdentityByToken($username, self::class);
         }
 
         return null;
@@ -68,6 +57,17 @@ final class HttpBasic implements AuthenticationMethodInterface
         return $response->withHeader('WWW-Authenticate', "Basic realm=\"{$this->realm}\"");
     }
 
+    /**
+     * @param callable $authenticationCallback A PHP callable that will authenticate the user with the HTTP basic
+     * authentication information. The callable receives a username and a password as its parameters. It should return
+     * an identity object that matches the username and password. Null should be returned if there is no such identity.
+     * The callable will be called only if current user is not authenticated.
+     *
+     * If not set, the username information will be considered as an access token
+     * while the password information will be ignored. The {@see \Yiisoft\Auth\IdentityRepositoryInterface::findIdentityByToken()}
+     * method will be called to authenticate an identity.
+     * @return self
+     */
     public function withAuthenticationCallback(callable $authenticationCallback): self
     {
         $new = clone $this;
@@ -75,6 +75,10 @@ final class HttpBasic implements AuthenticationMethodInterface
         return $new;
     }
 
+    /**
+     * @param string $realm The HTTP authentication realm.
+     * @return $this
+     */
     public function withRealm(string $realm): self
     {
         $new = clone $this;
