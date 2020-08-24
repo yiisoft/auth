@@ -7,7 +7,9 @@ namespace Yiisoft\Auth\Method;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * HttpBearer supports the authentication method based on HTTP Bearer token.
+ * Authentication method based on HTTP Bearer token.
+ *
+ * @see https://tools.ietf.org/html/rfc6750
  */
 final class HttpBearer extends HttpHeader
 {

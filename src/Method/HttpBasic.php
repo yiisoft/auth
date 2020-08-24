@@ -11,11 +11,13 @@ use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 
 /**
- * HttpBasic supports the HTTP Basic authentication method.
+ * HTTP Basic authentication method.
  *
- * In case authentication does not work like expected, make sure your web server passes
+ * @see https://tools.ietf.org/html/rfc7617
+ *
+ * In case authentication does not work as expected, make sure your web server passes
  * username and password to `$request->getServerParams()['PHP_AUTH_USER']` and `$request->getServerParams()['PHP_AUTH_PW']`
- * variables. If you are using Apache with PHP-CGI, you might need to add this line to your `.htaccess` file:
+ * parameters. If you are using Apache with PHP-CGI, you might need to add this line to your `.htaccess` file:
  *
  * ```
  * RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
@@ -42,7 +44,7 @@ final class HttpBasic implements AuthenticationMethodInterface
         [$username, $password] = $this->getAuthenticationCredentials($request);
 
         if ($this->authenticationCallback !== null && ($username !== null || $password !== null)) {
-            return \call_user_func($this->authenticationCallback, $username, $password);
+            return \call_user_func($this->authenticationCallback, $username, $password, $this->identityRepository);
         }
 
         if ($username !== null) {
@@ -59,8 +61,18 @@ final class HttpBasic implements AuthenticationMethodInterface
 
     /**
      * @param callable $authenticationCallback A PHP callable that will authenticate the user with the HTTP basic
-     * authentication information. The callable receives a username and a password as its parameters. It should return
-     * an identity object that matches the username and password. Null should be returned if there is no such identity.
+     * authentication information. The callable should have the following signature:
+     *
+     * ```php
+     * static function (
+     *     string $username,
+     *     string $password,
+     *     \Yiisoft\Auth\IdentityRepositoryInterface $identityRepository
+     * ): ?\Yiisoft\Auth\IdentityInterface
+     * ```
+     *
+     * It should return an identity object that matches the username and password.
+     * Null should be returned if there is no such identity.
      * The callable will be called only if current user is not authenticated.
      *
      * If not set, the username information will be considered as an access token
