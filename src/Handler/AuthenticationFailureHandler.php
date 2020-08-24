@@ -10,6 +10,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Http\Status;
 
+/**
+ * Default authentication failure handler. Responds with "401 Unauthorized" HTTP status code.
+ */
 final class AuthenticationFailureHandler implements RequestHandlerInterface
 {
     private ResponseFactoryInterface $responseFactory;

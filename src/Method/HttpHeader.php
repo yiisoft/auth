@@ -6,18 +6,18 @@ namespace Yiisoft\Auth\Method;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Auth\AuthInterface;
+use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 
 /**
- * HttpHeaderAuth supports HTTP authentication through HTTP Headers.
+ * HttpHeader supports HTTP authentication through HTTP Headers.
  *
  * The default implementation of HttpHeaderAuth uses the [[Yiisoft\Yii\Web\User\IdentityRepositoryInterface::findIdentityByToken()|findIdentityByToken()]]
  * method of the `user` application component and passes the value of the `X-Api-Key` header. This implementation is used
  * for authenticating API clients.
  */
-class HttpHeader implements AuthInterface
+class HttpHeader implements AuthenticationMethodInterface
 {
     private const HEADER_NAME = 'X-Api-Key';
     private const PATTERN = '/(.*)/';
@@ -54,14 +54,18 @@ class HttpHeader implements AuthInterface
         return $response;
     }
 
-    public function setHeaderName(string $name): void
+    public function withHeaderName(string $name): self
     {
-        $this->headerName = $name;
+        $new = clone $this;
+        $new->headerName = $name;
+        return $new;
     }
 
-    public function setPattern(string $pattern): void
+    public function withPattern(string $pattern): self
     {
-        $this->pattern = $pattern;
+        $new = clone $this;
+        $new->pattern = $pattern;
+        return $new;
     }
 
     protected function getAuthToken(ServerRequestInterface $request): ?string

@@ -7,7 +7,7 @@ namespace Yiisoft\Auth\Method;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * HttpBearerAuth supports the authentication method based on HTTP Bearer token.
+ * HttpBearer supports the authentication method based on HTTP Bearer token.
  */
 final class HttpBearer extends HttpHeader
 {
@@ -26,8 +26,10 @@ final class HttpBearer extends HttpHeader
         return $response->withHeader('WWW-Authenticate', "{$this->headerName} realm=\"{$this->realm}\"");
     }
 
-    public function setRealm(string $realm): void
+    public function withRealm(string $realm): self
     {
-        $this->realm = $realm;
+        $new = clone $this;
+        $new->realm = $realm;
+        return $new;
     }
 }

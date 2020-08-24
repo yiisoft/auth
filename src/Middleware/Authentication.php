@@ -9,52 +9,56 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Yiisoft\Auth\AuthInterface;
+use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
 use Yiisoft\Strings\StringHelper;
 
-final class Auth implements MiddlewareInterface
+/**
+ * Authentication middleware tries to authenticate and identity using request data.
+ * If identity is found, it is set to request attribute allowing further middleware to obtain and use it.
+ * If identity is not found failure handler is called. By default it is {@see AuthenticationFailureHandler}.
+ */
+final class Authentication implements MiddlewareInterface
 {
-    public const REQUEST_NAME = 'auth_user';
+    private AuthenticationMethodInterface $authenticationMethod;
 
-    private string $requestName = self::REQUEST_NAME;
-    private AuthInterface $authenticator;
-    private RequestHandlerInterface $authenticationFailureHandler;
+    /**
+     * @var RequestHandlerInterface A handler that is called when there is a failure authenticating an identity.
+     */
+    private RequestHandlerInterface $failureHandler;
+
     private array $optional = [];
 
     public function __construct(
-        AuthInterface $authenticator,
+        AuthenticationMethodInterface $authenticationMethod,
         ResponseFactoryInterface $responseFactory,
         RequestHandlerInterface $authenticationFailureHandler = null
     ) {
-        $this->authenticator = $authenticator;
-        $this->authenticationFailureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
+        $this->authenticationMethod = $authenticationMethod;
+        $this->failureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
             $responseFactory
         );
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $identity = $this->authenticator->authenticate($request);
-        $request = $request->withAttribute($this->requestName, $identity);
+        $identity = $this->authenticationMethod->authenticate($request);
+        $request = $request->withAttribute(self::class, $identity);
 
         if ($identity === null && !$this->isOptional($request)) {
-            return $this->authenticator->challenge(
-                $this->authenticationFailureHandler->handle($request)
+            return $this->authenticationMethod->challenge(
+                $this->failureHandler->handle($request)
             );
         }
 
         return $handler->handle($request);
     }
 
-    public function setRequestName(string $name): void
+    public function withOptional(array $optional): self
     {
-        $this->requestName = $name;
-    }
-
-    public function setOptional(array $optional): void
-    {
-        $this->optional = $optional;
+        $new = clone $this;
+        $new->optional = $optional;
+        return $new;
     }
 
     /**

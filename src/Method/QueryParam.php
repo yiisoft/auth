@@ -6,20 +6,20 @@ namespace Yiisoft\Auth\Method;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Auth\AuthInterface;
+use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 
 /**
- * QueryParamAuth supports the authentication based on the access token passed through a query parameter.
+ * QueryParam supports the authentication based on the access token passed through a query parameter.
  */
-final class QueryParam implements AuthInterface
+final class QueryParam implements AuthenticationMethodInterface
 {
-    private const TOKEN_PARAM = 'access-token';
+    private const TOKEN_PARAMETER_NAME = 'access-token';
     /**
      * @var string the parameter name for passing the access token
      */
-    private string $tokenParam = self::TOKEN_PARAM;
+    private string $tokenParameterName = self::TOKEN_PARAMETER_NAME;
 
     private IdentityRepositoryInterface $identityRepository;
 
@@ -30,7 +30,7 @@ final class QueryParam implements AuthInterface
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
     {
-        $accessToken = $request->getQueryParams()[$this->tokenParam] ?? null;
+        $accessToken = $request->getQueryParams()[$this->tokenParameterName] ?? null;
         if (is_string($accessToken)) {
             return $this->identityRepository->findIdentityByToken($accessToken, get_class($this));
         }
@@ -43,8 +43,10 @@ final class QueryParam implements AuthInterface
         return $response;
     }
 
-    public function setTokenParam(string $param): void
+    public function withTokenParameterName(string $name): self
     {
-        $this->tokenParam = $param;
+        $new = clone $this;
+        $new->tokenParameterName = $name;
+        return $new;
     }
 }

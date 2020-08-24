@@ -63,8 +63,8 @@ final class HttpHeaderTest extends TestCase
     public function testCustomHeaderName(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authMethod = new HttpHeader($identityRepository);
-        $authMethod->setHeaderName('Auth');
+        $authMethod = (new HttpHeader($identityRepository))
+            ->withHeaderName('Auth');
         $result = $authMethod->authenticate(
             $this->createRequest(['Auth' => 'api-key'])
         );
@@ -76,8 +76,8 @@ final class HttpHeaderTest extends TestCase
     public function testCustomPattern(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authMethod = new HttpHeader($identityRepository);
-        $authMethod->setPattern('/^CustomTokenPrefix\s+(.*?)$/');
+        $authMethod = (new HttpHeader($identityRepository))
+            ->withPattern('/^CustomTokenPrefix\s+(.*?)$/');
         $result = $authMethod->authenticate(
             $this->createRequest(['X-Api-Key' => 'CustomTokenPrefix api-key'])
         );
@@ -99,8 +99,8 @@ final class HttpHeaderTest extends TestCase
     public function testCustomPatternThatDoesNotMatch(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authMethod = new HttpHeader($identityRepository);
-        $authMethod->setPattern('/^not-match-regexp/');
+        $authMethod = (new HttpHeader($identityRepository))
+            ->withPattern('/^not-match-regexp/');
         $result = $authMethod->authenticate(
             $this->createRequest(['X-Api-Key' => 'api-key'])
         );
