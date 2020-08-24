@@ -16,7 +16,7 @@ use Yiisoft\Http\Method;
 
 final class HttpHeaderTest extends TestCase
 {
-    public function testCorrectAuthenticate(): void
+    public function testSuccessfulAuthentication(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $result = (new HttpHeader($identityRepository))->authenticate(
@@ -27,7 +27,7 @@ final class HttpHeaderTest extends TestCase
         $this->assertEquals('test-id', $result->getId());
     }
 
-    public function testNotFoundIdentityByToken(): void
+    public function testIdentityNotFoundByToken(): void
     {
         $identityRepository = new FakeIdentityRepository(null);
         $authMethod = new HttpHeader($identityRepository);
@@ -39,7 +39,7 @@ final class HttpHeaderTest extends TestCase
         );
     }
 
-    public function testCorrectChallenge(): void
+    public function testChallengeIsCorrect(): void
     {
         $response = new Response(400);
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
@@ -96,7 +96,7 @@ final class HttpHeaderTest extends TestCase
         );
     }
 
-    public function testCustomPatternNotMatch(): void
+    public function testCustomPatternThatDoesNotMatch(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $authMethod = new HttpHeader($identityRepository);
