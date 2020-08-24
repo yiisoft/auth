@@ -40,10 +40,10 @@ final class HttpBasicTest extends TestCase
     public function testIdentityNotFoundByToken(): void
     {
         $identityRepository = new FakeIdentityRepository(null);
-        $authMethod = new HttpBasic($identityRepository);
+        $authenticationMethod = new HttpBasic($identityRepository);
 
         $this->assertNull(
-            $authMethod->authenticate(
+            $authenticationMethod->authenticate(
                 $this->createRequest(['PHP_AUTH_USER' => 'user', 'PHP_AUTH_PW' => 'password'])
             )
         );
@@ -52,10 +52,10 @@ final class HttpBasicTest extends TestCase
     public function testPassedOnlyPassword(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authMethod = new HttpBasic($identityRepository);
+        $authenticationMethod = new HttpBasic($identityRepository);
 
         $this->assertNull(
-            $authMethod->authenticate(
+            $authenticationMethod->authenticate(
                 $this->createRequest(['PHP_AUTH_PW' => 'password'])
             )
         );
@@ -82,11 +82,11 @@ final class HttpBasicTest extends TestCase
     {
         $response = new Response();
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authMethod = new HttpBasic($identityRepository);
+        $authenticationMethod = new HttpBasic($identityRepository);
 
         $this->assertEquals(
             'Basic realm="api"',
-            $authMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
         );
     }
 
@@ -94,12 +94,12 @@ final class HttpBasicTest extends TestCase
     {
         $response = new Response();
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authMethod = (new HttpBasic($identityRepository))
+        $authenticationMethod = (new HttpBasic($identityRepository))
             ->withRealm('gateway');
 
         $this->assertEquals(
             'Basic realm="gateway"',
-            $authMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
         );
     }
 

@@ -11,15 +11,15 @@ use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 
 /**
- * QueryParam supports the authentication based on the access token passed through a query parameter.
+ * QueryParameter supports the authentication based on the access token passed through a query parameter.
  */
-final class QueryParam implements AuthenticationMethodInterface
+final class QueryParameter implements AuthenticationMethodInterface
 {
-    private const TOKEN_PARAMETER_NAME = 'access-token';
+    private const PARAMETER_NAME = 'access-token';
     /**
      * @var string the parameter name for passing the access token
      */
-    private string $tokenParameterName = self::TOKEN_PARAMETER_NAME;
+    private string $parameterName = self::PARAMETER_NAME;
 
     private IdentityRepositoryInterface $identityRepository;
 
@@ -30,7 +30,7 @@ final class QueryParam implements AuthenticationMethodInterface
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
     {
-        $accessToken = $request->getQueryParams()[$this->tokenParameterName] ?? null;
+        $accessToken = $request->getQueryParams()[$this->parameterName] ?? null;
         if (is_string($accessToken)) {
             return $this->identityRepository->findIdentityByToken($accessToken, get_class($this));
         }
@@ -43,10 +43,10 @@ final class QueryParam implements AuthenticationMethodInterface
         return $response;
     }
 
-    public function withTokenParameterName(string $name): self
+    public function withParameterName(string $name): self
     {
         $new = clone $this;
-        $new->tokenParameterName = $name;
+        $new->parameterName = $name;
         return $new;
     }
 }

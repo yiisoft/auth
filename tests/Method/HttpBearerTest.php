@@ -39,10 +39,10 @@ final class HttpBearerTest extends TestCase
     public function testIdentityNotFoundByToken(): void
     {
         $identityRepository = new FakeIdentityRepository(null);
-        $authMethod = new HttpBearer($identityRepository);
+        $authenticationMethod = new HttpBearer($identityRepository);
 
         $this->assertNull(
-            $authMethod->authenticate(
+            $authenticationMethod->authenticate(
                 $this->createRequest(['Authorization' => 'Bearer api-key'])
             )
         );
@@ -52,11 +52,11 @@ final class HttpBearerTest extends TestCase
     {
         $response = new Response();
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authMethod = new HttpBearer($identityRepository);
+        $authenticationMethod = new HttpBearer($identityRepository);
 
         $this->assertEquals(
             'Authorization realm="api"',
-            $authMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
         );
     }
 
@@ -64,12 +64,12 @@ final class HttpBearerTest extends TestCase
     {
         $response = new Response();
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authMethod = (new HttpBearer($identityRepository))
+        $authenticationMethod = (new HttpBearer($identityRepository))
             ->withRealm('gateway');
 
         $this->assertEquals(
             'Authorization realm="gateway"',
-            $authMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
         );
     }
 

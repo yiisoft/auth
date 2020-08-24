@@ -27,6 +27,9 @@ final class Authentication implements MiddlewareInterface
      */
     private RequestHandlerInterface $failureHandler;
 
+    /**
+     * @var array Patterns to match to consider the given request URI path optional.
+     */
     private array $optional = [];
 
     public function __construct(
@@ -54,6 +57,10 @@ final class Authentication implements MiddlewareInterface
         return $handler->handle($request);
     }
 
+    /**
+     * @param array $optional Patterns to match to consider the given request URI path optional.
+     * @return self
+     */
     public function withOptional(array $optional): self
     {
         $new = clone $this;
@@ -62,7 +69,7 @@ final class Authentication implements MiddlewareInterface
     }
 
     /**
-     * Checks, whether authentication is optional for the given action.
+     * Checks, whether authentication is optional for the given request URI path.
      */
     private function isOptional(ServerRequestInterface $request): bool
     {

@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\Method\Composite;
 use Yiisoft\Auth\Method\HttpBearer;
-use Yiisoft\Auth\Method\QueryParam;
+use Yiisoft\Auth\Method\QueryParameter;
 use Yiisoft\Auth\Tests\Stub\FakeIdentity;
 use Yiisoft\Auth\Tests\Stub\FakeIdentityRepository;
 use Yiisoft\Http\Method;
@@ -23,19 +23,19 @@ final class CompositeTest extends TestCase
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
 
 
-        $authMethod = new Composite([
-            new QueryParam($identityRepository),
+        $authenticationMethod = new Composite([
+            new QueryParameter($identityRepository),
             new HttpBearer($identityRepository)
         ]);
 
-        $result = $authMethod->authenticate(
+        $result = $authenticationMethod->authenticate(
             $this->createRequest(['Authorization' => 'Bearer api-key'])
         );
 
         $this->assertNotNull($result);
         $this->assertEquals('test-id', $result->getId());
 
-        $result = $authMethod->authenticate(
+        $result = $authenticationMethod->authenticate(
             $this->createRequest([], ['access-token' => 'access-token-value'])
         );
 
@@ -48,19 +48,19 @@ final class CompositeTest extends TestCase
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $nullIdentityRepository = new FakeIdentityRepository(null);
 
-        $authMethod = new Composite([
-            new QueryParam($nullIdentityRepository),
+        $authenticationMethod = new Composite([
+            new QueryParameter($nullIdentityRepository),
             new HttpBearer($identityRepository)
         ]);
 
-        $result = $authMethod->authenticate(
+        $result = $authenticationMethod->authenticate(
             $this->createRequest([], ['access-token' => 'access-token-value'])
         );
 
         $this->assertNull($result);
 
 
-        $result = $authMethod->authenticate(
+        $result = $authenticationMethod->authenticate(
             $this->createRequest(['Authorization' => 'Bearer api-key'])
         );
 
@@ -83,14 +83,14 @@ final class CompositeTest extends TestCase
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
 
 
-        $authMethod = (new Composite([
-            new QueryParam($identityRepository),
+        $authenticationMethod = (new Composite([
+            new QueryParameter($identityRepository),
             new HttpBearer($identityRepository)
         ]));
 
         $this->assertEquals(
             'Authorization realm="api"',
-            $authMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
         );
     }
 

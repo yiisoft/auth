@@ -9,17 +9,17 @@ use Nyholm\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\IdentityInterface;
-use Yiisoft\Auth\Method\QueryParam;
+use Yiisoft\Auth\Method\QueryParameter;
 use Yiisoft\Auth\Tests\Stub\FakeIdentity;
 use Yiisoft\Auth\Tests\Stub\FakeIdentityRepository;
 use Yiisoft\Http\Method;
 
-final class QueryParamTest extends TestCase
+final class QueryParameterTest extends TestCase
 {
     public function testSuccessfulAuthentication(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $result = (new QueryParam($identityRepository))->authenticate(
+        $result = (new QueryParameter($identityRepository))->authenticate(
             $this->createRequest(['access-token' => 'access-token-value'])
         );
 
@@ -29,7 +29,7 @@ final class QueryParamTest extends TestCase
             [
                 'findIdentityByToken' => [
                     'token' => 'access-token-value',
-                    'type' => QueryParam::class
+                    'type' => QueryParameter::class
                 ]
             ],
             $identityRepository->getCallParams()
@@ -39,10 +39,10 @@ final class QueryParamTest extends TestCase
     public function testIdentityNotFoundByToken(): void
     {
         $identityRepository = new FakeIdentityRepository(null);
-        $authMethod = new QueryParam($identityRepository);
+        $authenticationMethod = new QueryParameter($identityRepository);
 
         $this->assertNull(
-            $authMethod->authenticate(
+            $authenticationMethod->authenticate(
                 $this->createRequest(['access-token' => 'access-token-value'])
             )
         );
@@ -51,10 +51,10 @@ final class QueryParamTest extends TestCase
     public function testInvalidTypeToken(): void
     {
         $identityRepository = new FakeIdentityRepository(null);
-        $authMethod = new QueryParam($identityRepository);
+        $authenticationMethod = new QueryParameter($identityRepository);
 
         $this->assertNull(
-            $authMethod->authenticate(
+            $authenticationMethod->authenticate(
                 $this->createRequest(['access-token' => 100])
             )
         );
@@ -66,18 +66,18 @@ final class QueryParamTest extends TestCase
     {
         $response = new Response(400);
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authMethod = new QueryParam($identityRepository);
+        $authenticationMethod = new QueryParameter($identityRepository);
 
-        $this->assertEquals(400, $authMethod->challenge($response)->getStatusCode());
+        $this->assertEquals(400, $authenticationMethod->challenge($response)->getStatusCode());
     }
 
     public function testCustomTokenParam(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authMethod = (new QueryParam($identityRepository))
-            ->withTokenParameterName('AuthToken');
+        $authenticationMethod = (new QueryParameter($identityRepository))
+            ->withParameterName('AuthToken');
 
-        $result = $authMethod->authenticate(
+        $result = $authenticationMethod->authenticate(
             $this->createRequest(['AuthToken' => 'AccessTokenValue'])
         );
 
