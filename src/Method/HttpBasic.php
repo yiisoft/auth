@@ -91,7 +91,7 @@ final class HttpBasic implements AuthInterface
          */
         $token = $this->getTokenFromHeaders($request);
         if ($token !== null && $this->isBasicToken($token)) {
-            $credentials = $this->extractCredentialsParamsFromHeader($token);
+            $credentials = $this->extractCredentialsFromHeader($token);
             if (\count($credentials) < 2) {
                 return [$credentials[0], null];
             }
@@ -112,7 +112,7 @@ final class HttpBasic implements AuthInterface
         return $request->getServerParams()['REDIRECT_HTTP_AUTHORIZATION'] ?? null;
     }
 
-    private function extractCredentialsParamsFromHeader(string $authToken): array
+    private function extractCredentialsFromHeader(string $authToken): array
     {
         return array_map(
             fn($value) => $value === '' ? null : $value,
