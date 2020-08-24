@@ -49,11 +49,11 @@ final class HttpBasic implements AuthInterface
     {
         [$username, $password] = $this->getAuthCredentials($request);
 
-        if ($this->auth) {
-            if ($username !== null || $password !== null) {
-                return \call_user_func($this->auth, $username, $password);
-            }
-        } elseif ($username !== null) {
+        if ($this->auth && ($username !== null || $password !== null)) {
+            return \call_user_func($this->auth, $username, $password);
+        }
+
+        if ($username !== null) {
             return $this->identityRepository->findIdentityByToken($username, get_class($this));
         }
 
@@ -89,22 +89,39 @@ final class HttpBasic implements AuthInterface
          *
          * RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
          */
-        $headers = $request->getHeader('Authorization');
-        $authToken = !empty($headers)
-            ? \reset($headers)
-            : $request->getServerParams()['REDIRECT_HTTP_AUTHORIZATION'] ?? null;
-        if ($authToken !== null && strncasecmp($authToken, 'basic', 5) === 0) {
-            $parts = array_map(static function ($value) {
-                return strlen($value) === 0 ? null : $value;
-            }, explode(':', base64_decode(mb_substr($authToken, 6)), 2));
-
-            if (\count($parts) < 2) {
-                return [$parts[0], null];
+        $token = $this->getTokenFromHeaders($request);
+        if ($token !== null && $this->isBasicToken($token)) {
+            $credentials = $this->extractCredentialsParamsFromHeader($token);
+            if (\count($credentials) < 2) {
+                return [$credentials[0], null];
             }
 
-            return $parts;
+            return $credentials;
         }
 
         return [null, null];
+    }
+
+    private function getTokenFromHeaders(ServerRequestInterface $request): ?string
+    {
+        $header = $request->getHeaderLine('Authorization');
+        if (!empty($header)) {
+            return $header;
+        }
+
+        return $request->getServerParams()['REDIRECT_HTTP_AUTHORIZATION'] ?? null;
+    }
+
+    private function extractCredentialsParamsFromHeader(string $authToken): array
+    {
+        return array_map(
+            fn($value) => $value === '' ? null : $value,
+            explode(':', base64_decode(mb_substr($authToken, 6)), 2)
+        );
+    }
+
+    private function isBasicToken(string $token): bool
+    {
+        return strncasecmp($token, 'basic', 5) === 0;
     }
 }
