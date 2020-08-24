@@ -15,11 +15,10 @@ use Yiisoft\Auth\IdentityRepositoryInterface;
  */
 final class QueryParameter implements AuthenticationMethodInterface
 {
-    private const PARAMETER_NAME = 'access-token';
     /**
-     * @var string the parameter name for passing the access token
+     * @var string The parameter name for passing the access token.
      */
-    private string $parameterName = self::PARAMETER_NAME;
+    private string $parameterName = 'access-token';
 
     private IdentityRepositoryInterface $identityRepository;
 

@@ -11,13 +11,10 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class HttpBearer extends HttpHeader
 {
-    private const HEADER_NAME = 'Authorization';
-    private const PATTERN = '/^Bearer\s+(.*?)$/';
-
-    protected string $headerName = self::HEADER_NAME;
-    protected string $pattern = self::PATTERN;
+    protected string $headerName = 'Authorization';
+    protected string $pattern = '/^Bearer\s+(.*?)$/';
     /**
-     * @var string the HTTP authentication realm
+     * @var string The HTTP authentication realm.
      */
     private string $realm = 'api';
 
