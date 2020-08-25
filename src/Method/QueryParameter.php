@@ -28,7 +28,7 @@ final class QueryParameter implements AuthenticationMethodInterface
     {
         $accessToken = $request->getQueryParams()[$this->parameterName] ?? null;
         if (is_string($accessToken)) {
-            return $this->identityRepository->findIdentityByToken($accessToken, get_class($this));
+            return $this->identityRepository->findIdentityByToken($accessToken, self::class);
         }
 
         return null;
