@@ -145,7 +145,7 @@ final class HttpBasic implements AuthenticationMethodInterface
     {
         return array_map(
             fn ($value) => $value === '' ? null : $value,
-            explode(':', base64_decode(mb_substr($authToken, 6)), 2)
+            explode(':', base64_decode(substr($authToken, 6)), 2)
         );
     }
 

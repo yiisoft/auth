@@ -83,7 +83,7 @@ final class HttpBasicTest extends TestCase
         $identityRepository = new FakeIdentityRepository(null);
         $authenticationMethod = (new HttpBasic($identityRepository))
             ->withAuthenticationCallback(function (?string $username, ?string $password): ?IdentityInterface {
-                return $this->createIdentity($username . ':' . $password);
+                return $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null'));
             });
 
         $result = $authenticationMethod->authenticate(
@@ -91,7 +91,7 @@ final class HttpBasicTest extends TestCase
         );
 
         $this->assertNotNull($result);
-        $this->assertEquals(':password', $result->getId());
+        $this->assertEquals('null:password', $result->getId());
         $this->assertEmpty($identityRepository->getCallParams());
     }
 
@@ -100,7 +100,7 @@ final class HttpBasicTest extends TestCase
         $identityRepository = new FakeIdentityRepository(null);
         $authenticationMethod = (new HttpBasic($identityRepository))
             ->withAuthenticationCallback(function (?string $username, ?string $password): ?IdentityInterface {
-                return $this->createIdentity($username . ':' . $password);
+                return $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null'));
             });
 
         $result = $authenticationMethod->authenticate(
@@ -108,7 +108,7 @@ final class HttpBasicTest extends TestCase
         );
 
         $this->assertNotNull($result);
-        $this->assertEquals('user:', $result->getId());
+        $this->assertEquals('user:null', $result->getId());
         $this->assertEmpty($identityRepository->getCallParams());
     }
 
@@ -135,6 +135,19 @@ final class HttpBasicTest extends TestCase
             'Basic realm="gateway"',
             $authenticationMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
         );
+    }
+
+    public function testInvalidHeaderName(): void
+    {
+        $encodeFields = base64_encode('admin:pass');
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $authenticationMethod = new HttpBasic($identityRepository);
+
+        $result = $authenticationMethod->authenticate(
+            $this->createRequest([], ['Authorization' => 'Basik:' . $encodeFields])
+        );
+
+        $this->assertNull($result);
     }
 
     public function testSuccessfulAuthenticationWithHeaders(): void
