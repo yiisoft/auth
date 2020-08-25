@@ -35,7 +35,7 @@ $middleware = new \Yiisoft\Auth\Middleware\Authentication(
     $failureHandler // optional, \Yiisoft\Auth\Handler\AuthenticationFailureHandler by default
 );
 
-$middlewareDiapatcher->addMiddleware($middleware);
+$middlewareDispatcher->addMiddleware($middleware);
 ```
 
 In order to get an identity instance in the following middleware use `getAttribute()` method of the request instance:
