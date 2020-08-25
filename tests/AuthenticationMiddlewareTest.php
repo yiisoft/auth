@@ -72,7 +72,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->method('handle');
 
         $auth = (new Authentication($this->authenticationMethod, $this->responseFactory))
-            ->withOptional([$path]);
+            ->withOptionalPatterns([$path]);
         $auth->process($request, $handler);
     }
 
@@ -152,7 +152,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             $this->responseFactory
         );
 
-        $this->assertNotSame($original, $original->withOptional(['test']));
+        $this->assertNotSame($original, $original->withOptionalPatterns(['test']));
     }
 
     private function createAuthenticationFailureHandler(string $failureResponse): RequestHandlerInterface
