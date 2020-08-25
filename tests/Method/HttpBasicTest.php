@@ -65,7 +65,7 @@ final class HttpBasicTest extends TestCase
     {
         $identityRepository = new FakeIdentityRepository(null);
         $authenticationMethod = (new HttpBasic($identityRepository))
-            ->withAuthenticationCallback(function (string $username, string $password): IdentityInterface {
+            ->withAuthenticationCallback(function (?string $username, ?string $password): ?IdentityInterface {
                 return $this->createIdentity($username . ':' . $password);
             });
 
@@ -75,6 +75,40 @@ final class HttpBasicTest extends TestCase
 
         $this->assertNotNull($result);
         $this->assertEquals('user:password', $result->getId());
+        $this->assertEmpty($identityRepository->getCallParams());
+    }
+
+    public function testAuthenticationCallbackWithEmptyUsername(): void
+    {
+        $identityRepository = new FakeIdentityRepository(null);
+        $authenticationMethod = (new HttpBasic($identityRepository))
+            ->withAuthenticationCallback(function (?string $username, ?string $password): ?IdentityInterface {
+                return $this->createIdentity($username . ':' . $password);
+            });
+
+        $result = $authenticationMethod->authenticate(
+            $this->createRequest(['PHP_AUTH_PW' => 'password'])
+        );
+
+        $this->assertNotNull($result);
+        $this->assertEquals(':password', $result->getId());
+        $this->assertEmpty($identityRepository->getCallParams());
+    }
+
+    public function testAuthenticationCallbackWithEmptyPassword(): void
+    {
+        $identityRepository = new FakeIdentityRepository(null);
+        $authenticationMethod = (new HttpBasic($identityRepository))
+            ->withAuthenticationCallback(function (?string $username, ?string $password): ?IdentityInterface {
+                return $this->createIdentity($username . ':' . $password);
+            });
+
+        $result = $authenticationMethod->authenticate(
+            $this->createRequest(['PHP_AUTH_USER' => 'user'])
+        );
+
+        $this->assertNotNull($result);
+        $this->assertEquals('user:', $result->getId());
         $this->assertEmpty($identityRepository->getCallParams());
     }
 

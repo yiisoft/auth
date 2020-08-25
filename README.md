@@ -57,8 +57,8 @@ Credentials are passed as `$_SERVER['PHP_AUTH_USER']` and `$_SERVER['PHP_AUTH_PW
 $authenticationMethod = (new \Yiisoft\Auth\Method\HttpBasic($identityRepository))
     ->withRealm('Admin')
     ->withAuthenticationCallback(static function (
-        string $username,
-        string $password,
+        ?string $username,
+        ?string $password,
         \Yiisoft\Auth\IdentityRepositoryInterface $identityRepository
     ): ?\Yiisoft\Auth\IdentityInterface {
         return $identityRepository->findIdentityByToken($username, \Yiisoft\Auth\Method\HttpBasic::class);
