@@ -12,6 +12,7 @@ use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\Method\HttpBearer;
 use Yiisoft\Auth\Tests\Stub\FakeIdentity;
 use Yiisoft\Auth\Tests\Stub\FakeIdentityRepository;
+use Yiisoft\Http\Header;
 use Yiisoft\Http\Method;
 
 final class HttpBearerTest extends TestCase
@@ -20,7 +21,7 @@ final class HttpBearerTest extends TestCase
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $result = (new HttpBearer($identityRepository))->authenticate(
-            $this->createRequest(['Authorization' => 'Bearer api-key'])
+            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
         );
 
         $this->assertNotNull($result);
@@ -39,11 +40,11 @@ final class HttpBearerTest extends TestCase
     public function testIdentityNotFoundByToken(): void
     {
         $identityRepository = new FakeIdentityRepository(null);
-        $authMethod = new HttpBearer($identityRepository);
+        $authenticationMethod = new HttpBearer($identityRepository);
 
         $this->assertNull(
-            $authMethod->authenticate(
-                $this->createRequest(['Authorization' => 'Bearer api-key'])
+            $authenticationMethod->authenticate(
+                $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
             )
         );
     }
@@ -52,11 +53,11 @@ final class HttpBearerTest extends TestCase
     {
         $response = new Response();
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authMethod = new HttpBearer($identityRepository);
+        $authenticationMethod = new HttpBearer($identityRepository);
 
         $this->assertEquals(
             'Authorization realm="api"',
-            $authMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine(Header::WWW_AUTHENTICATE)
         );
     }
 
@@ -64,13 +65,22 @@ final class HttpBearerTest extends TestCase
     {
         $response = new Response();
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authMethod = new HttpBearer($identityRepository);
-        $authMethod->setRealm('gateway');
+        $authenticationMethod = (new HttpBearer($identityRepository))
+            ->withRealm('gateway');
 
         $this->assertEquals(
             'Authorization realm="gateway"',
-            $authMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine(Header::WWW_AUTHENTICATE)
         );
+    }
+
+    public function testImmutability(): void
+    {
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $original = (new HttpBearer($identityRepository));
+        $this->assertNotSame($original, $original->withRealm('realm'));
+        $this->assertNotSame($original, $original->withHeaderName('headerName'));
+        $this->assertNotSame($original, $original->withPattern('pattern'));
     }
 
     private function createIdentity(): IdentityInterface

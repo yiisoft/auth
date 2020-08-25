@@ -5,29 +5,32 @@ declare(strict_types=1);
 namespace Yiisoft\Auth\Method;
 
 use Psr\Http\Message\ResponseInterface;
+use Yiisoft\Http\Header;
 
 /**
- * HttpBearerAuth supports the authentication method based on HTTP Bearer token.
+ * Authentication method based on HTTP Bearer token.
+ *
+ * @see https://tools.ietf.org/html/rfc6750
  */
 final class HttpBearer extends HttpHeader
 {
-    private const HEADER_NAME = 'Authorization';
-    private const PATTERN = '/^Bearer\s+(.*?)$/';
-
-    protected string $headerName = self::HEADER_NAME;
-    protected string $pattern = self::PATTERN;
-    /**
-     * @var string the HTTP authentication realm
-     */
+    protected string $headerName = Header::AUTHORIZATION;
+    protected string $pattern = '/^Bearer\s+(.*?)$/';
     private string $realm = 'api';
 
     public function challenge(ResponseInterface $response): ResponseInterface
     {
-        return $response->withHeader('WWW-Authenticate', "{$this->headerName} realm=\"{$this->realm}\"");
+        return $response->withHeader(Header::WWW_AUTHENTICATE, "{$this->headerName} realm=\"{$this->realm}\"");
     }
 
-    public function setRealm(string $realm): void
+    /**
+     * @param string $realm The HTTP authentication realm.
+     * @return self
+     */
+    public function withRealm(string $realm): self
     {
-        $this->realm = $realm;
+        $new = clone $this;
+        $new->realm = $realm;
+        return $new;
     }
 }

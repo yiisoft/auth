@@ -11,35 +11,45 @@ use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\Method\Composite;
 use Yiisoft\Auth\Method\HttpBearer;
-use Yiisoft\Auth\Method\QueryParam;
-use Yiisoft\Auth\Tests\Stub\FakeContainer;
+use Yiisoft\Auth\Method\QueryParameter;
 use Yiisoft\Auth\Tests\Stub\FakeIdentity;
 use Yiisoft\Auth\Tests\Stub\FakeIdentityRepository;
+use Yiisoft\Http\Header;
 use Yiisoft\Http\Method;
 
 final class CompositeTest extends TestCase
 {
+    public function testIncorrectArguments(): void
+    {
+        $authenticationMethod = new Composite([
+           'test'
+        ]);
+
+        $this->expectException(\RuntimeException::class);
+
+        $authenticationMethod->authenticate(
+            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
+        );
+    }
+
     public function testSuccessfulAuthentication(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
 
-        $container = new FakeContainer();
-        $authMethod = (new Composite($container));
-        $authMethod->setAuthMethods(
-            [
-                new QueryParam($identityRepository),
-                new HttpBearer($identityRepository)
-            ]
-        );
 
-        $result = $authMethod->authenticate(
-            $this->createRequest(['Authorization' => 'Bearer api-key'])
+        $authenticationMethod = new Composite([
+            new QueryParameter($identityRepository),
+            new HttpBearer($identityRepository)
+        ]);
+
+        $result = $authenticationMethod->authenticate(
+            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
         );
 
         $this->assertNotNull($result);
         $this->assertEquals('test-id', $result->getId());
 
-        $result = $authMethod->authenticate(
+        $result = $authenticationMethod->authenticate(
             $this->createRequest([], ['access-token' => 'access-token-value'])
         );
 
@@ -52,24 +62,20 @@ final class CompositeTest extends TestCase
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $nullIdentityRepository = new FakeIdentityRepository(null);
 
-        $container = new FakeContainer();
-        $authMethod = (new Composite($container));
-        $authMethod->setAuthMethods(
-            [
-                new QueryParam($nullIdentityRepository),
-                new HttpBearer($identityRepository)
-            ]
-        );
+        $authenticationMethod = new Composite([
+            new QueryParameter($nullIdentityRepository),
+            new HttpBearer($identityRepository)
+        ]);
 
-        $result = $authMethod->authenticate(
+        $result = $authenticationMethod->authenticate(
             $this->createRequest([], ['access-token' => 'access-token-value'])
         );
 
         $this->assertNull($result);
 
 
-        $result = $authMethod->authenticate(
-            $this->createRequest(['Authorization' => 'Bearer api-key'])
+        $result = $authenticationMethod->authenticate(
+            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
         );
 
         $this->assertNotNull($result);
@@ -78,8 +84,7 @@ final class CompositeTest extends TestCase
 
     public function testEmptyAuthMethods(): void
     {
-        $container = new FakeContainer();
-        $result = (new Composite($container))->authenticate(
+        $result = (new Composite([]))->authenticate(
             $this->createRequest()
         );
 
@@ -91,64 +96,16 @@ final class CompositeTest extends TestCase
         $response = new Response(400);
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
 
-        $container = new FakeContainer();
-        $authMethod = (new Composite($container));
-        $authMethod->setAuthMethods(
-            [
-                new QueryParam($identityRepository),
-                new HttpBearer($identityRepository)
-            ]
-        );
+
+        $authenticationMethod = (new Composite([
+            new QueryParameter($identityRepository),
+            new HttpBearer($identityRepository)
+        ]));
 
         $this->assertEquals(
             'Authorization realm="api"',
-            $authMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine(Header::WWW_AUTHENTICATE)
         );
-    }
-
-    public function testSuccessfulAuthenticationWithMethodsFromContainer(): void
-    {
-        $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $container = new FakeContainer(
-            [
-                QueryParam::class => new QueryParam($identityRepository),
-                HttpBearer::class => new HttpBearer($identityRepository)
-            ]
-        );
-
-        $authMethod = (new Composite($container));
-        $authMethod->setAuthMethods(
-            [
-                QueryParam::class,
-                HttpBearer::class
-            ]
-        );
-
-        $result = $authMethod->authenticate(
-            $this->createRequest(['Authorization' => 'Bearer api-key'])
-        );
-        $this->assertNotNull($result);
-        $this->assertEquals('test-id', $result->getId());
-
-        $result = $authMethod->authenticate(
-            $this->createRequest([], ['access-token' => 'access-token-value'])
-        );
-        $this->assertNotNull($result);
-        $this->assertEquals('test-id', $result->getId());
-    }
-
-    public function testExpectInvalidDependencyFromContainer(): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('stdClass must implement Yiisoft\Auth\AuthInterface');
-        $container = new FakeContainer(
-            [
-                QueryParam::class => new \stdClass(),
-            ]
-        );
-        $authMethod = (new Composite($container));
-        $authMethod->setAuthMethods([QueryParam::class]);
-        $authMethod->authenticate($this->createRequest(['Authorization' => 'Bearer api-key']));
     }
 
     private function createIdentity(): IdentityInterface

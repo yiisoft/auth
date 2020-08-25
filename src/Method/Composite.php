@@ -4,43 +4,37 @@ declare(strict_types=1);
 
 namespace Yiisoft\Auth\Method;
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Auth\AuthInterface;
+use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
 
 /**
- * CompositeAuth allows multiple authentication methods at the same time.
- *
- * The authentication methods contained by CompositeAuth are configured via {@see setAuthMethods()},
- * which is a list of supported authentication class configurations.
+ * Composite allows multiple authentication methods at the same time.
  */
-final class Composite implements AuthInterface
+final class Composite implements AuthenticationMethodInterface
 {
     /**
-     * @var AuthInterface[]
+     * @var AuthenticationMethodInterface[]
      */
-    private array $authMethods = [];
+    private array $authenticationMethods;
 
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
+    /**
+     * @param AuthenticationMethodInterface[] $methods
+     */
+    public function __construct(array $methods)
     {
-        $this->container = $container;
+        $this->authenticationMethods = $methods;
     }
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
     {
-        foreach ($this->authMethods as $i => $auth) {
-            if (!$auth instanceof AuthInterface) {
-                $this->authMethods[$i] = $auth = $this->container->get($auth);
-                if (!$auth instanceof AuthInterface) {
-                    throw new \RuntimeException(get_class($auth) . ' must implement ' . AuthInterface::class);
-                }
+        foreach ($this->authenticationMethods as $authenticationMethod) {
+            if (!$authenticationMethod instanceof AuthenticationMethodInterface) {
+                throw new \RuntimeException('Authentication method must be an instance of ' . AuthenticationMethodInterface::class . '.');
             }
 
-            $identity = $auth->authenticate($request);
+            $identity = $authenticationMethod->authenticate($request);
             if ($identity !== null) {
                 return $identity;
             }
@@ -51,14 +45,9 @@ final class Composite implements AuthInterface
 
     public function challenge(ResponseInterface $response): ResponseInterface
     {
-        foreach ($this->authMethods as $method) {
+        foreach ($this->authenticationMethods as $method) {
             $response = $method->challenge($response);
         }
         return $response;
-    }
-
-    public function setAuthMethods(array $methods): void
-    {
-        $this->authMethods = $methods;
     }
 }

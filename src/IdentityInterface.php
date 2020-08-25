@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Yiisoft\Auth;
 
+/**
+ * Identity is what represents a "user" that can authenticate in the application.
+ */
 interface IdentityInterface
 {
     /**

@@ -6,31 +6,27 @@ namespace Yiisoft\Auth\Method;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Auth\AuthInterface;
+use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 
 /**
- * HttpHeaderAuth supports HTTP authentication through HTTP Headers.
+ * HttpHeader supports HTTP authentication through HTTP Headers.
  *
- * The default implementation of HttpHeaderAuth uses the [[Yiisoft\Yii\Web\User\IdentityRepositoryInterface::findIdentityByToken()|findIdentityByToken()]]
- * method of the `user` application component and passes the value of the `X-Api-Key` header. This implementation is used
- * for authenticating API clients.
+ * The default implementation of HttpHeader uses the {@see \Yiisoft\Auth\IdentityRepositoryInterface::findIdentityByToken()}
+ * and passes the value of the `X-Api-Key` header. This implementation is used mainly for authenticating API clients.
  */
-class HttpHeader implements AuthInterface
+class HttpHeader implements AuthenticationMethodInterface
 {
-    private const HEADER_NAME = 'X-Api-Key';
-    private const PATTERN = '/(.*)/';
+    /**
+     * @var string The HTTP header name.
+     */
+    protected string $headerName = 'X-Api-Key';
 
     /**
-     * @var string the HTTP header name
+     * @var string A pattern to use to extract the HTTP authentication value.
      */
-    protected string $headerName = self::HEADER_NAME;
-
-    /**
-     * @var string a pattern to use to extract the HTTP authentication value
-     */
-    protected string $pattern = self::PATTERN;
+    protected string $pattern = '/(.*)/';
 
     protected IdentityRepositoryInterface $identityRepository;
 
@@ -41,9 +37,9 @@ class HttpHeader implements AuthInterface
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
     {
-        $authToken = $this->getAuthToken($request);
+        $authToken = $this->getAuthenticationToken($request);
         if ($authToken !== null) {
-            return $this->identityRepository->findIdentityByToken($authToken, get_class($this));
+            return $this->identityRepository->findIdentityByToken($authToken, static::class);
         }
 
         return null;
@@ -54,17 +50,25 @@ class HttpHeader implements AuthInterface
         return $response;
     }
 
-    public function setHeaderName(string $name): void
+    public function withHeaderName(string $name): self
     {
-        $this->headerName = $name;
+        $new = clone $this;
+        $new->headerName = $name;
+        return $new;
     }
 
-    public function setPattern(string $pattern): void
+    /**
+     * @param string $pattern A pattern to use to extract the HTTP authentication value.
+     * @return self
+     */
+    public function withPattern(string $pattern): self
     {
-        $this->pattern = $pattern;
+        $new = clone $this;
+        $new->pattern = $pattern;
+        return $new;
     }
 
-    protected function getAuthToken(ServerRequestInterface $request): ?string
+    protected function getAuthenticationToken(ServerRequestInterface $request): ?string
     {
         $authHeaders = $request->getHeader($this->headerName);
         $authHeader = \reset($authHeaders);
