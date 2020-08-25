@@ -85,6 +85,13 @@ final class QueryParameterTest extends TestCase
         $this->assertEquals('test-id', $result->getId());
     }
 
+    public function testImmutability(): void
+    {
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $original = (new QueryParameter($identityRepository));
+        $this->assertNotSame($original, $original->withParameterName('parameterName'));
+    }
+
 
     private function createIdentity(): IdentityInterface
     {

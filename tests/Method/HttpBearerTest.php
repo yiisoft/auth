@@ -73,6 +73,15 @@ final class HttpBearerTest extends TestCase
         );
     }
 
+    public function testImmutability(): void
+    {
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $original = (new HttpBearer($identityRepository));
+        $this->assertNotSame($original, $original->withRealm('realm'));
+        $this->assertNotSame($original, $original->withHeaderName('headerName'));
+        $this->assertNotSame($original, $original->withPattern('pattern'));
+    }
+
     private function createIdentity(): IdentityInterface
     {
         return new FakeIdentity('test-id');

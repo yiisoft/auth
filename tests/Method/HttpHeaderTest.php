@@ -108,6 +108,14 @@ final class HttpHeaderTest extends TestCase
         $this->assertNull($result);
     }
 
+    public function testImmutability(): void
+    {
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $original = (new HttpHeader($identityRepository));
+        $this->assertNotSame($original, $original->withHeaderName('headerName'));
+        $this->assertNotSame($original, $original->withPattern('pattern'));
+    }
+
     private function createIdentity(): IdentityInterface
     {
         return new FakeIdentity('test-id');

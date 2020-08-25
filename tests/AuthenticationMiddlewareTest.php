@@ -145,6 +145,16 @@ final class AuthenticationMiddlewareTest extends TestCase
         $this->assertEquals($failureResponse, (string)$response->getBody());
     }
 
+    public function testImmutability(): void
+    {
+        $original = new Authentication(
+            $this->authenticationMethod,
+            $this->responseFactory
+        );
+
+        $this->assertNotSame($original, $original->withOptional(['test']));
+    }
+
     private function createAuthenticationFailureHandler(string $failureResponse): RequestHandlerInterface
     {
         return new class($failureResponse, new Psr17Factory()) implements RequestHandlerInterface {
