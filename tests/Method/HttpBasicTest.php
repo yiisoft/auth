@@ -150,6 +150,60 @@ final class HttpBasicTest extends TestCase
         $this->assertNull($result);
     }
 
+    public function testEmptyPasswordInHeader(): void
+    {
+        $encodeFields = base64_encode('user');
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $authenticationMethod = (new HttpBasic($identityRepository))
+            ->withAuthenticationCallback(function (?string $username, ?string $password): ?IdentityInterface {
+                return $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null'));
+            });
+
+        $result = $authenticationMethod->authenticate(
+            $this->createRequest([], ['Authorization' => 'Basic:' . $encodeFields])
+        );
+
+        $this->assertNotNull($result);
+        $this->assertEquals('user:null', $result->getId());
+        $this->assertEmpty($identityRepository->getCallParams());
+    }
+
+    public function testEmptyUsernameInHeader(): void
+    {
+        $encodeFields = base64_encode(':password');
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $authenticationMethod = (new HttpBasic($identityRepository))
+            ->withAuthenticationCallback(function (?string $username, ?string $password): ?IdentityInterface {
+                return $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null'));
+            });
+
+        $result = $authenticationMethod->authenticate(
+            $this->createRequest([], ['Authorization' => 'Basic:' . $encodeFields])
+        );
+
+        $this->assertNotNull($result);
+        $this->assertEquals('null:password', $result->getId());
+        $this->assertEmpty($identityRepository->getCallParams());
+    }
+
+    public function testPasswordWithColons(): void
+    {
+        $encodeFields = base64_encode(':password:with:colons');
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $authenticationMethod = (new HttpBasic($identityRepository))
+            ->withAuthenticationCallback(function (?string $username, ?string $password): ?IdentityInterface {
+                return $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null'));
+            });
+
+        $result = $authenticationMethod->authenticate(
+            $this->createRequest([], ['Authorization' => 'Basic:' . $encodeFields])
+        );
+
+        $this->assertNotNull($result);
+        $this->assertEquals('null:password:with:colons', $result->getId());
+        $this->assertEmpty($identityRepository->getCallParams());
+    }
+
     public function testSuccessfulAuthenticationWithHeaders(): void
     {
         $encodeFields = base64_encode('admin:pass');
