@@ -20,7 +20,6 @@ final class CompositeTest extends TestCase
 {
     public function testIncorrectArguments(): void
     {
-        $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $authenticationMethod = new Composite([
            'test'
         ]);
