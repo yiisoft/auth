@@ -18,6 +18,20 @@ use Yiisoft\Http\Method;
 
 final class CompositeTest extends TestCase
 {
+    public function testIncorrectArguments(): void
+    {
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $authenticationMethod = new Composite([
+           'test'
+        ]);
+
+        $this->expectException(\RuntimeException::class);
+
+        $authenticationMethod->authenticate(
+            $this->createRequest(['Authorization' => 'Bearer api-key'])
+        );
+    }
+
     public function testSuccessfulAuthentication(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
