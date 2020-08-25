@@ -12,6 +12,7 @@ use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\Method\HttpBasic;
 use Yiisoft\Auth\Tests\Stub\FakeIdentity;
 use Yiisoft\Auth\Tests\Stub\FakeIdentityRepository;
+use Yiisoft\Http\Header;
 use Yiisoft\Http\Method;
 
 final class HttpBasicTest extends TestCase
@@ -120,7 +121,7 @@ final class HttpBasicTest extends TestCase
 
         $this->assertEquals(
             'Basic realm="api"',
-            $authenticationMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine(Header::WWW_AUTHENTICATE)
         );
     }
 
@@ -133,7 +134,7 @@ final class HttpBasicTest extends TestCase
 
         $this->assertEquals(
             'Basic realm="gateway"',
-            $authenticationMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine(Header::WWW_AUTHENTICATE)
         );
     }
 
@@ -144,7 +145,7 @@ final class HttpBasicTest extends TestCase
         $authenticationMethod = new HttpBasic($identityRepository);
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest([], ['Authorization' => 'Basik:' . $encodeFields])
+            $this->createRequest([], [Header::AUTHORIZATION => 'Basik:' . $encodeFields])
         );
 
         $this->assertNull($result);
@@ -160,7 +161,7 @@ final class HttpBasicTest extends TestCase
             });
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest([], ['Authorization' => 'Basic:' . $encodeFields])
+            $this->createRequest([], [Header::AUTHORIZATION => 'Basic:' . $encodeFields])
         );
 
         $this->assertNotNull($result);
@@ -178,7 +179,7 @@ final class HttpBasicTest extends TestCase
             });
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest([], ['Authorization' => 'Basic:' . $encodeFields])
+            $this->createRequest([], [Header::AUTHORIZATION => 'Basic:' . $encodeFields])
         );
 
         $this->assertNotNull($result);
@@ -196,7 +197,7 @@ final class HttpBasicTest extends TestCase
             });
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest([], ['Authorization' => 'Basic:' . $encodeFields])
+            $this->createRequest([], [Header::AUTHORIZATION => 'Basic:' . $encodeFields])
         );
 
         $this->assertNotNull($result);
@@ -214,7 +215,7 @@ final class HttpBasicTest extends TestCase
             });
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest([], ['Authorization' => 'Basic:' . $encodeFields])
+            $this->createRequest([], [Header::AUTHORIZATION => 'Basic:' . $encodeFields])
         );
 
         $this->assertNotNull($result);
@@ -226,7 +227,7 @@ final class HttpBasicTest extends TestCase
         $encodeFields = base64_encode('username');
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $result = (new HttpBasic($identityRepository))->authenticate(
-            $this->createRequest([], ['Authorization' => 'Basic:' . $encodeFields])
+            $this->createRequest([], [Header::AUTHORIZATION => 'Basic:' . $encodeFields])
         );
 
         $this->assertNotNull($result);

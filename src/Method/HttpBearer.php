@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Auth\Method;
 
 use Psr\Http\Message\ResponseInterface;
+use Yiisoft\Http\Header;
 
 /**
  * Authentication method based on HTTP Bearer token.
@@ -13,13 +14,13 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class HttpBearer extends HttpHeader
 {
-    protected string $headerName = 'Authorization';
+    protected string $headerName = Header::AUTHORIZATION;
     protected string $pattern = '/^Bearer\s+(.*?)$/';
     private string $realm = 'api';
 
     public function challenge(ResponseInterface $response): ResponseInterface
     {
-        return $response->withHeader('WWW-Authenticate', "{$this->headerName} realm=\"{$this->realm}\"");
+        return $response->withHeader(Header::WWW_AUTHENTICATE, "{$this->headerName} realm=\"{$this->realm}\"");
     }
 
     /**

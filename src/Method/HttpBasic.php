@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
+use Yiisoft\Http\Header;
 
 /**
  * HTTP Basic authentication method.
@@ -56,7 +57,8 @@ final class HttpBasic implements AuthenticationMethodInterface
 
     public function challenge(ResponseInterface $response): ResponseInterface
     {
-        return $response->withHeader('WWW-Authenticate', "Basic realm=\"{$this->realm}\"");
+
+        return $response->withHeader(Header::WWW_AUTHENTICATE, "Basic realm=\"{$this->realm}\"");
     }
 
     /**
@@ -133,7 +135,7 @@ final class HttpBasic implements AuthenticationMethodInterface
 
     private function getTokenFromHeaders(ServerRequestInterface $request): ?string
     {
-        $header = $request->getHeaderLine('Authorization');
+        $header = $request->getHeaderLine(Header::AUTHORIZATION);
         if (!empty($header)) {
             return $header;
         }

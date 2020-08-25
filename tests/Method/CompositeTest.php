@@ -14,6 +14,7 @@ use Yiisoft\Auth\Method\HttpBearer;
 use Yiisoft\Auth\Method\QueryParameter;
 use Yiisoft\Auth\Tests\Stub\FakeIdentity;
 use Yiisoft\Auth\Tests\Stub\FakeIdentityRepository;
+use Yiisoft\Http\Header;
 use Yiisoft\Http\Method;
 
 final class CompositeTest extends TestCase
@@ -27,7 +28,7 @@ final class CompositeTest extends TestCase
         $this->expectException(\RuntimeException::class);
 
         $authenticationMethod->authenticate(
-            $this->createRequest(['Authorization' => 'Bearer api-key'])
+            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
         );
     }
 
@@ -42,7 +43,7 @@ final class CompositeTest extends TestCase
         ]);
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest(['Authorization' => 'Bearer api-key'])
+            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
         );
 
         $this->assertNotNull($result);
@@ -74,7 +75,7 @@ final class CompositeTest extends TestCase
 
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest(['Authorization' => 'Bearer api-key'])
+            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
         );
 
         $this->assertNotNull($result);
@@ -103,7 +104,7 @@ final class CompositeTest extends TestCase
 
         $this->assertEquals(
             'Authorization realm="api"',
-            $authenticationMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine(Header::WWW_AUTHENTICATE)
         );
     }
 

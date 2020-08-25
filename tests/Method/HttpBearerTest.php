@@ -12,6 +12,7 @@ use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\Method\HttpBearer;
 use Yiisoft\Auth\Tests\Stub\FakeIdentity;
 use Yiisoft\Auth\Tests\Stub\FakeIdentityRepository;
+use Yiisoft\Http\Header;
 use Yiisoft\Http\Method;
 
 final class HttpBearerTest extends TestCase
@@ -20,7 +21,7 @@ final class HttpBearerTest extends TestCase
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $result = (new HttpBearer($identityRepository))->authenticate(
-            $this->createRequest(['Authorization' => 'Bearer api-key'])
+            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
         );
 
         $this->assertNotNull($result);
@@ -43,7 +44,7 @@ final class HttpBearerTest extends TestCase
 
         $this->assertNull(
             $authenticationMethod->authenticate(
-                $this->createRequest(['Authorization' => 'Bearer api-key'])
+                $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
             )
         );
     }
@@ -56,7 +57,7 @@ final class HttpBearerTest extends TestCase
 
         $this->assertEquals(
             'Authorization realm="api"',
-            $authenticationMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine(Header::WWW_AUTHENTICATE)
         );
     }
 
@@ -69,7 +70,7 @@ final class HttpBearerTest extends TestCase
 
         $this->assertEquals(
             'Authorization realm="gateway"',
-            $authenticationMethod->challenge($response)->getHeaderLine('WWW-Authenticate')
+            $authenticationMethod->challenge($response)->getHeaderLine(Header::WWW_AUTHENTICATE)
         );
     }
 
