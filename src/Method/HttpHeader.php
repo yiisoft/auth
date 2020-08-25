@@ -39,7 +39,7 @@ class HttpHeader implements AuthenticationMethodInterface
     {
         $authToken = $this->getAuthenticationToken($request);
         if ($authToken !== null) {
-            return $this->identityRepository->findIdentityByToken($authToken, get_class($this));
+            return $this->identityRepository->findIdentityByToken($authToken, static::class);
         }
 
         return null;
