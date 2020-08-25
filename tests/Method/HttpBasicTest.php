@@ -179,7 +179,8 @@ final class HttpBasicTest extends TestCase
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $original = (new HttpBasic($identityRepository));
         $this->assertNotSame($original, $original->withRealm('realm'));
-        $this->assertNotSame($original, $original->withAuthenticationCallback(static function() {}));
+        $this->assertNotSame($original, $original->withAuthenticationCallback(static function () {
+        }));
     }
 
     private function createIdentity(string $id = 'test-id'): IdentityInterface
