@@ -12,6 +12,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
 use Yiisoft\Strings\StringHelper;
+use Yiisoft\Strings\WildcardPattern;
 
 /**
  * Authentication middleware tries to authenticate and identity using request data.
@@ -75,7 +76,8 @@ final class Authentication implements MiddlewareInterface
     {
         $path = $request->getUri()->getPath();
         foreach ($this->optionalPatterns as $pattern) {
-            if (StringHelper::matchWildcard($pattern, $path)) {
+            $wildcardPattern = new WildcardPattern($pattern);
+            if ($wildcardPattern->match($path)) {
                 return true;
             }
         }
