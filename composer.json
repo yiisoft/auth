@@ -23,7 +23,7 @@
         "psr/http-message": "^1.0",
         "psr/http-server-handler": "^1.0",
         "yiisoft/strings": "^1.0",
-        "yiisoft/http": "1.0.x-dev"
+        "yiisoft/http": "^1.0"
     },
     "require-dev": {
         "infection/infection": "^0.17.0",

@@ -6,9 +6,6 @@
     <br>
 </p>
 
-The package provides various authentication methods, a set of abstractions to implement in your application, and
-a [PSR-15](https://www.php-fig.org/psr/psr-15/) middleware to authenticate an identity.
-
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/auth/v/stable.png)](https://packagist.org/packages/yiisoft/auth)
 [![Total Downloads](https://poser.pugx.org/yiisoft/auth/downloads.png)](https://packagist.org/packages/yiisoft/auth)
 [![Build status](https://github.com/yiisoft/auth/workflows/build/badge.svg)](https://github.com/yiisoft/auth/actions)
@@ -16,6 +13,9 @@ a [PSR-15](https://www.php-fig.org/psr/psr-15/) middleware to authenticate an id
 [![Code Coverage](https://scrutinizer-ci.com/g/yiisoft/auth/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yiisoft/auth/?branch=master)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyiisoft%2Fauth%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/yiisoft/auth/master)
 [![static analysis](https://github.com/yiisoft/auth/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/auth/actions?query=workflow%3A%22static+analysis%22)
+
+The package provides various authentication methods, a set of abstractions to implement in your application, and
+a [PSR-15](https://www.php-fig.org/psr/psr-15/) middleware to authenticate an identity.
 
 ## Installation
 
