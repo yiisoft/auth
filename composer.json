@@ -24,7 +24,7 @@
         "yiisoft/http": "^1.0"
     },
     "require-dev": {
-        "infection/infection": "^0.17.0 || ^0.18.0",
+        "infection/infection": "^0.18.0",
         "phan/phan": "^3.0.2",
         "phpunit/phpunit": "^9.3",
         "nyholm/psr7": "^1.0"
