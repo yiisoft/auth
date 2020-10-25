@@ -118,3 +118,29 @@ $authenticationMethod = new \Yiisoft\Auth\Method\Composite([
 - `\Yiisoft\Auth\IdentityRepositoryInterface` should be implemented by your application identity repository class.
   Typically, that is `UserIdentity`. 
 - `\Yiisoft\Auth\AuthenticationMethodInterface` could be implemented to provide your own authentication method.
+
+## Unit testing
+
+The package is tested with [PHPUnit](https://phpunit.de/). To run tests:
+
+```php
+./vendor/bin/phpunit
+```
+
+Note: You must have SQLITE installed to run the tests, it supports all SQLITE version 3.
+
+## Mutation testing
+
+The package tests are checked with [Infection](https://infection.github.io/) mutation framework. To run it:
+
+```php
+./vendor/bin/infection
+```
+
+## Static analysis
+
+The code is statically analyzed with [Psalm](https://psalm.dev/docs/). To run static analysis:
+
+```php
+./vendor/bin/psalm
+```
