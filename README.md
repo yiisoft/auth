@@ -13,6 +13,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/yiisoft/auth/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yiisoft/auth/?branch=master)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyiisoft%2Fauth%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/yiisoft/auth/master)
 [![static analysis](https://github.com/yiisoft/auth/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/auth/actions?query=workflow%3A%22static+analysis%22)
+[![type-coverage](https://shepherd.dev/github/yiisoft/auth/coverage.svg)](https://shepherd.dev/github/yiisoft/auth)
 
 The package provides various authentication methods, a set of abstractions to implement in your application, and
 a [PSR-15](https://www.php-fig.org/psr/psr-15/) middleware to authenticate an identity.
@@ -117,3 +118,29 @@ $authenticationMethod = new \Yiisoft\Auth\Method\Composite([
 - `\Yiisoft\Auth\IdentityRepositoryInterface` should be implemented by your application identity repository class.
   Typically, that is `UserIdentity`. 
 - `\Yiisoft\Auth\AuthenticationMethodInterface` could be implemented to provide your own authentication method.
+
+## Unit testing
+
+The package is tested with [PHPUnit](https://phpunit.de/). To run tests:
+
+```php
+./vendor/bin/phpunit
+```
+
+Note: You must have SQLITE installed to run the tests, it supports all SQLITE version 3.
+
+## Mutation testing
+
+The package tests are checked with [Infection](https://infection.github.io/) mutation framework. To run it:
+
+```php
+./vendor/bin/infection
+```
+
+## Static analysis
+
+The code is statically analyzed with [Psalm](https://psalm.dev/docs/). To run static analysis:
+
+```php
+./vendor/bin/psalm
+```
