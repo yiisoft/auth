@@ -36,7 +36,6 @@ final class CompositeTest extends TestCase
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
 
-
         $authenticationMethod = new Composite([
             new QueryParameter($identityRepository),
             new HttpBearer($identityRepository)
