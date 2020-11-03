@@ -37,11 +37,11 @@ jobs:
 
       - name: Determine composer cache directory on Linux
         if: matrix.os == 'ubuntu-latest'
-        run: echo "::set-env name=COMPOSER_CACHE_DIR::$(composer config cache-dir)"
+        run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
 
       - name: Determine composer cache directory on Windows
         if: matrix.os == 'windows-latest'
-        run: ECHO "::set-env name=COMPOSER_CACHE_DIR::~\AppData\Local\Composer"
+        run: echo "COMPOSER_CACHE_DIR=~\AppData\Local\Composer" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Cache dependencies installed with composer
         uses: actions/cache@v2
@@ -59,16 +59,12 @@ jobs:
         if: matrix.php == '8.0'
         run: composer update --ignore-platform-reqs --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
 
-      - name: Run tests with phpunit and coverage on Linux php 7.4
+      - name: Run tests with coverage
         if: matrix.os == 'ubuntu-latest' && matrix.php == '7.4'
         run: vendor/bin/phpunit --coverage-clover=coverage.clover --colors=always
 
-      - name: Run tests with phpunit without coverage on Linux php 8.0
-        if: matrix.os == 'ubuntu-latest' && matrix.php == '8.0'
-        run: vendor/bin/phpunit --colors=always
-
-      - name: Run tests with phpunit without coverage on Windows
-        if: matrix.os == 'windows-latest'
+      - name: Run tests without coverage
+        if: matrix.os != 'ubuntu-latest' || matrix.php != '7.4'
         run: vendor/bin/phpunit --colors=always
 
       - name: Upload code coverage scrutinizer on Linux php 7.4
