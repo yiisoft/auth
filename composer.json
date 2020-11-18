@@ -20,7 +20,7 @@
         "psr/http-server-middleware": "^1.0",
         "psr/http-message": "^1.0",
         "psr/http-server-handler": "^1.0",
-        "yiisoft/strings": "^1.0",
+        "yiisoft/strings": "^1.1",
         "yiisoft/http": "^1.0"
     },
     "require-dev": {
