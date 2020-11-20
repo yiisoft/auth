@@ -31,8 +31,8 @@ final class HttpBasicTest extends TestCase
                 'findIdentityByToken' =>
                     [
                         'token' => 'user',
-                        'type' => HttpBasic::class
-                    ]
+                        'type' => HttpBasic::class,
+                    ],
             ],
             $identityRepository->getCallParams()
         );
@@ -237,8 +237,8 @@ final class HttpBasicTest extends TestCase
                 'findIdentityByToken' =>
                     [
                         'token' => 'username',
-                        'type' => HttpBasic::class
-                    ]
+                        'type' => HttpBasic::class,
+                    ],
             ],
             $identityRepository->getCallParams()
         );
@@ -269,8 +269,8 @@ final class HttpBasicTest extends TestCase
                 'findIdentityByToken' =>
                     [
                         'token' => 'admin',
-                        'type' => HttpBasic::class
-                    ]
+                        'type' => HttpBasic::class,
+                    ],
             ],
             $identityRepository->getCallParams()
         );

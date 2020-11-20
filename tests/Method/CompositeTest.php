@@ -22,7 +22,7 @@ final class CompositeTest extends TestCase
     public function testIncorrectArguments(): void
     {
         $authenticationMethod = new Composite([
-           'test'
+            'test',
         ]);
 
         $this->expectException(\RuntimeException::class);
@@ -38,7 +38,7 @@ final class CompositeTest extends TestCase
 
         $authenticationMethod = new Composite([
             new QueryParameter($identityRepository),
-            new HttpBearer($identityRepository)
+            new HttpBearer($identityRepository),
         ]);
 
         $result = $authenticationMethod->authenticate(
@@ -63,7 +63,7 @@ final class CompositeTest extends TestCase
 
         $authenticationMethod = new Composite([
             new QueryParameter($nullIdentityRepository),
-            new HttpBearer($identityRepository)
+            new HttpBearer($identityRepository),
         ]);
 
         $result = $authenticationMethod->authenticate(
@@ -98,7 +98,7 @@ final class CompositeTest extends TestCase
 
         $authenticationMethod = (new Composite([
             new QueryParameter($identityRepository),
-            new HttpBearer($identityRepository)
+            new HttpBearer($identityRepository),
         ]));
 
         $this->assertEquals(

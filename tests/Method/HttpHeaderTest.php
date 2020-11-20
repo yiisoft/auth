@@ -89,8 +89,8 @@ final class HttpHeaderTest extends TestCase
                 'findIdentityByToken' =>
                     [
                         'token' => 'api-key',
-                        'type' => HttpHeader::class
-                    ]
+                        'type' => HttpHeader::class,
+                    ],
             ],
             $identityRepository->getCallParams()
         );

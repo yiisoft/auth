@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Auth\Tests\Stub;
 
-use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Auth\IdentityInterface;
+use Yiisoft\Auth\IdentityRepositoryInterface;
 
 final class FakeIdentityRepository implements IdentityRepositoryInterface
 {
@@ -28,7 +28,7 @@ final class FakeIdentityRepository implements IdentityRepositoryInterface
     {
         $this->callParams['findIdentityByToken'] = [
             'token' => $token,
-            'type' => $type
+            'type' => $type,
         ];
 
         return $this->returnIdentity;
