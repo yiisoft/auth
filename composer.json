@@ -20,14 +20,14 @@
         "psr/http-server-middleware": "^1.0",
         "psr/http-message": "^1.0",
         "psr/http-server-handler": "^1.0",
-        "yiisoft/strings": "^1.0",
+        "yiisoft/strings": "^1.1",
         "yiisoft/http": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.4",
-        "nyholm/psr7": "^1.0",
-        "roave/infection-static-analysis-plugin": "^1.3",
-        "vimeo/psalm": "^4.1"
+        "nyholm/psr7": "^1.3",
+        "roave/infection-static-analysis-plugin": "^1.4",
+        "vimeo/psalm": "^4.2"
     },
     "autoload": {
         "psr-4": {
