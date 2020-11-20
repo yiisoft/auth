@@ -79,6 +79,7 @@ final class HttpBasic implements AuthenticationMethodInterface
      * If not set, the username information will be considered as an access token
      * while the password information will be ignored. The {@see \Yiisoft\Auth\IdentityRepositoryInterface::findIdentityByToken()}
      * method will be called to authenticate an identity.
+     *
      * @return self
      */
     public function withAuthenticationCallback(callable $authenticationCallback): self
@@ -90,6 +91,7 @@ final class HttpBasic implements AuthenticationMethodInterface
 
     /**
      * @param string $realm The HTTP authentication realm.
+     *
      * @return $this
      */
     public function withRealm(string $realm): self
@@ -103,6 +105,7 @@ final class HttpBasic implements AuthenticationMethodInterface
      * Obtains authentication credentials from request.
      *
      * @param ServerRequestInterface $request
+     *
      * @return array ['username', 'password'] array.
      */
     private function getAuthenticationCredentials(ServerRequestInterface $request): array

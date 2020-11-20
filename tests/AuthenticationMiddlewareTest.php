@@ -7,14 +7,14 @@ namespace Yiisoft\Auth\Tests;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\ServerRequest;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
-use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\Auth\IdentityInterface;
-use PHPUnit\Framework\TestCase;
+use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\Http\Status;
 
 final class AuthenticationMiddlewareTest extends TestCase

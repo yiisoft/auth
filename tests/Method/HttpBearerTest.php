@@ -30,8 +30,8 @@ final class HttpBearerTest extends TestCase
             [
                 'findIdentityByToken' => [
                     'token' => 'api-key',
-                    'type' => HttpBearer::class
-                ]
+                    'type' => HttpBearer::class,
+                ],
             ],
             $identityRepository->getCallParams()
         );

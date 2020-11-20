@@ -41,6 +41,7 @@ final class QueryParameter implements AuthenticationMethodInterface
 
     /**
      * @param string $name The parameter name for passing the access token.
+     *
      * @return self
      */
     public function withParameterName(string $name): self

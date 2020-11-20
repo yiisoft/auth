@@ -59,6 +59,7 @@ class HttpHeader implements AuthenticationMethodInterface
 
     /**
      * @param string $pattern A pattern to use to extract the HTTP authentication value.
+     *
      * @return self
      */
     public function withPattern(string $pattern): self

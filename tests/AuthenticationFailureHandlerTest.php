@@ -6,11 +6,11 @@ namespace Yiisoft\Auth\Tests;
 
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\ServerRequest;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
 use Yiisoft\Http\Method;
 use Yiisoft\Http\Status;
-use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
-use PHPUnit\Framework\TestCase;
 
 final class AuthenticationFailureHandlerTest extends TestCase
 {

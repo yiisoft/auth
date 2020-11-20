@@ -11,7 +11,6 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
-use Yiisoft\Strings\StringHelper;
 use Yiisoft\Strings\WildcardPattern;
 
 /**
@@ -60,6 +59,7 @@ final class Authentication implements MiddlewareInterface
 
     /**
      * @param array $optional Patterns to match to consider the given request URI path optional.
+     *
      * @return self
      */
     public function withOptionalPatterns(array $optional): self
