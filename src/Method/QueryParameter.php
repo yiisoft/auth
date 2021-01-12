@@ -8,7 +8,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
-use Yiisoft\Auth\IdentityRepositoryInterface;
+use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
+
+use function is_string;
 
 /**
  * QueryParameter supports the authentication based on the access token passed through a query parameter.
@@ -17,9 +19,9 @@ final class QueryParameter implements AuthenticationMethodInterface
 {
     private string $parameterName = 'access-token';
 
-    private IdentityRepositoryInterface $identityRepository;
+    private IdentityWithTokenRepositoryInterface $identityRepository;
 
-    public function __construct(IdentityRepositoryInterface $identityRepository)
+    public function __construct(IdentityWithTokenRepositoryInterface $identityRepository)
     {
         $this->identityRepository = $identityRepository;
     }
@@ -27,7 +29,7 @@ final class QueryParameter implements AuthenticationMethodInterface
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
     {
         $accessToken = $request->getQueryParams()[$this->parameterName] ?? null;
-        if (\is_string($accessToken)) {
+        if (is_string($accessToken)) {
             return $this->identityRepository->findIdentityByToken($accessToken, self::class);
         }
 

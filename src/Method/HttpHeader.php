@@ -9,6 +9,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
+use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
+
+use function reset;
 
 /**
  * HttpHeader supports HTTP authentication through HTTP Headers.
@@ -28,9 +31,9 @@ class HttpHeader implements AuthenticationMethodInterface
      */
     protected string $pattern = '/(.*)/';
 
-    protected IdentityRepositoryInterface $identityRepository;
+    protected IdentityWithTokenRepositoryInterface $identityRepository;
 
-    public function __construct(IdentityRepositoryInterface $identityRepository)
+    public function __construct(IdentityWithTokenRepositoryInterface $identityRepository)
     {
         $this->identityRepository = $identityRepository;
     }
@@ -72,7 +75,7 @@ class HttpHeader implements AuthenticationMethodInterface
     protected function getAuthenticationToken(ServerRequestInterface $request): ?string
     {
         $authHeaders = $request->getHeader($this->headerName);
-        $authHeader = \reset($authHeaders);
+        $authHeader = reset($authHeaders);
         if (!empty($authHeader)) {
             if (preg_match($this->pattern, $authHeader, $matches)) {
                 $authHeader = $matches[1];
