@@ -15,7 +15,8 @@ use function reset;
 /**
  * HttpHeader supports HTTP authentication through HTTP Headers.
  *
- * The default implementation of HttpHeader uses the {@see \Yiisoft\Auth\IdentityRepositoryInterface::findIdentityByToken()}
+ * The default implementation of HttpHeader uses the
+ * {@see \Yiisoft\Auth\IdentityWithTokenRepositoryInterface::findIdentityByToken()}
  * and passes the value of the `X-Api-Key` header. This implementation is used mainly for authenticating API clients.
  */
 class HttpHeader implements AuthenticationMethodInterface

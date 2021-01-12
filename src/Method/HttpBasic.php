@@ -19,8 +19,8 @@ use function count;
  *
  * @see https://tools.ietf.org/html/rfc7617
  *
- * In case authentication does not work as expected, make sure your web server passes
- * username and password to `$request->getServerParams()['PHP_AUTH_USER']` and `$request->getServerParams()['PHP_AUTH_PW']`
+ * In case authentication does not work as expected, make sure your web server passes username and password
+ * to `$request->getServerParams()['PHP_AUTH_USER']` and `$request->getServerParams()['PHP_AUTH_PW']`
  * parameters. If you are using Apache with PHP-CGI, you might need to add this line to your `.htaccess` file:
  *
  * ```
@@ -80,7 +80,8 @@ final class HttpBasic implements AuthenticationMethodInterface
      * The callable will be called only if current user is not authenticated.
      *
      * If not set, the username information will be considered as an access token
-     * while the password information will be ignored. The {@see \Yiisoft\Auth\IdentityRepositoryInterface::findIdentityByToken()}
+     * while the password information will be ignored.
+     * The {@see \Yiisoft\Auth\IdentityWithTokenRepositoryInterface::findIdentityByToken()}
      * method will be called to authenticate an identity.
      *
      * @return self
