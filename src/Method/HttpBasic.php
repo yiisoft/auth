@@ -8,7 +8,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
-use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
 use Yiisoft\Http\Header;
 
