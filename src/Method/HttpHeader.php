@@ -8,29 +8,30 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
-use Yiisoft\Auth\IdentityRepositoryInterface;
+use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
+
+use function reset;
 
 /**
  * HttpHeader supports HTTP authentication through HTTP Headers.
  *
- * The default implementation of HttpHeader uses the {@see \Yiisoft\Auth\IdentityRepositoryInterface::findIdentityByToken()}
+ * The default implementation of HttpHeader uses the
+ * {@see \Yiisoft\Auth\IdentityWithTokenRepositoryInterface::findIdentityByToken()}
  * and passes the value of the `X-Api-Key` header. This implementation is used mainly for authenticating API clients.
  */
 class HttpHeader implements AuthenticationMethodInterface
 {
-    /**
-     * @var string The HTTP header name.
-     */
     protected string $headerName = 'X-Api-Key';
+    private ?string $tokenType = null;
 
     /**
      * @var string A pattern to use to extract the HTTP authentication value.
      */
     protected string $pattern = '/(.*)/';
 
-    protected IdentityRepositoryInterface $identityRepository;
+    protected IdentityWithTokenRepositoryInterface $identityRepository;
 
-    public function __construct(IdentityRepositoryInterface $identityRepository)
+    public function __construct(IdentityWithTokenRepositoryInterface $identityRepository)
     {
         $this->identityRepository = $identityRepository;
     }
@@ -39,7 +40,7 @@ class HttpHeader implements AuthenticationMethodInterface
     {
         $authToken = $this->getAuthenticationToken($request);
         if ($authToken !== null) {
-            return $this->identityRepository->findIdentityByToken($authToken, static::class);
+            return $this->identityRepository->findIdentityByToken($authToken, $this->tokenType);
         }
 
         return null;
@@ -50,6 +51,13 @@ class HttpHeader implements AuthenticationMethodInterface
         return $response;
     }
 
+    /**
+     * @param string $name The HTTP header name.
+     *
+     * @return $this
+     *
+     * @psalm-immutable
+     */
     public function withHeaderName(string $name): self
     {
         $new = clone $this;
@@ -58,9 +66,25 @@ class HttpHeader implements AuthenticationMethodInterface
     }
 
     /**
+     * @param string|null $type Identity token type
+     *
+     * @return $this
+     *
+     * @psalm-immutable
+     */
+    public function withTokenType(?string $type): self
+    {
+        $new = clone $this;
+        $new->tokenType = $type;
+        return $new;
+    }
+
+    /**
      * @param string $pattern A pattern to use to extract the HTTP authentication value.
      *
      * @return self
+     *
+     * @psalm-immutable
      */
     public function withPattern(string $pattern): self
     {
@@ -72,7 +96,7 @@ class HttpHeader implements AuthenticationMethodInterface
     protected function getAuthenticationToken(ServerRequestInterface $request): ?string
     {
         $authHeaders = $request->getHeader($this->headerName);
-        $authHeader = \reset($authHeaders);
+        $authHeader = reset($authHeaders);
         if (!empty($authHeader)) {
             if (preg_match($this->pattern, $authHeader, $matches)) {
                 $authHeader = $matches[1];

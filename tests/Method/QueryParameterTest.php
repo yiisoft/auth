@@ -29,7 +29,7 @@ final class QueryParameterTest extends TestCase
             [
                 'findIdentityByToken' => [
                     'token' => 'access-token-value',
-                    'type' => QueryParameter::class,
+                    'type' => null,
                 ],
             ],
             $identityRepository->getCallParams()
@@ -90,6 +90,27 @@ final class QueryParameterTest extends TestCase
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $original = (new QueryParameter($identityRepository));
         $this->assertNotSame($original, $original->withParameterName('parameterName'));
+        $this->assertNotSame($original, $original->withTokenType('another-token-type'));
+    }
+
+    public function testWithTokenType(): void
+    {
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        (new QueryParameter($identityRepository))
+            ->withTokenType('another-token-type')
+            ->authenticate(
+                $this->createRequest(['access-token' => 'access-token-value'])
+            );
+
+        $this->assertEquals(
+            [
+                'findIdentityByToken' => [
+                    'token' => 'access-token-value',
+                    'type' => 'another-token-type',
+                ],
+            ],
+            $identityRepository->getCallParams()
+        );
     }
 
     private function createIdentity(): IdentityInterface

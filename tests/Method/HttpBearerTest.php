@@ -30,7 +30,7 @@ final class HttpBearerTest extends TestCase
             [
                 'findIdentityByToken' => [
                     'token' => 'api-key',
-                    'type' => HttpBearer::class,
+                    'type' => null,
                 ],
             ],
             $identityRepository->getCallParams()
@@ -81,6 +81,27 @@ final class HttpBearerTest extends TestCase
         $this->assertNotSame($original, $original->withRealm('realm'));
         $this->assertNotSame($original, $original->withHeaderName('headerName'));
         $this->assertNotSame($original, $original->withPattern('pattern'));
+        $this->assertNotSame($original, $original->withTokenType('api'));
+    }
+
+    public function testWithTokenType(): void
+    {
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        (new HttpBearer($identityRepository))
+            ->withTokenType('another-token-type')
+            ->authenticate(
+                $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
+            );
+
+        $this->assertEquals(
+            [
+                'findIdentityByToken' => [
+                    'token' => 'api-key',
+                    'type' => 'another-token-type',
+                ],
+            ],
+            $identityRepository->getCallParams()
+        );
     }
 
     private function createIdentity(): IdentityInterface

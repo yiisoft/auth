@@ -8,16 +8,19 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
-use Yiisoft\Auth\IdentityRepositoryInterface;
+use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
 use Yiisoft\Http\Header;
+
+use function call_user_func;
+use function count;
 
 /**
  * HTTP Basic authentication method.
  *
  * @see https://tools.ietf.org/html/rfc7617
  *
- * In case authentication does not work as expected, make sure your web server passes
- * username and password to `$request->getServerParams()['PHP_AUTH_USER']` and `$request->getServerParams()['PHP_AUTH_PW']`
+ * In case authentication does not work as expected, make sure your web server passes username and password
+ * to `$request->getServerParams()['PHP_AUTH_USER']` and `$request->getServerParams()['PHP_AUTH_PW']`
  * parameters. If you are using Apache with PHP-CGI, you might need to add this line to your `.htaccess` file:
  *
  * ```
@@ -27,15 +30,16 @@ use Yiisoft\Http\Header;
 final class HttpBasic implements AuthenticationMethodInterface
 {
     private string $realm = 'api';
+    private ?string $tokenType = null;
 
     /**
      * @var callable|null
      */
     private $authenticationCallback;
 
-    private IdentityRepositoryInterface $identityRepository;
+    private IdentityWithTokenRepositoryInterface $identityRepository;
 
-    public function __construct(IdentityRepositoryInterface $identityRepository)
+    public function __construct(IdentityWithTokenRepositoryInterface $identityRepository)
     {
         $this->identityRepository = $identityRepository;
     }
@@ -45,11 +49,11 @@ final class HttpBasic implements AuthenticationMethodInterface
         [$username, $password] = $this->getAuthenticationCredentials($request);
 
         if ($this->authenticationCallback !== null && ($username !== null || $password !== null)) {
-            return \call_user_func($this->authenticationCallback, $username, $password, $this->identityRepository);
+            return call_user_func($this->authenticationCallback, $username, $password, $this->identityRepository);
         }
 
         if ($username !== null) {
-            return $this->identityRepository->findIdentityByToken($username, self::class);
+            return $this->identityRepository->findIdentityByToken($username, $this->tokenType);
         }
 
         return null;
@@ -77,7 +81,8 @@ final class HttpBasic implements AuthenticationMethodInterface
      * The callable will be called only if current user is not authenticated.
      *
      * If not set, the username information will be considered as an access token
-     * while the password information will be ignored. The {@see \Yiisoft\Auth\IdentityRepositoryInterface::findIdentityByToken()}
+     * while the password information will be ignored.
+     * The {@see \Yiisoft\Auth\IdentityWithTokenRepositoryInterface::findIdentityByToken()}
      * method will be called to authenticate an identity.
      *
      * @return self
@@ -93,11 +98,27 @@ final class HttpBasic implements AuthenticationMethodInterface
      * @param string $realm The HTTP authentication realm.
      *
      * @return $this
+     *
+     * @psalm-immutable
      */
     public function withRealm(string $realm): self
     {
         $new = clone $this;
         $new->realm = $realm;
+        return $new;
+    }
+
+    /**
+     * @param string|null $type Identity token type
+     *
+     * @return $this
+     *
+     * @psalm-immutable
+     */
+    public function withTokenType(?string $type): self
+    {
+        $new = clone $this;
+        $new->tokenType = $type;
         return $new;
     }
 
@@ -125,7 +146,7 @@ final class HttpBasic implements AuthenticationMethodInterface
         $token = $this->getTokenFromHeaders($request);
         if ($token !== null && $this->isBasicToken($token)) {
             $credentials = $this->extractCredentialsFromHeader($token);
-            if (\count($credentials) < 2) {
+            if (count($credentials) < 2) {
                 return [$credentials[0], null];
             }
 
@@ -148,7 +169,7 @@ final class HttpBasic implements AuthenticationMethodInterface
     private function extractCredentialsFromHeader(string $authToken): array
     {
         return array_map(
-            fn ($value) => $value === '' ? null : $value,
+            static fn ($value) => $value === '' ? null : $value,
             explode(':', base64_decode(substr($authToken, 6)), 2)
         );
     }

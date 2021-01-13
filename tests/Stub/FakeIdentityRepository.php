@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Yiisoft\Auth\Tests\Stub;
 
 use Yiisoft\Auth\IdentityInterface;
-use Yiisoft\Auth\IdentityRepositoryInterface;
+use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
 
-final class FakeIdentityRepository implements IdentityRepositoryInterface
+final class FakeIdentityRepository implements IdentityWithTokenRepositoryInterface
 {
     private ?IdentityInterface $returnIdentity;
     private array $callParams = [];

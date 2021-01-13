@@ -31,7 +31,7 @@ final class HttpBasicTest extends TestCase
                 'findIdentityByToken' =>
                     [
                         'token' => 'user',
-                        'type' => HttpBasic::class,
+                        'type' => null,
                     ],
             ],
             $identityRepository->getCallParams()
@@ -237,7 +237,7 @@ final class HttpBasicTest extends TestCase
                 'findIdentityByToken' =>
                     [
                         'token' => 'username',
-                        'type' => HttpBasic::class,
+                        'type' => null,
                     ],
             ],
             $identityRepository->getCallParams()
@@ -269,7 +269,7 @@ final class HttpBasicTest extends TestCase
                 'findIdentityByToken' =>
                     [
                         'token' => 'admin',
-                        'type' => HttpBasic::class,
+                        'type' => null,
                     ],
             ],
             $identityRepository->getCallParams()
@@ -281,8 +281,31 @@ final class HttpBasicTest extends TestCase
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $original = (new HttpBasic($identityRepository));
         $this->assertNotSame($original, $original->withRealm('realm'));
-        $this->assertNotSame($original, $original->withAuthenticationCallback(static function () {
-        }));
+        $this->assertNotSame($original, $original->withAuthenticationCallback(static fn () => null));
+        $this->assertNotSame($original, $original->withTokenType('api'));
+    }
+
+    public function testWithTokenType(): void
+    {
+        $encodeFields = base64_encode('username');
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+
+        (new HttpBasic($identityRepository))
+            ->withTokenType('another-token-type')
+            ->authenticate(
+                $this->createRequest([], [Header::AUTHORIZATION => 'Basic:' . $encodeFields])
+            );
+
+        $this->assertEquals(
+            [
+                'findIdentityByToken' =>
+                    [
+                        'token' => 'username',
+                        'type' => 'another-token-type',
+                    ],
+            ],
+            $identityRepository->getCallParams()
+        );
     }
 
     private function createIdentity(string $id = 'test-id'): IdentityInterface
