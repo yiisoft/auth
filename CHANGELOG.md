@@ -1,8 +1,11 @@
 # Yii Auth Change Log
 
-## 2.0.0 under development
+## 2.0.0 January 13, 2021
+
 
 - Enh #36: Extract `IdentityRepositoryInterface::findIdentityByToken()` into `IdentityWithTokenRepositoryInterface`, make token type configurable (armpogart, roxblnfk)
+
+
 
 ## 1.0.2 September 1, 2020
 
