@@ -66,7 +66,7 @@ class HttpHeader implements AuthenticationMethodInterface
     }
 
     /**
-     * @param null|string $type Identity token type
+     * @param string|null $type Identity token type
      *
      * @return $this
      *
