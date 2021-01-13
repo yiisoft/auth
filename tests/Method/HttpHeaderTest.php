@@ -89,7 +89,7 @@ final class HttpHeaderTest extends TestCase
                 'findIdentityByToken' =>
                     [
                         'token' => 'api-key',
-                        'type' => HttpHeader::class,
+                        'type' => null,
                     ],
             ],
             $identityRepository->getCallParams()
@@ -114,6 +114,28 @@ final class HttpHeaderTest extends TestCase
         $original = (new HttpHeader($identityRepository));
         $this->assertNotSame($original, $original->withHeaderName('headerName'));
         $this->assertNotSame($original, $original->withPattern('pattern'));
+        $this->assertNotSame($original, $original->withTokenType('web'));
+    }
+
+    public function testWithTokenType(): void
+    {
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        (new HttpHeader($identityRepository))
+            ->withTokenType('another-token-type')
+            ->authenticate(
+                $this->createRequest(['X-Api-Key' => 'api-key'])
+            );
+
+        $this->assertEquals(
+            [
+                'findIdentityByToken' =>
+                    [
+                        'token' => 'api-key',
+                        'type' => 'another-token-type',
+                    ],
+            ],
+            $identityRepository->getCallParams()
+        );
     }
 
     private function createIdentity(): IdentityInterface

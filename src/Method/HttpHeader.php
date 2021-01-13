@@ -21,10 +21,8 @@ use function reset;
  */
 class HttpHeader implements AuthenticationMethodInterface
 {
-    /**
-     * @var string The HTTP header name.
-     */
     protected string $headerName = 'X-Api-Key';
+    private ?string $tokenType = null;
 
     /**
      * @var string A pattern to use to extract the HTTP authentication value.
@@ -42,7 +40,7 @@ class HttpHeader implements AuthenticationMethodInterface
     {
         $authToken = $this->getAuthenticationToken($request);
         if ($authToken !== null) {
-            return $this->identityRepository->findIdentityByToken($authToken, static::class);
+            return $this->identityRepository->findIdentityByToken($authToken, $this->tokenType);
         }
 
         return null;
@@ -53,6 +51,13 @@ class HttpHeader implements AuthenticationMethodInterface
         return $response;
     }
 
+    /**
+     * @param string $name The HTTP header name.
+     *
+     * @return $this
+     *
+     * @psalm-immutable
+     */
     public function withHeaderName(string $name): self
     {
         $new = clone $this;
@@ -61,9 +66,25 @@ class HttpHeader implements AuthenticationMethodInterface
     }
 
     /**
+     * @param null|string $type Identity token type
+     *
+     * @return $this
+     *
+     * @psalm-immutable
+     */
+    public function withTokenType(?string $type): self
+    {
+        $new = clone $this;
+        $new->tokenType = $type;
+        return $new;
+    }
+
+    /**
      * @param string $pattern A pattern to use to extract the HTTP authentication value.
      *
      * @return self
+     *
+     * @psalm-immutable
      */
     public function withPattern(string $pattern): self
     {

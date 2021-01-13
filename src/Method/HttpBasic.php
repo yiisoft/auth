@@ -30,6 +30,7 @@ use function count;
 final class HttpBasic implements AuthenticationMethodInterface
 {
     private string $realm = 'api';
+    private ?string $tokenType = null;
 
     /**
      * @var callable|null
@@ -52,7 +53,7 @@ final class HttpBasic implements AuthenticationMethodInterface
         }
 
         if ($username !== null) {
-            return $this->identityRepository->findIdentityByToken($username, self::class);
+            return $this->identityRepository->findIdentityByToken($username, $this->tokenType);
         }
 
         return null;
@@ -97,11 +98,27 @@ final class HttpBasic implements AuthenticationMethodInterface
      * @param string $realm The HTTP authentication realm.
      *
      * @return $this
+     *
+     * @psalm-immutable
      */
     public function withRealm(string $realm): self
     {
         $new = clone $this;
         $new->realm = $realm;
+        return $new;
+    }
+
+    /**
+     * @param null|string $type Identity token type
+     *
+     * @return $this
+     *
+     * @psalm-immutable
+     */
+    public function withTokenType(?string $type): self
+    {
+        $new = clone $this;
+        $new->tokenType = $type;
         return $new;
     }
 
