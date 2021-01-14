@@ -29,7 +29,7 @@ composer require yiisoft/auth
 Configure a middleware and add it to your middleware stack:
 
 ```php
-$identityRepository = getIdentityRepository(); // \Yiisoft\Auth\IdentityRepositoryInterface
+$identityRepository = getIdentityWithTokenRepository(); // \Yiisoft\Auth\IdentityRepositoryInterface
 $authenticationMethod = new \Yiisoft\Auth\Method\HttpBasic($identityRepository);
 
 $middleware = new \Yiisoft\Auth\Middleware\Authentication(
@@ -62,7 +62,7 @@ $authenticationMethod = (new \Yiisoft\Auth\Method\HttpBasic($identityRepository)
     ->withAuthenticationCallback(static function (
         ?string $username,
         ?string $password,
-        \Yiisoft\Auth\IdentityRepositoryInterface $identityRepository
+        \Yiisoft\Auth\IdentityWithTokenRepositoryInterface $identityRepository
     ): ?\Yiisoft\Auth\IdentityInterface {
         return $identityRepository->findIdentityByToken($username, \Yiisoft\Auth\Method\HttpBasic::class);
     });
