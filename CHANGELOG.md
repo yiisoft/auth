@@ -3,7 +3,7 @@
 
 ## 3.0.0 under development
 
-- `IdentityWithTokenRepositoryInterface` does not extend `IdentityRepositoryInterface` (roxblnfk)
+- Chg #39: `IdentityWithTokenRepositoryInterface` does not extend `IdentityRepositoryInterface` (roxblnfk)
 
 ## 2.0.0 January 13, 2021
 
