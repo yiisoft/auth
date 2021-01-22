@@ -1,7 +1,7 @@
 # Yii Auth Change Log
 
 
-## 3.0.0 under development
+## 3.0.0 January 22, 2021
 
 - Chg #39: `IdentityWithTokenRepositoryInterface` does not extend `IdentityRepositoryInterface` (roxblnfk)
 
