@@ -1,16 +1,13 @@
 # Yii Auth Change Log
 
 
-## 2.0.1 under development
+## 3.0.0 under development
 
-- no changes in this release.
+- Chg #39: `IdentityWithTokenRepositoryInterface` does not extend `IdentityRepositoryInterface` (roxblnfk)
 
 ## 2.0.0 January 13, 2021
 
-
 - Enh #36: Extract `IdentityRepositoryInterface::findIdentityByToken()` into `IdentityWithTokenRepositoryInterface`, make token type configurable (armpogart, roxblnfk)
-
-
 
 ## 1.0.2 September 1, 2020
 

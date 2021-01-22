@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Yiisoft\Auth;
 
 /**
- * Identity repository is identity storage that is able to retrieve identity given and ID or a token.
+ * Identity repository is identity storage that is able to retrieve identity given a token.
  */
-interface IdentityWithTokenRepositoryInterface extends IdentityRepositoryInterface
+interface IdentityWithTokenRepositoryInterface
 {
     /**
      * Finds an identity by the given token.
