@@ -59,6 +59,7 @@ final class Authentication implements MiddlewareInterface
 
     /**
      * @param array $optional Patterns to match to consider the given request URI path optional.
+     * @see WildcardPattern
      *
      * @return self
      */

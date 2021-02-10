@@ -21,7 +21,7 @@
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
         "yiisoft/http": "^1.0",
-        "yiisoft/strings": "^1.1"
+        "yiisoft/strings": "^2.0"
     },
     "require-dev": {
         "nyholm/psr7": "^1.3",
