@@ -3,8 +3,7 @@
 
 ## 3.0.1 under development
 
-- no changes in this release.
-
+- Chg: Update yiisoft/strings dependency (samdark)
 
 ## 3.0.0 January 22, 2021
 
