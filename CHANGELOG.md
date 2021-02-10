@@ -1,7 +1,7 @@
 # Yii Auth Change Log
 
 
-## 3.0.1 under development
+## 3.0.1 February 10, 2021
 
 - Chg: Update yiisoft/strings dependency (samdark)
 
