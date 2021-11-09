@@ -1,10 +1,8 @@
 # Yii Auth Change Log
 
-
 ## 3.0.2 under development
 
-- no changes in this release.
-
+- Chg #47: Update yiisoft/http dependency (devanych)
 
 ## 3.0.1 February 10, 2021
 
