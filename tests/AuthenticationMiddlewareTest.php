@@ -170,7 +170,9 @@ final class AuthenticationMiddlewareTest extends TestCase
             public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 $response = $this->responseFactory->createResponse(Status::UNAUTHORIZED);
-                $response->getBody()->write($this->failureResponse);
+                $response
+                    ->getBody()
+                    ->write($this->failureResponse);
                 return $response;
             }
         };

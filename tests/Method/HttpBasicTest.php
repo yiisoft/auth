@@ -121,7 +121,9 @@ final class HttpBasicTest extends TestCase
 
         $this->assertEquals(
             'Basic realm="api"',
-            $authenticationMethod->challenge($response)->getHeaderLine(Header::WWW_AUTHENTICATE)
+            $authenticationMethod
+                ->challenge($response)
+                ->getHeaderLine(Header::WWW_AUTHENTICATE)
         );
     }
 
@@ -134,7 +136,9 @@ final class HttpBasicTest extends TestCase
 
         $this->assertEquals(
             'Basic realm="gateway"',
-            $authenticationMethod->challenge($response)->getHeaderLine(Header::WWW_AUTHENTICATE)
+            $authenticationMethod
+                ->challenge($response)
+                ->getHeaderLine(Header::WWW_AUTHENTICATE)
         );
     }
 

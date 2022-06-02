@@ -25,7 +25,9 @@ final class AuthenticationFailureHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $response = $this->responseFactory->createResponse(Status::UNAUTHORIZED);
-        $response->getBody()->write('Your request was made with invalid credentials.');
+        $response
+            ->getBody()
+            ->write('Your request was made with invalid credentials.');
         return $response;
     }
 }

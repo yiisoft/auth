@@ -39,8 +39,8 @@ final class Authentication implements MiddlewareInterface
     ) {
         $this->authenticationMethod = $authenticationMethod;
         $this->failureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
-            $responseFactory
-        );
+                $responseFactory
+            );
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -76,7 +76,9 @@ final class Authentication implements MiddlewareInterface
      */
     private function isOptional(ServerRequestInterface $request): bool
     {
-        $path = $request->getUri()->getPath();
+        $path = $request
+            ->getUri()
+            ->getPath();
         foreach ($this->optionalPatterns as $pattern) {
             $wildcardPattern = new WildcardPattern($pattern);
             if ($wildcardPattern->match($path)) {
