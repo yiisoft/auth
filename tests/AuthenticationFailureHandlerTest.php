@@ -16,13 +16,17 @@ final class AuthenticationFailureHandlerTest extends TestCase
 {
     public function testShouldReturnCode401(): void
     {
-        $response = $this->createHandler()->handle($this->createRequest());
+        $response = $this
+            ->createHandler()
+            ->handle($this->createRequest());
         $this->assertEquals(Status::UNAUTHORIZED, $response->getStatusCode());
     }
 
     public function testShouldReturnCorrectErrorInBody(): void
     {
-        $response = $this->createHandler()->handle($this->createRequest());
+        $response = $this
+            ->createHandler()
+            ->handle($this->createRequest());
         $this->assertEquals('Your request was made with invalid credentials.', (string)$response->getBody());
     }
 
