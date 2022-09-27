@@ -66,7 +66,7 @@ final class HttpBasicTest extends TestCase
     {
         $identityRepository = new FakeIdentityRepository(null);
         $authenticationMethod = (new HttpBasic($identityRepository))
-            ->withAuthenticationCallback(fn(?string $username, ?string $password): ?IdentityInterface => $this->createIdentity($username . ':' . $password));
+            ->withAuthenticationCallback(fn (?string $username, ?string $password): ?IdentityInterface => $this->createIdentity($username . ':' . $password));
 
         $result = $authenticationMethod->authenticate(
             $this->createRequest(['PHP_AUTH_USER' => 'user', 'PHP_AUTH_PW' => 'password'])
@@ -81,7 +81,7 @@ final class HttpBasicTest extends TestCase
     {
         $identityRepository = new FakeIdentityRepository(null);
         $authenticationMethod = (new HttpBasic($identityRepository))
-            ->withAuthenticationCallback(fn(?string $username, ?string $password): ?IdentityInterface => $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null')));
+            ->withAuthenticationCallback(fn (?string $username, ?string $password): ?IdentityInterface => $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null')));
 
         $result = $authenticationMethod->authenticate(
             $this->createRequest(['PHP_AUTH_PW' => 'password'])
@@ -96,7 +96,7 @@ final class HttpBasicTest extends TestCase
     {
         $identityRepository = new FakeIdentityRepository(null);
         $authenticationMethod = (new HttpBasic($identityRepository))
-            ->withAuthenticationCallback(fn(?string $username, ?string $password): ?IdentityInterface => $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null')));
+            ->withAuthenticationCallback(fn (?string $username, ?string $password): ?IdentityInterface => $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null')));
 
         $result = $authenticationMethod->authenticate(
             $this->createRequest(['PHP_AUTH_USER' => 'user'])
@@ -154,7 +154,7 @@ final class HttpBasicTest extends TestCase
         $encodeFields = base64_encode('user');
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $authenticationMethod = (new HttpBasic($identityRepository))
-            ->withAuthenticationCallback(fn(?string $username, ?string $password): ?IdentityInterface => $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null')));
+            ->withAuthenticationCallback(fn (?string $username, ?string $password): ?IdentityInterface => $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null')));
 
         $result = $authenticationMethod->authenticate(
             $this->createRequest([], [Header::AUTHORIZATION => 'Basic:' . $encodeFields])
@@ -170,7 +170,7 @@ final class HttpBasicTest extends TestCase
         $encodeFields = base64_encode(':password');
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $authenticationMethod = (new HttpBasic($identityRepository))
-            ->withAuthenticationCallback(fn(?string $username, ?string $password): ?IdentityInterface => $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null')));
+            ->withAuthenticationCallback(fn (?string $username, ?string $password): ?IdentityInterface => $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null')));
 
         $result = $authenticationMethod->authenticate(
             $this->createRequest([], [Header::AUTHORIZATION => 'Basic:' . $encodeFields])
@@ -186,7 +186,7 @@ final class HttpBasicTest extends TestCase
         $encodeFields = base64_encode(':password:with:colons');
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $authenticationMethod = (new HttpBasic($identityRepository))
-            ->withAuthenticationCallback(fn(?string $username, ?string $password): ?IdentityInterface => $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null')));
+            ->withAuthenticationCallback(fn (?string $username, ?string $password): ?IdentityInterface => $this->createIdentity(($username ?? 'null') . ':' . ($password ?? 'null')));
 
         $result = $authenticationMethod->authenticate(
             $this->createRequest([], [Header::AUTHORIZATION => 'Basic:' . $encodeFields])
@@ -202,7 +202,7 @@ final class HttpBasicTest extends TestCase
         $encodeFields = base64_encode('admin:pass');
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $authenticationMethod = (new HttpBasic($identityRepository))
-            ->withAuthenticationCallback(fn(string $username, string $password): IdentityInterface => $this->createIdentity($username . ':' . $password));
+            ->withAuthenticationCallback(fn (string $username, string $password): IdentityInterface => $this->createIdentity($username . ':' . $password));
 
         $result = $authenticationMethod->authenticate(
             $this->createRequest([], [Header::AUTHORIZATION => 'Basic:' . $encodeFields])

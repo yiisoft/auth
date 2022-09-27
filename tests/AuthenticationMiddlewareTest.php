@@ -91,7 +91,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method('challenge')
             ->willReturnCallback(
-                static fn(ResponseInterface $response) => $response->withHeader($header, $headerValue)
+                static fn (ResponseInterface $response) => $response->withHeader($header, $headerValue)
             );
 
         $handler = $this->createMock(RequestHandlerInterface::class);
@@ -120,7 +120,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method('challenge')
             ->willReturnCallback(
-                static fn(ResponseInterface $response) => $response->withHeader($header, $headerValue)
+                static fn (ResponseInterface $response) => $response->withHeader($header, $headerValue)
             );
 
         $handler = $this->createMock(RequestHandlerInterface::class);

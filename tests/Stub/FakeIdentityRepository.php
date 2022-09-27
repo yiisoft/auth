@@ -11,7 +11,7 @@ final class FakeIdentityRepository implements IdentityWithTokenRepositoryInterfa
 {
     private array $callParams = [];
 
-    public function __construct(private ?\Yiisoft\Auth\IdentityInterface $returnIdentity)
+    public function __construct(private ?IdentityInterface $returnIdentity)
     {
     }
 

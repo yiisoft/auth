@@ -120,7 +120,6 @@ final class HttpBasic implements AuthenticationMethodInterface
     /**
      * Obtains authentication credentials from request.
      *
-     *
      * @return array ['username', 'password'] array.
      */
     private function getAuthenticationCredentials(ServerRequestInterface $request): array
