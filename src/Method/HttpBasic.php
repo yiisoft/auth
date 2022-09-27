@@ -37,11 +37,8 @@ final class HttpBasic implements AuthenticationMethodInterface
      */
     private $authenticationCallback;
 
-    private IdentityWithTokenRepositoryInterface $identityRepository;
-
-    public function __construct(IdentityWithTokenRepositoryInterface $identityRepository)
+    public function __construct(private IdentityWithTokenRepositoryInterface $identityRepository)
     {
-        $this->identityRepository = $identityRepository;
     }
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
@@ -84,8 +81,6 @@ final class HttpBasic implements AuthenticationMethodInterface
      * while the password information will be ignored.
      * The {@see \Yiisoft\Auth\IdentityWithTokenRepositoryInterface::findIdentityByToken()}
      * method will be called to authenticate an identity.
-     *
-     * @return self
      */
     public function withAuthenticationCallback(callable $authenticationCallback): self
     {
@@ -125,7 +120,6 @@ final class HttpBasic implements AuthenticationMethodInterface
     /**
      * Obtains authentication credentials from request.
      *
-     * @param ServerRequestInterface $request
      *
      * @return array ['username', 'password'] array.
      */
