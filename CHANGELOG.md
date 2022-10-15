@@ -2,6 +2,7 @@
 
 ## 3.0.2 under development
 
+- Enh: Add composer require checker into CI
 - Chg #47: Update yiisoft/http dependency (devanych)
 
 ## 3.0.1 February 10, 2021
