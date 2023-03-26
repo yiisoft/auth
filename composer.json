@@ -41,6 +41,14 @@
             "Yiisoft\\Auth\\Tests\\": "tests"
         }
     },
+    "extra": {
+        "config-plugin-options": {
+            "source-directory": "config"
+        },
+        "config-plugin": {
+            "params": "params.php"
+        }
+    },
     "scripts": {
         "phan": "phan --progress-bar -o analysis.txt",
         "test": "phpunit --testdox --no-interaction",
