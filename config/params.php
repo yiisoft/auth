@@ -7,7 +7,6 @@ use Yiisoft\Auth\Debug\AuthenticationMethodInterfaceProxy;
 use Yiisoft\Auth\Debug\IdentityCollector;
 
 return [
-
     'yiisoft/yii-debug' => [
         'collectors.web' => [
             IdentityCollector::class,
