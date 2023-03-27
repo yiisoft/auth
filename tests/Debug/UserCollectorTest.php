@@ -7,7 +7,7 @@ namespace Yiisoft\Auth\Tests\Debug;
 use Yiisoft\Auth\Debug\IdentityCollector;
 use Yiisoft\Auth\Tests\Stub\FakeIdentity;
 use Yiisoft\Yii\Debug\Collector\CollectorInterface;
-use Yiisoft\Yii\Debug\Tests\Collector\AbstractCollectorTestCase;
+use Yiisoft\Yii\Debug\Tests\Shared\AbstractCollectorTestCase;
 
 final class UserCollectorTest extends AbstractCollectorTestCase
 {
