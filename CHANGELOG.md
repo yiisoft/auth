@@ -1,7 +1,8 @@
 # Yii Auth Change Log
 
-## 3.0.2 under development
+## 3.1.0 under development
 
+- Enh #66: Add debug collector for yiisoft/yii-debug (@vjik)
 - Chg #47: Update yiisoft/http dependency (devanych)
 
 ## 3.0.1 February 10, 2021
