@@ -30,7 +30,7 @@
         "roave/infection-static-analysis-plugin": "^1.16",
         "spatie/phpunit-watcher": "^1.23",
         "vimeo/psalm": "^4.18",
-        "yiisoft/yii-debug": "dev-split-debug"
+        "yiisoft/yii-debug": "dev-master"
     },
     "autoload": {
         "psr-4": {
