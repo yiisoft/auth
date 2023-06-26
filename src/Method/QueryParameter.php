@@ -20,11 +20,8 @@ final class QueryParameter implements AuthenticationMethodInterface
     private string $parameterName = 'access-token';
     private ?string $tokenType = null;
 
-    private IdentityWithTokenRepositoryInterface $identityRepository;
-
-    public function __construct(IdentityWithTokenRepositoryInterface $identityRepository)
+    public function __construct(private IdentityWithTokenRepositoryInterface $identityRepository)
     {
-        $this->identityRepository = $identityRepository;
     }
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface

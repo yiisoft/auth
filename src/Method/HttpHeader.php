@@ -29,11 +29,8 @@ class HttpHeader implements AuthenticationMethodInterface
      */
     protected string $pattern = '/(.*)/';
 
-    protected IdentityWithTokenRepositoryInterface $identityRepository;
-
-    public function __construct(IdentityWithTokenRepositoryInterface $identityRepository)
+    public function __construct(protected IdentityWithTokenRepositoryInterface $identityRepository)
     {
-        $this->identityRepository = $identityRepository;
     }
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
