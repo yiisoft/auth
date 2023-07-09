@@ -91,9 +91,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method('challenge')
             ->willReturnCallback(
-                static function (ResponseInterface $response) use ($header, $headerValue) {
-                    return $response->withHeader($header, $headerValue);
-                }
+                static fn (ResponseInterface $response) => $response->withHeader($header, $headerValue)
             );
 
         $handler = $this->createMock(RequestHandlerInterface::class);
@@ -122,9 +120,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method('challenge')
             ->willReturnCallback(
-                static function (ResponseInterface $response) use ($header, $headerValue) {
-                    return $response->withHeader($header, $headerValue);
-                }
+                static fn (ResponseInterface $response) => $response->withHeader($header, $headerValue)
             );
 
         $handler = $this->createMock(RequestHandlerInterface::class);
@@ -158,13 +154,8 @@ final class AuthenticationMiddlewareTest extends TestCase
     private function createAuthenticationFailureHandler(string $failureResponse): RequestHandlerInterface
     {
         return new class ($failureResponse, new Psr17Factory()) implements RequestHandlerInterface {
-            private string $failureResponse;
-            private ResponseFactoryInterface $responseFactory;
-
-            public function __construct(string $failureResponse, ResponseFactoryInterface $responseFactory)
+            public function __construct(private string $failureResponse, private ResponseFactoryInterface $responseFactory)
             {
-                $this->failureResponse = $failureResponse;
-                $this->responseFactory = $responseFactory;
             }
 
             public function handle(ServerRequestInterface $request): ResponseInterface

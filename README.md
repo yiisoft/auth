@@ -18,6 +18,10 @@
 The package provides various authentication methods, a set of abstractions to implement in your application, and
 a [PSR-15](https://www.php-fig.org/psr/psr-15/) middleware to authenticate an identity.
 
+## Requirements
+
+- PHP 8.0 or higher.
+
 ## Installation
 
 ```
