@@ -16,6 +16,9 @@ final class IdentityCollector implements SummaryCollectorInterface
 
     public function getCollected(): array
     {
+        if (!$this->isActive()) {
+            return [];
+        }
         return $this->identities;
     }
 
@@ -42,6 +45,9 @@ final class IdentityCollector implements SummaryCollectorInterface
 
     public function getSummary(): array
     {
+        if (!$this->isActive()) {
+            return [];
+        }
         $lastIdentity = end($this->identities);
         return [
             'identity' => [

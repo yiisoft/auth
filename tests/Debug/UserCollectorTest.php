@@ -40,9 +40,9 @@ final class UserCollectorTest extends AbstractCollectorTestCase
         ], $data);
     }
 
-    protected function checkIndexData(array $data): void
+    protected function checkSummaryData(array $data): void
     {
-        parent::checkIndexData($data);
+        parent::checkSummaryData($data);
 
         $this->assertArrayHasKey('identity', $data);
         $this->assertArrayHasKey('lastId', $data['identity']);
