@@ -1,8 +1,9 @@
 # Yii Auth Change Log
 
-## 3.0.2 under development
+## 3.1.0 under development
 
-- Chg #47: Update yiisoft/http dependency (@devanych)
+- Enh #66: Add debug collector for yiisoft/yii-debug (@xepozz)
+- Chg #47: Update yiisoft/http dependency (devanych)
 - Chg #53: Bump required PHP version to 8.0 (@rustamwin)
 
 ## 3.0.1 February 10, 2021

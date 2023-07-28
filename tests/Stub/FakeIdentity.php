@@ -6,7 +6,7 @@ namespace Yiisoft\Auth\Tests\Stub;
 
 use Yiisoft\Auth\IdentityInterface;
 
-class FakeIdentity implements IdentityInterface
+final class FakeIdentity implements IdentityInterface
 {
     public function __construct(private ?string $id)
     {
