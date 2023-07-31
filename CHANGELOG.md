@@ -2,13 +2,13 @@
 
 ## 3.1.0 under development
 
-- Enh #66: Add debug collector for yiisoft/yii-debug (@xepozz)
-- Chg #47: Update yiisoft/http dependency (devanych)
+- New #66: Add debug collector for `yiisoft/yii-debug` (@xepozz)
+- Chg #47: Update `yiisoft/http` dependency (@devanych)
 - Chg #53: Bump required PHP version to 8.0 (@rustamwin)
 
 ## 3.0.1 February 10, 2021
 
-- Chg: Update yiisoft/strings dependency (@samdark)
+- Chg: Update `yiisoft/strings` dependency (@samdark)
 
 ## 3.0.0 January 22, 2021
 
@@ -16,15 +16,16 @@
 
 ## 2.0.0 January 13, 2021
 
-- Enh #36: Extract `IdentityRepositoryInterface::findIdentityByToken()` into `IdentityWithTokenRepositoryInterface`, make token type configurable (@armpogart, @roxblnfk)
+- Enh #36: Extract `IdentityRepositoryInterface::findIdentityByToken()` into `IdentityWithTokenRepositoryInterface`,
+  make token type configurable (@armpogart, @roxblnfk)
 
 ## 1.0.2 September 1, 2020
 
-- Use stable version of "yiisoft/http" (@samdark)
+- Use stable version of `yiisoft/http` (@samdark)
 
 ## 1.0.1 September 1, 2020
 
-- Use stable version of "yiisoft/strings" (@samdark)
+- Use stable version of `yiisoft/strings` (@samdark)
 
 ## 1.0.0 August 25, 2020
 
