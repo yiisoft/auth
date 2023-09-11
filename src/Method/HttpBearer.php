@@ -25,8 +25,6 @@ final class HttpBearer extends HttpHeader
 
     /**
      * @param string $realm The HTTP authentication realm.
-     *
-     * @return self
      */
     public function withRealm(string $realm): self
     {

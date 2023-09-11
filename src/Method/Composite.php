@@ -15,16 +15,10 @@ use Yiisoft\Auth\IdentityInterface;
 final class Composite implements AuthenticationMethodInterface
 {
     /**
-     * @var AuthenticationMethodInterface[]
+     * @param AuthenticationMethodInterface[] $authenticationMethods
      */
-    private array $authenticationMethods;
-
-    /**
-     * @param AuthenticationMethodInterface[] $methods
-     */
-    public function __construct(array $methods)
+    public function __construct(private array $authenticationMethods)
     {
-        $this->authenticationMethods = $methods;
     }
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
