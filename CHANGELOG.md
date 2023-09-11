@@ -5,7 +5,7 @@
 - New #66: Add debug collector for `yiisoft/yii-debug` (@xepozz)
 - Chg #47: Update `yiisoft/http` dependency (@devanych)
 - Chg #53: Bump required PHP version to 8.0 (@rustamwin)
-- Bug #54: Add dependency `psr/http-factory` (@vjik)
+- Bug #54: Add missed `psr/http-factory` dependency (@vjik)
 
 ## 3.0.1 February 10, 2021
 
