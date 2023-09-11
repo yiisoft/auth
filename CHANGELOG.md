@@ -2,8 +2,6 @@
 
 ## 3.1.0 under development
 
-- Enh: Add composer require checker into CI
-- Chg #47: Update yiisoft/http dependency (devanych)
 - New #66: Add debug collector for `yiisoft/yii-debug` (@xepozz)
 - Chg #47: Update `yiisoft/http` dependency (@devanych)
 - Chg #53: Bump required PHP version to 8.0 (@rustamwin)
