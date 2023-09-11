@@ -20,8 +20,6 @@ use Yiisoft\Strings\WildcardPattern;
  */
 final class Authentication implements MiddlewareInterface
 {
-    private AuthenticationMethodInterface $authenticationMethod;
-
     /**
      * @var RequestHandlerInterface A handler that is called when there is a failure authenticating an identity.
      */
@@ -33,11 +31,10 @@ final class Authentication implements MiddlewareInterface
     private array $optionalPatterns = [];
 
     public function __construct(
-        AuthenticationMethodInterface $authenticationMethod,
+        private AuthenticationMethodInterface $authenticationMethod,
         ResponseFactoryInterface $responseFactory,
         RequestHandlerInterface $authenticationFailureHandler = null
     ) {
-        $this->authenticationMethod = $authenticationMethod;
         $this->failureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
             $responseFactory
         );
@@ -61,8 +58,6 @@ final class Authentication implements MiddlewareInterface
      * @param array $optional Patterns to match to consider the given request URI path optional.
      *
      * @see WildcardPattern
-     *
-     * @return self
      */
     public function withOptionalPatterns(array $optional): self
     {

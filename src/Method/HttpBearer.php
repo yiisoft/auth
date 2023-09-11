@@ -15,7 +15,12 @@ use Yiisoft\Http\Header;
 final class HttpBearer extends HttpHeader
 {
     protected string $headerName = Header::AUTHORIZATION;
+
+    /**
+     * @psalm-var non-empty-string
+     */
     protected string $pattern = '/^Bearer\s+(.*?)$/';
+
     private string $realm = 'api';
 
     public function challenge(ResponseInterface $response): ResponseInterface
@@ -25,8 +30,6 @@ final class HttpBearer extends HttpHeader
 
     /**
      * @param string $realm The HTTP authentication realm.
-     *
-     * @return self
      */
     public function withRealm(string $realm): self
     {

@@ -26,14 +26,12 @@ class HttpHeader implements AuthenticationMethodInterface
 
     /**
      * @var string A pattern to use to extract the HTTP authentication value.
+     * @psalm-var non-empty-string
      */
     protected string $pattern = '/(.*)/';
 
-    protected IdentityWithTokenRepositoryInterface $identityRepository;
-
-    public function __construct(IdentityWithTokenRepositoryInterface $identityRepository)
+    public function __construct(protected IdentityWithTokenRepositoryInterface $identityRepository)
     {
-        $this->identityRepository = $identityRepository;
     }
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
@@ -84,6 +82,7 @@ class HttpHeader implements AuthenticationMethodInterface
      *
      * @return self
      *
+     * @psalm-param non-empty-string $pattern
      * @psalm-immutable
      */
     public function withPattern(string $pattern): self
