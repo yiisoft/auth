@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Auth\Method;
 
+use JetBrains\PhpStorm\Language;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
@@ -85,7 +86,7 @@ class HttpHeader implements AuthenticationMethodInterface
      * @psalm-param non-empty-string $pattern
      * @psalm-immutable
      */
-    public function withPattern(string $pattern): self
+    public function withPattern(#[Language('RegExp')] string $pattern): self
     {
         $new = clone $this;
         $new->pattern = $pattern;
