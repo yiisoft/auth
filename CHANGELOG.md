@@ -6,7 +6,7 @@
 - Chg #47: Update `yiisoft/http` dependency (@devanych)
 - Chg #53: Bump required PHP version to 8.0 (@rustamwin)
 - Bug #54: Add missed `psr/http-factory` dependency (@vjik)
-- Enh #72: Add JetBrains attribute `Language` to property `$pattern` in `HttpHeader::withPattern()` that enable syntax
+- Enh #72: Add `Language` JetBrains attribute to `$pattern` property in `HttpHeader::withPattern()` that enables syntax
   highlighting for this property in PhpStorm (@vjik)
 
 ## 3.0.1 February 10, 2021
