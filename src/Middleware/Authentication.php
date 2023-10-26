@@ -34,7 +34,6 @@ final class Authentication implements MiddlewareInterface
         private AuthenticationMethodInterface $authenticationMethod,
         ResponseFactoryInterface $responseFactory,
         RequestHandlerInterface $authenticationFailureHandler = null,
-        private bool $enableIdn = false,
     ) {
         $this->failureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
             $responseFactory
@@ -75,12 +74,7 @@ final class Authentication implements MiddlewareInterface
         $path = $request
             ->getUri()
             ->getPath();
-        if ($this->enableIdn) {
-            if (!extension_loaded('ext-intl')) {
-                throw new \RuntimeException('INTL php extension have to be load in order to have IDN support.');
-            }
-            $path = idn_to_ascii($path);
-        }
+        $path = urldecode($path);
 
         foreach ($this->optionalPatterns as $pattern) {
             $wildcardPattern = new WildcardPattern($pattern);
