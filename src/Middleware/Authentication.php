@@ -33,7 +33,8 @@ final class Authentication implements MiddlewareInterface
     public function __construct(
         private AuthenticationMethodInterface $authenticationMethod,
         ResponseFactoryInterface $responseFactory,
-        RequestHandlerInterface $authenticationFailureHandler = null
+        RequestHandlerInterface $authenticationFailureHandler = null,
+        private bool $enableIdn = false,
     ) {
         $this->failureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
             $responseFactory
@@ -74,6 +75,10 @@ final class Authentication implements MiddlewareInterface
         $path = $request
             ->getUri()
             ->getPath();
+        if ($this->enableIdn && extension_loaded('ext-intl')) {
+            $path = idn_to_ascii($path);
+        }
+
         foreach ($this->optionalPatterns as $pattern) {
             $wildcardPattern = new WildcardPattern($pattern);
             if ($wildcardPattern->match($path)) {

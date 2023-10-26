@@ -36,6 +36,9 @@
         "vimeo/psalm": "^4.30|^5.8",
         "yiisoft/yii-debug": "dev-master"
     },
+    "suggest": {
+        "ext-intl": "Allows using IDN comparation for URLs"
+    },
     "autoload": {
         "psr-4": {
             "Yiisoft\\Auth\\": "src"
