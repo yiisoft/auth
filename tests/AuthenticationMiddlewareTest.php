@@ -56,9 +56,19 @@ final class AuthenticationMiddlewareTest extends TestCase
         $auth->process($request, $handler);
     }
 
-    public function testShouldSkipCheckForOptionalPath(): void
+    public function skipDataProvider(): array
     {
-        $path = '/optional';
+        return [
+            'ascii' => ['/optional'],
+            'utf' => ['/опциональный'],
+        ];
+    }
+
+    /**
+     * @dataProvider skipDataProvider
+     */
+    public function testShouldSkipCheckForOptionalPath(string $path): void
+    {
         $request = new ServerRequest('GET', $path);
 
         $this->authenticationMethod
