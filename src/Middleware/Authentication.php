@@ -29,6 +29,10 @@ final class Authentication implements MiddlewareInterface
      * @var array Patterns to match to consider the given request URI path optional.
      */
     private array $optionalPatterns = [];
+    /**
+     * @var WildcardPattern[]
+     */
+    private array $wildcards = [];
 
     public function __construct(
         private AuthenticationMethodInterface $authenticationMethod,
@@ -75,11 +79,19 @@ final class Authentication implements MiddlewareInterface
             ->getUri()
             ->getPath();
         foreach ($this->optionalPatterns as $pattern) {
-            $wildcardPattern = new WildcardPattern($pattern);
-            if ($wildcardPattern->match($path)) {
+            if ($this->getOptionalPattern($pattern)->match($path)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private function getOptionalPattern(string $pattern): WildcardPattern
+    {
+        if (!isset($this->wildcards[$pattern])) {
+            $this->wildcards[$pattern] = new WildcardPattern($pattern);
+        }
+
+        return $this->wildcards[$pattern];
     }
 }
