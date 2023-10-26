@@ -75,7 +75,10 @@ final class Authentication implements MiddlewareInterface
         $path = $request
             ->getUri()
             ->getPath();
-        if ($this->enableIdn && extension_loaded('ext-intl')) {
+        if ($this->enableIdn) {
+            if (!extension_loaded('ext-intl')) {
+                throw new \RuntimeException('INTL php extension have to be load in order to have IDN support.');
+            }
             $path = idn_to_ascii($path);
         }
 
