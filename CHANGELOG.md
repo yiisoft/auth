@@ -8,6 +8,7 @@
 - Bug #54: Add missed `psr/http-factory` dependency (@vjik)
 - Enh #72: Add `Language` JetBrains attribute to `$pattern` property in `HttpHeader::withPattern()` that enables syntax
   highlighting for this property in PhpStorm (@vjik)
+- Enh #74: Memoization for WildcardPattern in Authentication middleware (@viktorprogger)
 
 ## 3.0.1 February 10, 2021
 
