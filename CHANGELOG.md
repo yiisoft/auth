@@ -8,7 +8,7 @@
 - Bug #54: Add missed `psr/http-factory` dependency (@vjik)
 - Enh #72: Add `Language` JetBrains attribute to `$pattern` property in `HttpHeader::withPattern()` that enables syntax
   highlighting for this property in PhpStorm (@vjik)
-- Bug #73: Correctly processing non-ASCII paths in the `Authentication` middleware (@viktorprogger)
+- Bug #73, #75: Correctly processing non-ASCII paths in the `Authentication` middleware (@viktorprogger, @vjik)
 
 ## 3.0.1 February 10, 2021
 

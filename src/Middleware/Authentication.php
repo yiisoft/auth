@@ -71,10 +71,8 @@ final class Authentication implements MiddlewareInterface
      */
     private function isOptional(ServerRequestInterface $request): bool
     {
-        $path = $request
-            ->getUri()
-            ->getPath();
-        $path = urldecode($path);
+        $path = $request->getUri()->getPath();
+        $path = rawurldecode($path);
 
         foreach ($this->optionalPatterns as $pattern) {
             $wildcardPattern = new WildcardPattern($pattern);
