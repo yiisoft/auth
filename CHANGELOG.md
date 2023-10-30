@@ -1,14 +1,14 @@
 # Yii Auth Change Log
 
-## 3.1.0 under development
+## 3.1.0 October 30, 2023
 
 - New #66: Add debug collector for `yiisoft/yii-debug` (@xepozz)
 - Chg #47: Update `yiisoft/http` dependency (@devanych)
 - Chg #53, #76: Bump required PHP version to 8.0 (@rustamwin, @vjik)
-- Bug #54: Add missed `psr/http-factory` dependency (@vjik)
 - Enh #72: Add `Language` JetBrains attribute to `$pattern` property in `HttpHeader::withPattern()` that enables syntax
   highlighting for this property in PhpStorm (@vjik)
 - Enh #74: Memoization for `WildcardPattern` in `Authentication` middleware (@viktorprogger)
+- Bug #54: Add missed `psr/http-factory` dependency (@vjik)
 - Bug #73, #75: Correctly processing non-ASCII paths in the `Authentication` middleware (@viktorprogger, @vjik)
 
 ## 3.0.1 February 10, 2021
