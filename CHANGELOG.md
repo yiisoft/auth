@@ -4,7 +4,7 @@
 
 - New #66: Add debug collector for `yiisoft/yii-debug` (@xepozz)
 - Chg #47: Update `yiisoft/http` dependency (@devanych)
-- Chg #53: Bump required PHP version to 8.0 (@rustamwin)
+- Chg #53, #76: Bump required PHP version to 8.0 (@rustamwin, @vjik)
 - Bug #54: Add missed `psr/http-factory` dependency (@vjik)
 - Enh #72: Add `Language` JetBrains attribute to `$pattern` property in `HttpHeader::withPattern()` that enables syntax
   highlighting for this property in PhpStorm (@vjik)
