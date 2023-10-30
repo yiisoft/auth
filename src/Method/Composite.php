@@ -15,20 +15,20 @@ use Yiisoft\Auth\IdentityInterface;
 final class Composite implements AuthenticationMethodInterface
 {
     /**
-     * @param AuthenticationMethodInterface[] $authenticationMethods
+     * @param AuthenticationMethodInterface[] $methods
      */
-    public function __construct(private array $authenticationMethods)
+    public function __construct(private array $methods)
     {
     }
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
     {
-        foreach ($this->authenticationMethods as $authenticationMethod) {
-            if (!$authenticationMethod instanceof AuthenticationMethodInterface) {
+        foreach ($this->methods as $method) {
+            if (!$method instanceof AuthenticationMethodInterface) {
                 throw new \RuntimeException('Authentication method must be an instance of ' . AuthenticationMethodInterface::class . '.');
             }
 
-            $identity = $authenticationMethod->authenticate($request);
+            $identity = $method->authenticate($request);
             if ($identity !== null) {
                 return $identity;
             }
@@ -39,7 +39,7 @@ final class Composite implements AuthenticationMethodInterface
 
     public function challenge(ResponseInterface $response): ResponseInterface
     {
-        foreach ($this->authenticationMethods as $method) {
+        foreach ($this->methods as $method) {
             $response = $method->challenge($response);
         }
         return $response;
