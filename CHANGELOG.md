@@ -1,5 +1,9 @@
 # Yii Auth Change Log
 
+## 3.1.1 under development
+
+- no changes in this release.
+
 ## 3.1.0 October 30, 2023
 
 - New #66: Add debug collector for `yiisoft/yii-debug` (@xepozz)
