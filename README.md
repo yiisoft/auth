@@ -23,7 +23,7 @@ a [PSR-15](https://www.php-fig.org/psr/psr-15/) middleware to authenticate an id
 
 ## Installation
 
-```
+```shell
 composer require yiisoft/auth
 ```
 
@@ -117,7 +117,7 @@ $authenticationMethod = new \Yiisoft\Auth\Method\Composite([
 
 ## Extension and integration points
 
-- `\Yiisoft\Auth\IdentityInterface` should be implemented by your application identity class. Typically, that is `User`. 
+- `\Yiisoft\Auth\IdentityInterface` should be implemented by your application identity class. Typically, that is `User`.
 - `\Yiisoft\Auth\IdentityRepositoryInterface` should be implemented by your application identity repository class.
   Typically, that is `UserIdentity`.
 - `\Yiisoft\Auth\IdentityWithTokenRepositoryInterface` could be additionally implemented by your application
