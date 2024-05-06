@@ -1,6 +1,6 @@
 # Yii Auth Change Log
 
-## 3.1.1 under development
+## 3.1.1 May 06, 2024
 
 - Enh #80: Add support for `psr/http-message` version `^2.0` (@vjik)
 
