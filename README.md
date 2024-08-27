@@ -64,7 +64,7 @@ $authenticationMethod = (new \Yiisoft\Auth\Method\HttpBasic($identityRepository)
     ->withRealm('Admin')
     ->withAuthenticationCallback(static function (
         ?string $username,
-        ?string $password,
+        #[\SensitiveParameter] ?string $password,
         \Yiisoft\Auth\IdentityWithTokenRepositoryInterface $identityRepository
     ): ?\Yiisoft\Auth\IdentityInterface {
         return $identityRepository->findIdentityByToken($username, \Yiisoft\Auth\Method\HttpBasic::class);
