@@ -2,7 +2,7 @@
 
 ## 3.1.2 under development
 
-- Enh: Add SensitiveParameter attribute (@ev-gor)
+- Enh #90: Use `SensitiveParameter` attribute to mark sensitive parameters (@ev-gor)
 
 ## 3.1.1 May 06, 2024
 
