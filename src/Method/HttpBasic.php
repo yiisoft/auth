@@ -67,8 +67,8 @@ final class HttpBasic implements AuthenticationMethodInterface
      *
      * ```php
      * static function (
-     *     string $username,
-     *     string $password,
+     *     ?string $username,
+     *     #[\SensitiveParameter] ?string $password,
      *     \Yiisoft\Auth\IdentityRepositoryInterface $identityRepository
      * ): ?\Yiisoft\Auth\IdentityInterface
      * ```
@@ -159,7 +159,7 @@ final class HttpBasic implements AuthenticationMethodInterface
         return $request->getServerParams()['REDIRECT_HTTP_AUTHORIZATION'] ?? null;
     }
 
-    private function extractCredentialsFromHeader(string $authToken): array
+    private function extractCredentialsFromHeader(#[\SensitiveParameter] string $authToken): array
     {
         return array_map(
             static fn ($value) => $value === '' ? null : $value,
@@ -167,7 +167,7 @@ final class HttpBasic implements AuthenticationMethodInterface
         );
     }
 
-    private function isBasicToken(string $token): bool
+    private function isBasicToken(#[\SensitiveParameter] string $token): bool
     {
         return strncasecmp($token, 'basic', 5) === 0;
     }
