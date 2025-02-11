@@ -3,6 +3,7 @@
 ## 3.1.2 under development
 
 - Enh #92: Use `SensitiveParameter` attribute to mark sensitive parameters (@ev-gor)
+- Chg #95: Change PHP constraint in `composer.json` to `~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0` (@vjik)
 
 ## 3.1.1 May 06, 2024
 
