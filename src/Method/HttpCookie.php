@@ -43,9 +43,6 @@ final class HttpCookie implements AuthenticationMethodInterface
     }
 
     /**
-     * @param string $cookieName
-     * @return self
-     *
      * @psalm-immutable
      */
     public function withCookieName(string $cookieName): self
