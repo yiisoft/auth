@@ -53,10 +53,6 @@ final class HttpCookie implements AuthenticationMethodInterface
     }
 
     /**
-     * @param string|null $type Identity token type
-     *
-     * @return $this
-     *
      * @psalm-immutable
      */
     public function withTokenType(?string $type): self
