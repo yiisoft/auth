@@ -9,7 +9,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
-use function is_null;
 
 /**
  * HTTP Cookie authentication method.
@@ -30,7 +29,7 @@ final class HttpCookie implements AuthenticationMethodInterface
     {
         $authToken = $this->getAuthenticationToken($request);
 
-        if (is_null($authToken)) {
+        if ($authToken === null) {
             return null;
         }
 
@@ -76,10 +75,6 @@ final class HttpCookie implements AuthenticationMethodInterface
     private function getAuthenticationToken(ServerRequestInterface $request): ?string
     {
         $cookies = $request->getCookieParams();
-
-        if (empty($cookies)) {
-            return null;
-        }
 
         return $cookies[$this->cookieName] ?? null;
     }

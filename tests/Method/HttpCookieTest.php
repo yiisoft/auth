@@ -48,7 +48,7 @@ final class HttpCookieTest extends TestCase
         );
     }
 
-    public function testChallengeIsCorrect(): void
+    public function testChallengeImmutabilityStatus(): void
     {
         $response = new Response(400);
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
