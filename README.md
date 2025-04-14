@@ -111,7 +111,7 @@ $authenticationMethod = (new \Yiisoft\Auth\Method\HttpCookie($identityRepository
     ->withCookieName('access-token');
 ```
 
-Typical authorization for websites with storing a token in browser cookies
+Typical authentication for websites by storing a token in a browser cookie.
 
 ### Using multiple authentication methods
 

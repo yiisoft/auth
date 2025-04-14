@@ -42,9 +42,6 @@ final class HttpCookie implements AuthenticationMethodInterface
     }
 
     /**
-     * @param string $cookieName
-     * @return self
-     *
      * @psalm-immutable
      */
     public function withCookieName(string $cookieName): self
@@ -55,10 +52,6 @@ final class HttpCookie implements AuthenticationMethodInterface
     }
 
     /**
-     * @param string|null $type Identity token type
-     *
-     * @return $this
-     *
      * @psalm-immutable
      */
     public function withTokenType(?string $type): self
@@ -68,10 +61,6 @@ final class HttpCookie implements AuthenticationMethodInterface
         return $new;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @return string|null
-     */
     private function getAuthenticationToken(ServerRequestInterface $request): ?string
     {
         $cookies = $request->getCookieParams();
