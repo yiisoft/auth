@@ -19,5 +19,5 @@ interface IdentityWithTokenRepositoryInterface
      * @return IdentityInterface|null The identity object that matches the given token. Null should be returned if such
      * an identity cannot be found or the identity is not in an active state (disabled, deleted, etc.)
      */
-    public function findIdentityByToken(string $token, string $type = null): ?IdentityInterface;
+    public function findIdentityByToken(string $token, ?string $type = null): ?IdentityInterface;
 }
