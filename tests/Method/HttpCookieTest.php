@@ -18,13 +18,13 @@ final class HttpCookieTest extends TestCase
 {
     public function testSuccessfulAuthentication(): void
     {
-        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $identity = $this->createIdentity();
+        $identityRepository = new FakeIdentityRepository($identity);
         $result = (new HttpCookie($identityRepository))->authenticate(
             $this->createRequest(['access-token' => 'access-token-value'])
         );
 
-        $this->assertNotNull($result);
-        $this->assertEquals('test-id', $result->getId());
+        $this->assertSame($result, $identity);
         $this->assertEquals(
             [
                 'findIdentityByToken' => [
