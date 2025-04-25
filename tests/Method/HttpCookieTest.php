@@ -54,9 +54,7 @@ final class HttpCookieTest extends TestCase
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $authenticationMethod = new HttpCookie($identityRepository);
 
-        $this->assertEquals(400, $authenticationMethod
-            ->challenge($response)
-            ->getStatusCode());
+        $this->assertSame($response, $authenticationMethod->challenge($response));
     }
 
     public function testCustomTokenParam(): void
