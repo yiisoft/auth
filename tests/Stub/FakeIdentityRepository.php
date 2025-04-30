@@ -22,7 +22,7 @@ final class FakeIdentityRepository implements IdentityWithTokenRepositoryInterfa
         return $this->returnIdentity;
     }
 
-    public function findIdentityByToken(string $token, string $type = null): ?IdentityInterface
+    public function findIdentityByToken(string $token, ?string $type = null): ?IdentityInterface
     {
         $this->callParams['findIdentityByToken'] = [
             'token' => $token,

@@ -37,7 +37,7 @@ final class Authentication implements MiddlewareInterface
     public function __construct(
         private AuthenticationMethodInterface $authenticationMethod,
         ResponseFactoryInterface $responseFactory,
-        RequestHandlerInterface $authenticationFailureHandler = null,
+        ?RequestHandlerInterface $authenticationFailureHandler = null,
     ) {
         $this->failureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
             $responseFactory
