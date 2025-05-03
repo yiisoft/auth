@@ -36,7 +36,8 @@ final class HttpCookieTest extends TestCase
         );
     }
 
-    public function testWithoutToken(): void {
+    public function testWithoutToken(): void
+    {
         $identity = $this->createIdentity();
         $identityRepository = new FakeIdentityRepository($identity);
 
