@@ -104,7 +104,7 @@ $authenticationMethod = (new \Yiisoft\Auth\Method\QueryParameter($identityReposi
     ->withParameterName('token');
 ```
 
-### HTTP Cookie authentication
+### HTTP cookie authentication
 
 ```php
 $authenticationMethod = (new \Yiisoft\Auth\Method\HttpCookie($identityRepository))
