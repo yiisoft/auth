@@ -3,7 +3,7 @@
 ## 3.1.2 under development
 
 - Enh #92: Use `SensitiveParameter` attribute to mark sensitive parameters (@ev-gor)
-- New #97: Add HTTP Cookie authentication method (@IbragimovDiyorbek)
+- New #97: Add HTTP cookie authentication method (@IbragimovDiyorbek)
 - Chg #95, #99: Change PHP constraint in `composer.json` to `8.0 - 8.4` (@vjik)
 - Bug #99: Explicitly mark nullable parameters (@vjik)
 
