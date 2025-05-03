@@ -11,7 +11,7 @@ use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
 
 /**
- * HTTP Cookie authentication method.
+ * HTTP cookie authentication method.
  *
  * @see https://tools.ietf.org/html/rfc6265
  */
