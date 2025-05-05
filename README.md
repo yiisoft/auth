@@ -104,6 +104,15 @@ $authenticationMethod = (new \Yiisoft\Auth\Method\QueryParameter($identityReposi
     ->withParameterName('token');
 ```
 
+### HTTP cookie authentication
+
+```php
+$authenticationMethod = (new \Yiisoft\Auth\Method\HttpCookie($identityRepository))
+    ->withCookieName('access-token');
+```
+
+Typical authentication for websites by storing a token in a browser cookie.
+
 ### Using multiple authentication methods
 
 To use multiple authentication methods, use `Yiisoft\Auth\Method\Composite`:
