@@ -50,10 +50,8 @@ final class IdentityCollector implements SummaryCollectorInterface
         }
         $lastIdentity = end($this->identities);
         return [
-            'identity' => [
-                'lastId' => is_array($lastIdentity) ? $lastIdentity['id'] : null,
-                'total' => count($this->identities),
-            ],
+            'lastId' => is_array($lastIdentity) ? $lastIdentity['id'] : null,
+            'total' => count($this->identities),
         ];
     }
 }
