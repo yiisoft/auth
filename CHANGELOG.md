@@ -6,6 +6,7 @@
 - New #97: Add HTTP cookie authentication method (@IbragimovDiyorbek)
 - Chg #95, #99: Change PHP constraint in `composer.json` to `8.0 - 8.4` (@vjik)
 - Bug #99: Explicitly mark nullable parameters (@vjik)
+- Eng #100: Adapt summary data in debug collector (@rustamwin)
 
 ## 3.1.1 May 06, 2024
 

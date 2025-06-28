@@ -44,9 +44,8 @@ final class UserCollectorTest extends AbstractCollectorTestCase
     {
         parent::checkSummaryData($data);
 
-        $this->assertArrayHasKey('identity', $data);
-        $this->assertArrayHasKey('lastId', $data['identity']);
-        $this->assertEquals('stub2', $data['identity']['lastId']);
-        $this->assertEquals(2, $data['identity']['total']);
+        $this->assertArrayHasKey('lastId', $data);
+        $this->assertEquals('stub2', $data['lastId']);
+        $this->assertEquals(2, $data['total']);
     }
 }
