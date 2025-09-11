@@ -1,5 +1,9 @@
 # Yii Auth Change Log
 
+## 3.2.1 under development
+
+- no changes in this release.
+
 ## 3.2.0 September 11, 2025
 
 - Eng #100: Adapt summary data in debug collector (@rustamwin)
