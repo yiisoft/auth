@@ -1,12 +1,12 @@
 # Yii Auth Change Log
 
-## 3.1.2 under development
+## 3.2.0 September 11, 2025
 
-- Enh #92: Use `SensitiveParameter` attribute to mark sensitive parameters (@ev-gor)
+- Eng #100: Adapt summary data in debug collector (@rustamwin)
 - New #97: Add HTTP cookie authentication method (@IbragimovDiyorbek)
 - Chg #95, #99: Change PHP constraint in `composer.json` to `8.0 - 8.4` (@vjik)
+- Enh #92: Use `SensitiveParameter` attribute to mark sensitive parameters (@ev-gor)
 - Bug #99: Explicitly mark nullable parameters (@vjik)
-- Eng #100: Adapt summary data in debug collector (@rustamwin)
 
 ## 3.1.1 May 06, 2024
 
