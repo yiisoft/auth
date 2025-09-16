@@ -12,6 +12,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Yiisoft\Auth\AuthenticationFailureHandlerInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\Middleware\Authentication;
@@ -52,7 +53,7 @@ final class AuthenticationMiddlewareTest extends TestCase
                 }
             );
 
-        $auth = new Authentication($this->authenticationMethod, $this->responseFactory);
+        $auth = new Authentication($this->authenticationMethod, $this->createAuthenticationFailureHandler());
         $auth->process($request, $handler);
     }
 
@@ -81,7 +82,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method('handle');
 
-        $auth = (new Authentication($this->authenticationMethod, $this->responseFactory))
+        $auth = (new Authentication($this->authenticationMethod, $this->createAuthenticationFailureHandler()))
             ->withOptionalPatterns([$path]);
         $auth->process($request, $handler);
     }
@@ -109,7 +110,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->expects($this->never())
             ->method('handle');
 
-        $auth = new Authentication($this->authenticationMethod, $this->responseFactory);
+        $auth = new Authentication($this->authenticationMethod, $this->createAuthenticationFailureHandler());
         $response = $auth->process($request, $handler);
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals($headerValue, $response->getHeaderLine($header));
@@ -138,33 +139,32 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->expects($this->never())
             ->method('handle');
 
-        $failureResponse = 'test custom response';
+        $failureResponseBody = 'test custom response';
 
         $auth = new Authentication(
             $this->authenticationMethod,
-            $this->responseFactory,
-            $this->createAuthenticationFailureHandler($failureResponse)
+            $this->createAuthenticationFailureHandler($failureResponseBody)
         );
         $response = $auth->process($request, $handler);
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals($headerValue, $response->getHeaderLine($header));
-        $this->assertEquals($failureResponse, (string)$response->getBody());
+        $this->assertEquals($failureResponseBody, (string)$response->getBody());
     }
 
     public function testImmutability(): void
     {
         $original = new Authentication(
             $this->authenticationMethod,
-            $this->responseFactory
+            $this->createAuthenticationFailureHandler()
         );
 
         $this->assertNotSame($original, $original->withOptionalPatterns(['test']));
     }
 
-    private function createAuthenticationFailureHandler(string $failureResponse): RequestHandlerInterface
+    private function createAuthenticationFailureHandler(string $failureResponseBody = 'Authentication is failed'): AuthenticationFailureHandlerInterface
     {
-        return new class ($failureResponse, new Psr17Factory()) implements RequestHandlerInterface {
-            public function __construct(private string $failureResponse, private ResponseFactoryInterface $responseFactory)
+        return new class ($failureResponseBody, new Psr17Factory()) implements AuthenticationFailureHandlerInterface {
+            public function __construct(private string $failureResponseBody, private ResponseFactoryInterface $responseFactory)
             {
             }
 
@@ -173,7 +173,7 @@ final class AuthenticationMiddlewareTest extends TestCase
                 $response = $this->responseFactory->createResponse(Status::UNAUTHORIZED);
                 $response
                     ->getBody()
-                    ->write($this->failureResponse);
+                    ->write($this->failureResponseBody);
                 return $response;
             }
         };

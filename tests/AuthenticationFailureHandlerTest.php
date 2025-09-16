@@ -8,7 +8,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
+use Yiisoft\Auth\AuthenticationFailureHandler;
 use Yiisoft\Http\Method;
 use Yiisoft\Http\Status;
 
