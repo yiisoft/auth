@@ -3,6 +3,7 @@
 ## 3.2.1 under development
 
 - Enh #101: Refactor `Authentication` middleware authentication failure handling (@olegbaturin)
+- Chg #101: Change PHP constraint in composer.json to 8.1 - 8.4 (@olegbaturin)
 
 ## 3.2.0 September 11, 2025
 
