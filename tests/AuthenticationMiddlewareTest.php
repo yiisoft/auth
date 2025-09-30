@@ -161,7 +161,7 @@ final class AuthenticationMiddlewareTest extends TestCase
         $this->assertNotSame($original, $original->withOptionalPatterns(['test']));
     }
 
-    private function createAuthenticationFailureHandler(string $failureResponseBody = 'Authentication is failed'): AuthenticationFailureHandlerInterface
+    private function createAuthenticationFailureHandler(string $failureResponseBody = 'Authentication failed'): AuthenticationFailureHandlerInterface
     {
         return new class ($failureResponseBody, new Psr17Factory()) implements AuthenticationFailureHandlerInterface {
             public function __construct(private string $failureResponseBody, private ResponseFactoryInterface $responseFactory)
