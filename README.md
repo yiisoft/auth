@@ -19,7 +19,7 @@ a [PSR-15](https://www.php-fig.org/psr/psr-15/) middleware to authenticate an id
 
 ## Requirements
 
-- PHP 8.0 or higher.
+- PHP 8.0 - 8.5.
 
 ## Installation
 
