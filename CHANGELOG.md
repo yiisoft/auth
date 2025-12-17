@@ -1,6 +1,6 @@
 # Yii Auth Change Log
 
-## 3.2.1 under development
+## 3.2.1 December 17, 2025
 
 - Enh #103: Add PHP 8.5 support (@vjik)
 
