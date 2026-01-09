@@ -2,7 +2,7 @@
 
 ## 3.2.2 under development
 
-- no changes in this release.
+- Chg #104: Bump minimal PHP version to 8.1 (@vjik)
 
 ## 3.2.1 December 17, 2025
 
