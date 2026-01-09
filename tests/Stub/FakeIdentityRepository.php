@@ -11,8 +11,9 @@ final class FakeIdentityRepository implements IdentityWithTokenRepositoryInterfa
 {
     private array $callParams = [];
 
-    public function __construct(private ?IdentityInterface $returnIdentity)
-    {
+    public function __construct(
+        private readonly ?IdentityInterface $returnIdentity,
+    ) {
     }
 
     public function findIdentity(string $id): ?IdentityInterface

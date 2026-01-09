@@ -1,9 +1,15 @@
 # Yii Auth Change Log
 
-## 3.2.1 under development
+## 3.2.2 under development
 
 - Enh #101: Refactor `Authentication` middleware authentication failure handling (@olegbaturin)
 - Chg #101: Change PHP constraint in composer.json to 8.1 - 8.4 (@olegbaturin)
+- Chg #104: Bump minimal PHP version to 8.1 (@vjik)
+- Enh #104: Explicitly mark readonly properties (@vjik)
+
+## 3.2.1 December 17, 2025
+
+- Enh #103: Add PHP 8.5 support (@vjik)
 
 ## 3.2.0 September 11, 2025
 

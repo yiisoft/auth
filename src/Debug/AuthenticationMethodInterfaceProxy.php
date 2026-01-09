@@ -11,7 +11,7 @@ use Yiisoft\Auth\IdentityInterface;
 
 final class AuthenticationMethodInterfaceProxy implements AuthenticationMethodInterface
 {
-    public function __construct(private AuthenticationMethodInterface $decorated, private IdentityCollector $collector)
+    public function __construct(private readonly AuthenticationMethodInterface $decorated, private readonly IdentityCollector $collector)
     {
     }
 
