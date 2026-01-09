@@ -10,7 +10,7 @@ return RectorConfig::configure()
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ])
-    ->withPhpSets(php80: true)
+    ->withPhpSets(php81: true)
     ->withRules([
         InlineConstructorDefaultToPropertyRector::class,
     ]);
