@@ -15,8 +15,9 @@ use Yiisoft\Http\Status;
  */
 final class AuthenticationFailureHandler implements RequestHandlerInterface
 {
-    public function __construct(private ResponseFactoryInterface $responseFactory)
-    {
+    public function __construct(
+        private readonly ResponseFactoryInterface $responseFactory,
+    ) {
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface

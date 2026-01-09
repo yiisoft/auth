@@ -17,8 +17,9 @@ final class Composite implements AuthenticationMethodInterface
     /**
      * @param AuthenticationMethodInterface[] $methods
      */
-    public function __construct(private array $methods)
-    {
+    public function __construct(
+        private readonly array $methods,
+    ) {
     }
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
