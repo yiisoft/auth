@@ -163,8 +163,10 @@ final class AuthenticationMiddlewareTest extends TestCase
     private function createAuthenticationFailureHandler(string $failureResponseBody = 'Authentication failed'): AuthenticationFailureHandlerInterface
     {
         return new class ($failureResponseBody, new Psr17Factory()) implements AuthenticationFailureHandlerInterface {
-            public function __construct(private string $failureResponseBody, private ResponseFactoryInterface $responseFactory)
-            {
+            public function __construct(
+                private readonly string $failureResponseBody,
+                private readonly ResponseFactoryInterface $responseFactory,
+            ) {
             }
 
             public function handle(ServerRequestInterface $request): ResponseInterface
