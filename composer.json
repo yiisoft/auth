@@ -37,13 +37,13 @@
     },
     "require-dev": {
         "jetbrains/phpstorm-attributes": "^1.2",
-        "maglnet/composer-require-checker": "^4.4",
+        "maglnet/composer-require-checker": "^4.7.1",
         "nyholm/psr7": "^1.8.2",
-        "phpunit/phpunit": "^9.6.22",
-        "rector/rector": "^2.0.9",
-        "roave/infection-static-analysis-plugin": "^1.25",
-        "spatie/phpunit-watcher": "^1.23.6",
-        "vimeo/psalm": "^4.30 || ^5.26.1 || ^6.10",
+        "phpunit/phpunit": "^9.6.31",
+        "rector/rector": "^2.3.0",
+        "roave/infection-static-analysis-plugin": "^1.35",
+        "spatie/phpunit-watcher": "^1.24.4",
+        "vimeo/psalm": "^5.26.1 || ^6.10",
         "yiisoft/yii-debug": "dev-master"
     },
     "autoload": {
