@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Auth\Handler;
+namespace Yiisoft\Auth;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Http\Status;
 
 /**
  * Default authentication failure handler. Responds with "401 Unauthorized" HTTP status code.
  */
-final class AuthenticationFailureHandler implements RequestHandlerInterface
+final class AuthenticationFailureHandler implements AuthenticationFailureHandlerInterface
 {
     public function __construct(
         private readonly ResponseFactoryInterface $responseFactory,

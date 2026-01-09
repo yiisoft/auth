@@ -2,6 +2,8 @@
 
 ## 3.2.2 under development
 
+- Enh #101: Refactor `Authentication` middleware authentication failure handling (@olegbaturin)
+- Chg #101: Change PHP constraint in composer.json to 8.1 - 8.4 (@olegbaturin)
 - Chg #104: Bump minimal PHP version to 8.1 (@vjik)
 - Enh #104: Explicitly mark readonly properties (@vjik)
 

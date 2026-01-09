@@ -4,27 +4,21 @@ declare(strict_types=1);
 
 namespace Yiisoft\Auth\Middleware;
 
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
-use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
+use Yiisoft\Auth\AuthenticationFailureHandlerInterface;
 use Yiisoft\Strings\WildcardPattern;
 
 /**
- * Authentication middleware tries to authenticate and identity using request data.
+ * `Authentication` middleware tries to authenticate an identity using request data.
  * If identity is found, it is set to request attribute allowing further middleware to obtain and use it.
- * If identity is not found failure handler is called. By default it is {@see AuthenticationFailureHandler}.
+ * If identity is not found failure handler is called.
  */
 final class Authentication implements MiddlewareInterface
 {
-    /**
-     * @var RequestHandlerInterface A handler that is called when there is a failure authenticating an identity.
-     */
-    private RequestHandlerInterface $failureHandler;
-
     /**
      * @var array Patterns to match to consider the given request URI path optional.
      */
@@ -34,14 +28,13 @@ final class Authentication implements MiddlewareInterface
      */
     private array $wildcards = [];
 
+    /**
+     * @param AuthenticationFailureHandlerInterface $failureHandler A handler that is called when there is a failure authenticating an identity.
+     */
     public function __construct(
         private AuthenticationMethodInterface $authenticationMethod,
-        ResponseFactoryInterface $responseFactory,
-        ?RequestHandlerInterface $authenticationFailureHandler = null,
+        private AuthenticationFailureHandlerInterface $failureHandler,
     ) {
-        $this->failureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
-            $responseFactory
-        );
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
