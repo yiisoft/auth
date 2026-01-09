@@ -6,6 +6,7 @@ namespace Yiisoft\Auth\Tests;
 
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\ServerRequest;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -56,7 +57,7 @@ final class AuthenticationMiddlewareTest extends TestCase
         $auth->process($request, $handler);
     }
 
-    public function skipDataProvider(): array
+    public static function dataShouldSkipCheckForOptionalPath(): array
     {
         return [
             'ascii' => ['/optional'],
@@ -64,9 +65,7 @@ final class AuthenticationMiddlewareTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider skipDataProvider
-     */
+    #[DataProvider('dataShouldSkipCheckForOptionalPath')]
     public function testShouldSkipCheckForOptionalPath(string $path): void
     {
         $request = new ServerRequest('GET', $path);
