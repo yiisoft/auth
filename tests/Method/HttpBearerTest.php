@@ -21,7 +21,7 @@ final class HttpBearerTest extends TestCase
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $result = (new HttpBearer($identityRepository))->authenticate(
-            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
+            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key']),
         );
 
         $this->assertNotNull($result);
@@ -33,7 +33,7 @@ final class HttpBearerTest extends TestCase
                     'type' => null,
                 ],
             ],
-            $identityRepository->getCallParams()
+            $identityRepository->getCallParams(),
         );
     }
 
@@ -44,8 +44,8 @@ final class HttpBearerTest extends TestCase
 
         $this->assertNull(
             $authenticationMethod->authenticate(
-                $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
-            )
+                $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key']),
+            ),
         );
     }
 
@@ -59,7 +59,7 @@ final class HttpBearerTest extends TestCase
             'Authorization realm="api"',
             $authenticationMethod
                 ->challenge($response)
-                ->getHeaderLine(Header::WWW_AUTHENTICATE)
+                ->getHeaderLine(Header::WWW_AUTHENTICATE),
         );
     }
 
@@ -74,7 +74,7 @@ final class HttpBearerTest extends TestCase
             'Authorization realm="gateway"',
             $authenticationMethod
                 ->challenge($response)
-                ->getHeaderLine(Header::WWW_AUTHENTICATE)
+                ->getHeaderLine(Header::WWW_AUTHENTICATE),
         );
     }
 
@@ -94,7 +94,7 @@ final class HttpBearerTest extends TestCase
         (new HttpBearer($identityRepository))
             ->withTokenType('another-token-type')
             ->authenticate(
-                $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
+                $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key']),
             );
 
         $this->assertEquals(
@@ -104,7 +104,7 @@ final class HttpBearerTest extends TestCase
                     'type' => 'another-token-type',
                 ],
             ],
-            $identityRepository->getCallParams()
+            $identityRepository->getCallParams(),
         );
     }
 

@@ -23,17 +23,15 @@ use function reset;
 class HttpHeader implements AuthenticationMethodInterface
 {
     protected string $headerName = 'X-Api-Key';
-    private ?string $tokenType = null;
 
     /**
      * @var string A pattern to use to extract the HTTP authentication value.
      * @psalm-var non-empty-string
      */
     protected string $pattern = '/(.*)/';
+    private ?string $tokenType = null;
 
-    public function __construct(protected IdentityWithTokenRepositoryInterface $identityRepository)
-    {
-    }
+    public function __construct(protected IdentityWithTokenRepositoryInterface $identityRepository) {}
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
     {

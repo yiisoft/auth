@@ -20,7 +20,7 @@ final class QueryParameterTest extends TestCase
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $result = (new QueryParameter($identityRepository))->authenticate(
-            $this->createRequest(['access-token' => 'access-token-value'])
+            $this->createRequest(['access-token' => 'access-token-value']),
         );
 
         $this->assertNotNull($result);
@@ -32,7 +32,7 @@ final class QueryParameterTest extends TestCase
                     'type' => null,
                 ],
             ],
-            $identityRepository->getCallParams()
+            $identityRepository->getCallParams(),
         );
     }
 
@@ -43,8 +43,8 @@ final class QueryParameterTest extends TestCase
 
         $this->assertNull(
             $authenticationMethod->authenticate(
-                $this->createRequest(['access-token' => 'access-token-value'])
-            )
+                $this->createRequest(['access-token' => 'access-token-value']),
+            ),
         );
     }
 
@@ -55,8 +55,8 @@ final class QueryParameterTest extends TestCase
 
         $this->assertNull(
             $authenticationMethod->authenticate(
-                $this->createRequest(['access-token' => 100])
-            )
+                $this->createRequest(['access-token' => 100]),
+            ),
         );
 
         $this->assertEmpty($identityRepository->getCallParams());
@@ -80,7 +80,7 @@ final class QueryParameterTest extends TestCase
             ->withParameterName('AuthToken');
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest(['AuthToken' => 'AccessTokenValue'])
+            $this->createRequest(['AuthToken' => 'AccessTokenValue']),
         );
 
         $this->assertNotNull($result);
@@ -101,7 +101,7 @@ final class QueryParameterTest extends TestCase
         (new QueryParameter($identityRepository))
             ->withTokenType('another-token-type')
             ->authenticate(
-                $this->createRequest(['access-token' => 'access-token-value'])
+                $this->createRequest(['access-token' => 'access-token-value']),
             );
 
         $this->assertEquals(
@@ -111,7 +111,7 @@ final class QueryParameterTest extends TestCase
                     'type' => 'another-token-type',
                 ],
             ],
-            $identityRepository->getCallParams()
+            $identityRepository->getCallParams(),
         );
     }
 

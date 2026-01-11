@@ -20,7 +20,7 @@ final class HttpHeaderTest extends TestCase
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
         $result = (new HttpHeader($identityRepository))->authenticate(
-            $this->createRequest(['X-Api-Key' => 'api-key'])
+            $this->createRequest(['X-Api-Key' => 'api-key']),
         );
 
         $this->assertNotNull($result);
@@ -34,8 +34,8 @@ final class HttpHeaderTest extends TestCase
 
         $this->assertNull(
             $authenticationMethod->authenticate(
-                $this->createRequest(['X-Api-Key' => 'api-key'])
-            )
+                $this->createRequest(['X-Api-Key' => 'api-key']),
+            ),
         );
     }
 
@@ -49,7 +49,7 @@ final class HttpHeaderTest extends TestCase
             400,
             $authenticationMethod
                 ->challenge($response)
-                ->getStatusCode()
+                ->getStatusCode(),
         );
     }
 
@@ -60,8 +60,8 @@ final class HttpHeaderTest extends TestCase
 
         $this->assertNull(
             $authenticationMethod->authenticate(
-                $this->createRequest()
-            )
+                $this->createRequest(),
+            ),
         );
     }
 
@@ -71,7 +71,7 @@ final class HttpHeaderTest extends TestCase
         $authenticationMethod = (new HttpHeader($identityRepository))
             ->withHeaderName('Auth');
         $result = $authenticationMethod->authenticate(
-            $this->createRequest(['Auth' => 'api-key'])
+            $this->createRequest(['Auth' => 'api-key']),
         );
 
         $this->assertNotNull($result);
@@ -84,20 +84,20 @@ final class HttpHeaderTest extends TestCase
         $authenticationMethod = (new HttpHeader($identityRepository))
             ->withPattern('/^CustomTokenPrefix\s+(.*?)$/');
         $result = $authenticationMethod->authenticate(
-            $this->createRequest(['X-Api-Key' => 'CustomTokenPrefix api-key'])
+            $this->createRequest(['X-Api-Key' => 'CustomTokenPrefix api-key']),
         );
 
         $this->assertNotNull($result);
         $this->assertEquals('test-id', $result->getId());
         $this->assertEquals(
             [
-                'findIdentityByToken' =>
-                    [
+                'findIdentityByToken'
+                    => [
                         'token' => 'api-key',
                         'type' => null,
                     ],
             ],
-            $identityRepository->getCallParams()
+            $identityRepository->getCallParams(),
         );
     }
 
@@ -107,7 +107,7 @@ final class HttpHeaderTest extends TestCase
         $authenticationMethod = (new HttpHeader($identityRepository))
             ->withPattern('/^not-match-regexp/');
         $result = $authenticationMethod->authenticate(
-            $this->createRequest(['X-Api-Key' => 'api-key'])
+            $this->createRequest(['X-Api-Key' => 'api-key']),
         );
 
         $this->assertNull($result);
@@ -128,18 +128,18 @@ final class HttpHeaderTest extends TestCase
         (new HttpHeader($identityRepository))
             ->withTokenType('another-token-type')
             ->authenticate(
-                $this->createRequest(['X-Api-Key' => 'api-key'])
+                $this->createRequest(['X-Api-Key' => 'api-key']),
             );
 
         $this->assertEquals(
             [
-                'findIdentityByToken' =>
-                    [
+                'findIdentityByToken'
+                    => [
                         'token' => 'api-key',
                         'type' => 'another-token-type',
                     ],
             ],
-            $identityRepository->getCallParams()
+            $identityRepository->getCallParams(),
         );
     }
 

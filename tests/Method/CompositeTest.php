@@ -16,6 +16,7 @@ use Yiisoft\Auth\Tests\Stub\FakeIdentity;
 use Yiisoft\Auth\Tests\Stub\FakeIdentityRepository;
 use Yiisoft\Http\Header;
 use Yiisoft\Http\Method;
+use RuntimeException;
 
 final class CompositeTest extends TestCase
 {
@@ -25,10 +26,10 @@ final class CompositeTest extends TestCase
             'test',
         ]);
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         $authenticationMethod->authenticate(
-            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
+            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key']),
         );
     }
 
@@ -42,14 +43,14 @@ final class CompositeTest extends TestCase
         ]);
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
+            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key']),
         );
 
         $this->assertNotNull($result);
         $this->assertEquals('test-id', $result->getId());
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest([], ['access-token' => 'access-token-value'])
+            $this->createRequest([], ['access-token' => 'access-token-value']),
         );
 
         $this->assertNotNull($result);
@@ -67,14 +68,14 @@ final class CompositeTest extends TestCase
         ]);
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest([], ['access-token' => 'access-token-value'])
+            $this->createRequest([], ['access-token' => 'access-token-value']),
         );
 
         $this->assertNull($result);
 
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key'])
+            $this->createRequest([Header::AUTHORIZATION => 'Bearer api-key']),
         );
 
         $this->assertNotNull($result);
@@ -84,7 +85,7 @@ final class CompositeTest extends TestCase
     public function testEmptyAuthMethods(): void
     {
         $result = (new Composite([]))->authenticate(
-            $this->createRequest()
+            $this->createRequest(),
         );
 
         $this->assertNull($result);
@@ -105,7 +106,7 @@ final class CompositeTest extends TestCase
             'Authorization realm="api"',
             $authenticationMethod
                 ->challenge($response)
-                ->getHeaderLine(Header::WWW_AUTHENTICATE)
+                ->getHeaderLine(Header::WWW_AUTHENTICATE),
         );
     }
 

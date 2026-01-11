@@ -13,8 +13,7 @@ final class FakeIdentityRepository implements IdentityWithTokenRepositoryInterfa
 
     public function __construct(
         private readonly ?IdentityInterface $returnIdentity,
-    ) {
-    }
+    ) {}
 
     public function findIdentity(string $id): ?IdentityInterface
     {

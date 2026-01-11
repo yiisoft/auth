@@ -50,7 +50,7 @@ final class AuthenticationMiddlewareTest extends TestCase
                     $this->assertEquals($identity, $request->getAttribute(Authentication::class));
 
                     return $this->responseFactory->createResponse();
-                }
+                },
             );
 
         $auth = new Authentication($this->authenticationMethod, $this->responseFactory);
@@ -100,7 +100,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method('challenge')
             ->willReturnCallback(
-                static fn (ResponseInterface $response) => $response->withHeader($header, $headerValue)
+                static fn(ResponseInterface $response) => $response->withHeader($header, $headerValue),
             );
 
         $handler = $this->createMock(RequestHandlerInterface::class);
@@ -129,7 +129,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method('challenge')
             ->willReturnCallback(
-                static fn (ResponseInterface $response) => $response->withHeader($header, $headerValue)
+                static fn(ResponseInterface $response) => $response->withHeader($header, $headerValue),
             );
 
         $handler = $this->createMock(RequestHandlerInterface::class);
@@ -142,19 +142,19 @@ final class AuthenticationMiddlewareTest extends TestCase
         $auth = new Authentication(
             $this->authenticationMethod,
             $this->responseFactory,
-            $this->createAuthenticationFailureHandler($failureResponse)
+            $this->createAuthenticationFailureHandler($failureResponse),
         );
         $response = $auth->process($request, $handler);
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals($headerValue, $response->getHeaderLine($header));
-        $this->assertEquals($failureResponse, (string)$response->getBody());
+        $this->assertEquals($failureResponse, (string) $response->getBody());
     }
 
     public function testImmutability(): void
     {
         $original = new Authentication(
             $this->authenticationMethod,
-            $this->responseFactory
+            $this->responseFactory,
         );
 
         $this->assertNotSame($original, $original->withOptionalPatterns(['test']));
@@ -166,8 +166,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             public function __construct(
                 private readonly string $failureResponse,
                 private readonly ResponseFactoryInterface $responseFactory,
-            ) {
-            }
+            ) {}
 
             public function handle(ServerRequestInterface $request): ResponseInterface
             {

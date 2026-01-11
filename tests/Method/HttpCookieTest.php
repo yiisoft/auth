@@ -21,7 +21,7 @@ final class HttpCookieTest extends TestCase
         $identity = $this->createIdentity();
         $identityRepository = new FakeIdentityRepository($identity);
         $result = (new HttpCookie($identityRepository))->authenticate(
-            $this->createRequest(['access-token' => 'access-token-value'])
+            $this->createRequest(['access-token' => 'access-token-value']),
         );
 
         $this->assertSame($result, $identity);
@@ -32,7 +32,7 @@ final class HttpCookieTest extends TestCase
                     'type' => null,
                 ],
             ],
-            $identityRepository->getCallParams()
+            $identityRepository->getCallParams(),
         );
     }
 
@@ -42,7 +42,7 @@ final class HttpCookieTest extends TestCase
         $identityRepository = new FakeIdentityRepository($identity);
 
         $result = (new HttpCookie($identityRepository))->authenticate(
-            $this->createRequest()
+            $this->createRequest(),
         );
 
         $this->assertNull($result);
@@ -55,8 +55,8 @@ final class HttpCookieTest extends TestCase
 
         $this->assertNull(
             $authenticationMethod->authenticate(
-                $this->createRequest(['access-token' => 'access-token-value'])
-            )
+                $this->createRequest(['access-token' => 'access-token-value']),
+            ),
         );
     }
 
@@ -76,7 +76,7 @@ final class HttpCookieTest extends TestCase
             ->withCookieName('AuthToken');
 
         $result = $authenticationMethod->authenticate(
-            $this->createRequest(['AuthToken' => 'AccessTokenValue'])
+            $this->createRequest(['AuthToken' => 'AccessTokenValue']),
         );
 
         $this->assertNotNull($result);
@@ -97,7 +97,7 @@ final class HttpCookieTest extends TestCase
         (new HttpCookie($identityRepository))
             ->withTokenType('another-token-type')
             ->authenticate(
-                $this->createRequest(['access-token' => 'access-token-value'])
+                $this->createRequest(['access-token' => 'access-token-value']),
             );
 
         $this->assertEquals(
@@ -107,7 +107,7 @@ final class HttpCookieTest extends TestCase
                     'type' => 'another-token-type',
                 ],
             ],
-            $identityRepository->getCallParams()
+            $identityRepository->getCallParams(),
         );
     }
 

@@ -27,7 +27,7 @@ final class AuthenticationFailureHandlerTest extends TestCase
         $response = $this
             ->createHandler()
             ->handle($this->createRequest());
-        $this->assertEquals('Your request was made with invalid credentials.', (string)$response->getBody());
+        $this->assertEquals('Your request was made with invalid credentials.', (string) $response->getBody());
     }
 
     private function createHandler(): AuthenticationFailureHandler

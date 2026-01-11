@@ -10,6 +10,7 @@ use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
 use Yiisoft\Http\Header;
+use SensitiveParameter;
 
 use function call_user_func;
 use function count;
@@ -37,9 +38,7 @@ final class HttpBasic implements AuthenticationMethodInterface
      */
     private $authenticationCallback;
 
-    public function __construct(private IdentityWithTokenRepositoryInterface $identityRepository)
-    {
-    }
+    public function __construct(private IdentityWithTokenRepositoryInterface $identityRepository) {}
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
     {
@@ -159,15 +158,15 @@ final class HttpBasic implements AuthenticationMethodInterface
         return $request->getServerParams()['REDIRECT_HTTP_AUTHORIZATION'] ?? null;
     }
 
-    private function extractCredentialsFromHeader(#[\SensitiveParameter] string $authToken): array
+    private function extractCredentialsFromHeader(#[SensitiveParameter] string $authToken): array
     {
         return array_map(
-            static fn ($value) => $value === '' ? null : $value,
-            explode(':', base64_decode(substr($authToken, 6)), 2)
+            static fn($value) => $value === '' ? null : $value,
+            explode(':', base64_decode(substr($authToken, 6)), 2),
         );
     }
 
-    private function isBasicToken(#[\SensitiveParameter] string $token): bool
+    private function isBasicToken(#[SensitiveParameter] string $token): bool
     {
         return strncasecmp($token, 'basic', 5) === 0;
     }
