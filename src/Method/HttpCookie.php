@@ -21,11 +21,10 @@ final class HttpCookie implements AuthenticationMethodInterface
     private ?string $tokenType = null;
 
     public function __construct(
-        private IdentityWithTokenRepositoryInterface $identityRepository
-    ) {
-    }
+        private IdentityWithTokenRepositoryInterface $identityRepository,
+    ) {}
 
-    public function authenticate(ServerRequestInterface $request): IdentityInterface|null
+    public function authenticate(ServerRequestInterface $request): ?IdentityInterface
     {
         $authToken = $this->getAuthenticationToken($request);
 

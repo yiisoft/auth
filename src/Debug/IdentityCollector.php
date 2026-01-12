@@ -8,6 +8,9 @@ use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Yii\Debug\Collector\CollectorTrait;
 use Yiisoft\Yii\Debug\Collector\SummaryCollectorInterface;
 
+use function count;
+use function is_array;
+
 final class IdentityCollector implements SummaryCollectorInterface
 {
     use CollectorTrait;
@@ -38,11 +41,6 @@ final class IdentityCollector implements SummaryCollectorInterface
         ];
     }
 
-    private function reset(): void
-    {
-        $this->identities = [];
-    }
-
     public function getSummary(): array
     {
         if (!$this->isActive()) {
@@ -53,5 +51,10 @@ final class IdentityCollector implements SummaryCollectorInterface
             'lastId' => is_array($lastIdentity) ? $lastIdentity['id'] : null,
             'total' => count($this->identities),
         ];
+    }
+
+    private function reset(): void
+    {
+        $this->identities = [];
     }
 }

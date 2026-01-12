@@ -40,7 +40,7 @@ final class Authentication implements MiddlewareInterface
         ?RequestHandlerInterface $authenticationFailureHandler = null,
     ) {
         $this->failureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
-            $responseFactory
+            $responseFactory,
         );
     }
 
@@ -51,7 +51,7 @@ final class Authentication implements MiddlewareInterface
 
         if ($identity === null && !$this->isOptional($request)) {
             return $this->authenticationMethod->challenge(
-                $this->failureHandler->handle($request)
+                $this->failureHandler->handle($request),
             );
         }
 
