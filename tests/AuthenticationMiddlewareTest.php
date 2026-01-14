@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\AuthenticationFailureHandlerInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\Middleware\Authentication;
@@ -41,7 +41,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->method('authenticate')
             ->willReturn($identity);
 
-        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler = $this->createMock(AuthenticationFailureHandlerInterface::class);
         $handler
             ->expects($this->once())
             ->method('handle')
@@ -75,7 +75,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->method('authenticate')
             ->willReturn(null);
 
-        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler = $this->createMock(AuthenticationFailureHandlerInterface::class);
         $handler
             ->expects($this->once())
             ->method('handle');
@@ -103,7 +103,7 @@ final class AuthenticationMiddlewareTest extends TestCase
                 static fn(ResponseInterface $response) => $response->withHeader($header, $headerValue),
             );
 
-        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler = $this->createMock(AuthenticationFailureHandlerInterface::class);
         $handler
             ->expects($this->never())
             ->method('handle');
@@ -132,7 +132,7 @@ final class AuthenticationMiddlewareTest extends TestCase
                 static fn(ResponseInterface $response) => $response->withHeader($header, $headerValue),
             );
 
-        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler = $this->createMock(AuthenticationFailureHandlerInterface::class);
         $handler
             ->expects($this->never())
             ->method('handle');
@@ -160,9 +160,9 @@ final class AuthenticationMiddlewareTest extends TestCase
         $this->assertNotSame($original, $original->withOptionalPatterns(['test']));
     }
 
-    private function createAuthenticationFailureHandler(string $failureResponse): RequestHandlerInterface
+    private function createAuthenticationFailureHandler(string $failureResponse): AuthenticationFailureHandlerInterface
     {
-        return new class ($failureResponse, new Psr17Factory()) implements RequestHandlerInterface {
+        return new class ($failureResponse, new Psr17Factory()) implements AuthenticationFailureHandlerInterface {
             public function __construct(
                 private readonly string $failureResponse,
                 private readonly ResponseFactoryInterface $responseFactory,

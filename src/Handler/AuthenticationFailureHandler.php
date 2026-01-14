@@ -7,13 +7,13 @@ namespace Yiisoft\Auth\Handler;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Http\Status;
 
 /**
- * Default authentication failure handler. Responds with "401 Unauthorized" HTTP status code.
+ * Default authentication failure handler.
+ * Returns 401 Unauthorized response.
  */
-final class AuthenticationFailureHandler implements RequestHandlerInterface
+final class AuthenticationFailureHandler implements AuthenticationFailureHandlerInterface
 {
     public function __construct(
         private readonly ResponseFactoryInterface $responseFactory,
@@ -22,9 +22,7 @@ final class AuthenticationFailureHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $response = $this->responseFactory->createResponse(Status::UNAUTHORIZED);
-        $response
-            ->getBody()
-            ->write('Your request was made with invalid credentials.');
+        $response->getBody()->write('Your request was made with invalid credentials.');
         return $response;
     }
 }

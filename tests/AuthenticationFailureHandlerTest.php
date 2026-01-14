@@ -9,6 +9,7 @@ use Nyholm\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
+use Yiisoft\Auth\Handler\AuthenticationFailureHandlerInterface;
 use Yiisoft\Http\Method;
 use Yiisoft\Http\Status;
 
@@ -19,6 +20,7 @@ final class AuthenticationFailureHandlerTest extends TestCase
         $response = $this
             ->createHandler()
             ->handle($this->createRequest());
+
         $this->assertEquals(Status::UNAUTHORIZED, $response->getStatusCode());
     }
 
@@ -27,10 +29,14 @@ final class AuthenticationFailureHandlerTest extends TestCase
         $response = $this
             ->createHandler()
             ->handle($this->createRequest());
-        $this->assertEquals('Your request was made with invalid credentials.', (string) $response->getBody());
+
+        $this->assertEquals(
+            'Your request was made with invalid credentials.',
+            (string) $response->getBody()
+        );
     }
 
-    private function createHandler(): AuthenticationFailureHandler
+    private function createHandler(): AuthenticationFailureHandlerInterface
     {
         return new AuthenticationFailureHandler(new Psr17Factory());
     }

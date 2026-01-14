@@ -9,26 +9,27 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Yiisoft\Auth\AuthenticationMethodInterface;
+use Yiisoft\Auth\Handler\AuthenticationFailureHandlerInterface;
 use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
 use Yiisoft\Strings\WildcardPattern;
 
 /**
- * Authentication middleware tries to authenticate and identity using request data.
- * If identity is found, it is set to request attribute allowing further middleware to obtain and use it.
- * If identity is not found failure handler is called. By default it is {@see AuthenticationFailureHandler}.
+ * Authentication middleware tries to authenticate identity using request data.
+ * If identity is found, it is set to request attribute.
+ * If identity is not found, failure handler is called.
  */
 final class Authentication implements MiddlewareInterface
 {
     /**
-     * @var RequestHandlerInterface A handler that is called when there is a failure authenticating an identity.
+     * Handler called when authentication fails.
      */
-    private RequestHandlerInterface $failureHandler;
+    private AuthenticationFailureHandlerInterface $failureHandler;
 
     /**
      * @var array Patterns to match to consider the given request URI path optional.
      */
     private array $optionalPatterns = [];
+
     /**
      * @var WildcardPattern[]
      */
@@ -37,7 +38,7 @@ final class Authentication implements MiddlewareInterface
     public function __construct(
         private AuthenticationMethodInterface $authenticationMethod,
         ResponseFactoryInterface $responseFactory,
-        ?RequestHandlerInterface $authenticationFailureHandler = null,
+        ?AuthenticationFailureHandlerInterface $authenticationFailureHandler = null,
     ) {
         $this->failureHandler = $authenticationFailureHandler ?? new AuthenticationFailureHandler(
             $responseFactory,
@@ -58,11 +59,6 @@ final class Authentication implements MiddlewareInterface
         return $handler->handle($request);
     }
 
-    /**
-     * @param array $optional Patterns to match to consider the given request URI path optional.
-     *
-     * @see WildcardPattern
-     */
     public function withOptionalPatterns(array $optional): self
     {
         $new = clone $this;
@@ -70,19 +66,16 @@ final class Authentication implements MiddlewareInterface
         return $new;
     }
 
-    /**
-     * Checks, whether authentication is optional for the given request URI path.
-     */
     private function isOptional(ServerRequestInterface $request): bool
     {
-        $path = $request->getUri()->getPath();
-        $path = rawurldecode($path);
+        $path = rawurldecode($request->getUri()->getPath());
 
         foreach ($this->optionalPatterns as $pattern) {
             if ($this->getOptionalPattern($pattern)->match($path)) {
                 return true;
             }
         }
+
         return false;
     }
 
