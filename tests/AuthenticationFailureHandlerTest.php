@@ -32,7 +32,7 @@ final class AuthenticationFailureHandlerTest extends TestCase
 
         $this->assertEquals(
             'Your request was made with invalid credentials.',
-            (string) $response->getBody()
+            (string) $response->getBody(),
         );
     }
 
