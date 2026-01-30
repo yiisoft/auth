@@ -5,6 +5,7 @@
 - Chg #104: Bump minimal PHP version to 8.1 (@vjik)
 - Enh #104: Explicitly mark readonly properties (@vjik)
 - Enh #105: Explicitly import classes and functions in "use" section (@mspirkov)
+- Enh #106: Remove unnecessary files from Composer package (@mspirkov)
 
 ## 3.2.1 December 17, 2025
 
