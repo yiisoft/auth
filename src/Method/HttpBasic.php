@@ -78,7 +78,7 @@ final class HttpBasic implements AuthenticationMethodInterface
      *
      * If not set, the username information will be considered as an access token
      * while the password information will be ignored.
-     * The {@see \Yiisoft\Auth\IdentityWithTokenRepositoryInterface::findIdentityByToken()}
+     * The {@see IdentityWithTokenRepositoryInterface::findIdentityByToken()}
      * method will be called to authenticate an identity.
      */
     public function withAuthenticationCallback(callable $authenticationCallback): self
