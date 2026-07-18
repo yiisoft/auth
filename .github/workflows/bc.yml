@@ -4,6 +4,7 @@ on:
   pull_request:
     paths: &paths
       - '.github/workflows/bc.yml'
+      - '.roave-backward-compatibility-check.xml'
       - 'config/**'
       - 'src/**'
       - 'composer.json'
