@@ -12,7 +12,7 @@ on:
       - '.php-cs-fixer.dist.php'
 
 permissions:
-  contents: write
+  contents: write # Required to push changes from Rector and PHP CS Fixer
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
