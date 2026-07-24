@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Auth\Method;
 
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Auth\AuthenticationMethodInterface;
+use Yiisoft\Auth\AuthenticatorInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
 
@@ -15,7 +14,7 @@ use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
  *
  * @see https://tools.ietf.org/html/rfc6265
  */
-final class HttpCookie implements AuthenticationMethodInterface
+final class HttpCookie implements AuthenticatorInterface
 {
     private string $cookieName = 'access-token';
     private ?string $tokenType = null;
@@ -33,11 +32,6 @@ final class HttpCookie implements AuthenticationMethodInterface
         }
 
         return $this->identityRepository->findIdentityByToken($authToken, $this->tokenType);
-    }
-
-    public function challenge(ResponseInterface $response): ResponseInterface
-    {
-        return $response;
     }
 
     /**

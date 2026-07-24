@@ -13,7 +13,8 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Yiisoft\Auth\AuthenticationMethodInterface;
+use Yiisoft\Auth\AuthenticatorInterface;
+use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\Http\Status;
@@ -22,13 +23,16 @@ final class AuthenticationMiddlewareTest extends TestCase
 {
     private ResponseFactoryInterface $responseFactory;
 
-    /** @var AuthenticationMethodInterface|MockObject */
-    private AuthenticationMethodInterface $authenticationMethod;
+    /** @var AuthenticatorInterface&MockObject */
+    private AuthenticatorInterface $authenticator;
+
+    private AuthenticationFailureHandler $authenticationFailureHandler;
 
     protected function setUp(): void
     {
         $this->responseFactory = new Psr17Factory();
-        $this->authenticationMethod = $this->createMock(AuthenticationMethodInterface::class);
+        $this->authenticator = $this->createMock(AuthenticatorInterface::class);
+        $this->authenticationFailureHandler = new AuthenticationFailureHandler($this->responseFactory);
     }
 
     public function testShouldAuthenticateAndSetAttribute(): void
@@ -36,7 +40,7 @@ final class AuthenticationMiddlewareTest extends TestCase
         $request = new ServerRequest('GET', '/');
         $identity = $this->createMock(IdentityInterface::class);
 
-        $this->authenticationMethod
+        $this->authenticator
             ->expects($this->once())
             ->method('authenticate')
             ->willReturn($identity);
@@ -53,7 +57,7 @@ final class AuthenticationMiddlewareTest extends TestCase
                 },
             );
 
-        $auth = new Authentication($this->authenticationMethod, $this->responseFactory);
+        $auth = new Authentication($this->authenticator, $this->authenticationFailureHandler);
         $auth->process($request, $handler);
     }
 
@@ -70,7 +74,7 @@ final class AuthenticationMiddlewareTest extends TestCase
     {
         $request = new ServerRequest('GET', $path);
 
-        $this->authenticationMethod
+        $this->authenticator
             ->expects($this->once())
             ->method('authenticate')
             ->willReturn(null);
@@ -80,7 +84,7 @@ final class AuthenticationMiddlewareTest extends TestCase
             ->expects($this->once())
             ->method('handle');
 
-        $auth = (new Authentication($this->authenticationMethod, $this->responseFactory))
+        $auth = (new Authentication($this->authenticator, $this->authenticationFailureHandler))
             ->withOptionalPatterns([$path]);
         $auth->process($request, $handler);
     }
@@ -88,49 +92,30 @@ final class AuthenticationMiddlewareTest extends TestCase
     public function testShouldNotExecuteHandlerAndReturn401OnAuthenticationFailure(): void
     {
         $request = new ServerRequest('GET', '/');
-        $header = 'Authenticated';
-        $headerValue = 'false';
 
-        $this->authenticationMethod
+        $this->authenticator
             ->expects($this->once())
             ->method('authenticate')
             ->willReturn(null);
-
-        $this->authenticationMethod
-            ->expects($this->once())
-            ->method('challenge')
-            ->willReturnCallback(
-                static fn(ResponseInterface $response) => $response->withHeader($header, $headerValue),
-            );
 
         $handler = $this->createMock(RequestHandlerInterface::class);
         $handler
             ->expects($this->never())
             ->method('handle');
 
-        $auth = new Authentication($this->authenticationMethod, $this->responseFactory);
+        $auth = new Authentication($this->authenticator, $this->authenticationFailureHandler);
         $response = $auth->process($request, $handler);
         $this->assertEquals(401, $response->getStatusCode());
-        $this->assertEquals($headerValue, $response->getHeaderLine($header));
     }
 
     public function testCustomAuthenticationFailureResponse(): void
     {
         $request = new ServerRequest('GET', '/');
-        $header = 'Authenticated';
-        $headerValue = 'false';
 
-        $this->authenticationMethod
+        $this->authenticator
             ->expects($this->once())
             ->method('authenticate')
             ->willReturn(null);
-
-        $this->authenticationMethod
-            ->expects($this->once())
-            ->method('challenge')
-            ->willReturnCallback(
-                static fn(ResponseInterface $response) => $response->withHeader($header, $headerValue),
-            );
 
         $handler = $this->createMock(RequestHandlerInterface::class);
         $handler
@@ -140,21 +125,19 @@ final class AuthenticationMiddlewareTest extends TestCase
         $failureResponse = 'test custom response';
 
         $auth = new Authentication(
-            $this->authenticationMethod,
-            $this->responseFactory,
+            $this->authenticator,
             $this->createAuthenticationFailureHandler($failureResponse),
         );
         $response = $auth->process($request, $handler);
         $this->assertEquals(401, $response->getStatusCode());
-        $this->assertEquals($headerValue, $response->getHeaderLine($header));
         $this->assertEquals($failureResponse, (string) $response->getBody());
     }
 
     public function testImmutability(): void
     {
         $original = new Authentication(
-            $this->authenticationMethod,
-            $this->responseFactory,
+            $this->authenticator,
+            $this->authenticationFailureHandler,
         );
 
         $this->assertNotSame($original, $original->withOptionalPatterns(['test']));

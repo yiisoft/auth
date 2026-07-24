@@ -6,7 +6,8 @@ namespace Yiisoft\Auth\Method;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Auth\AuthenticationMethodInterface;
+use Yiisoft\Auth\AuthenticatorInterface;
+use Yiisoft\Auth\ChallengeInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
 use Yiisoft\Http\Header;
@@ -28,7 +29,7 @@ use function count;
  * RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
  * ```
  */
-final class HttpBasic implements AuthenticationMethodInterface
+final class HttpBasic implements AuthenticatorInterface, ChallengeInterface
 {
     private string $realm = 'api';
     private ?string $tokenType = null;

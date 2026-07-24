@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Auth\Method;
 
 use Psr\Http\Message\ResponseInterface;
+use Yiisoft\Auth\ChallengeInterface;
 use Yiisoft\Http\Header;
 
 /**
@@ -12,7 +13,7 @@ use Yiisoft\Http\Header;
  *
  * @see https://tools.ietf.org/html/rfc6750
  */
-final class HttpBearer extends HttpHeader
+final class HttpBearer extends HttpHeader implements ChallengeInterface
 {
     protected string $headerName = Header::AUTHORIZATION;
 
