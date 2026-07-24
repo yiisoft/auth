@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Auth\Method;
 
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Auth\AuthenticationMethodInterface;
+use Yiisoft\Auth\AuthenticatorInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
 
@@ -15,7 +14,7 @@ use function is_string;
 /**
  * QueryParameter supports the authentication based on the access token passed through a query parameter.
  */
-final class QueryParameter implements AuthenticationMethodInterface
+final class QueryParameter implements AuthenticatorInterface
 {
     private string $parameterName = 'access-token';
     private ?string $tokenType = null;
@@ -30,11 +29,6 @@ final class QueryParameter implements AuthenticationMethodInterface
         }
 
         return null;
-    }
-
-    public function challenge(ResponseInterface $response): ResponseInterface
-    {
-        return $response;
     }
 
     /**

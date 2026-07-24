@@ -33,12 +33,12 @@ Configure a middleware and add it to your middleware stack:
 
 ```php
 $identityRepository = getIdentityWithTokenRepository(); // \Yiisoft\Auth\IdentityRepositoryInterface
-$authenticationMethod = new \Yiisoft\Auth\Method\HttpBasic($identityRepository);
+$authenticator = new \Yiisoft\Auth\Method\HttpBasic($identityRepository);
+$failureHandler = new \Yiisoft\Auth\Handler\AuthenticationFailureHandler($responseFactory);
 
 $middleware = new \Yiisoft\Auth\Middleware\Authentication(
-    $authenticationMethod,
-    $responseFactory, // PSR-17 ResponseFactoryInterface
-    $failureHandler // optional, \Yiisoft\Auth\Handler\AuthenticationFailureHandler by default
+    $authenticator,
+    $failureHandler
 );
 
 $middlewareDispatcher->addMiddleware($middleware);
@@ -47,7 +47,7 @@ $middlewareDispatcher->addMiddleware($middleware);
 In order to get an identity instance in the following middleware use `getAttribute()` method of the request instance:
 
 ```php
-public function actionIndex(\Psr\Http\Message\ServerRequestInterface $request): \Psr\Http\Message\ResponseInterface
+public function index(\Psr\Http\Message\ServerRequestInterface $request): \Psr\Http\Message\ResponseInterface
 {
     $identity = $request->getAttribute(\Yiisoft\Auth\Middleware\Authentication::class);
     // ...
@@ -60,7 +60,7 @@ Basic HTTP authentication is typically used for entering login and password in t
 Credentials are passed as `$_SERVER['PHP_AUTH_USER']` and `$_SERVER['PHP_AUTH_PW']`.
 
 ```php
-$authenticationMethod = (new \Yiisoft\Auth\Method\HttpBasic($identityRepository))
+$authenticator = (new \Yiisoft\Auth\Method\HttpBasic($identityRepository))
     ->withRealm('Admin')
     ->withAuthenticationCallback(static function (
         ?string $username,
@@ -79,7 +79,7 @@ Custom authentication callback set in the above is the same as default behavior 
 Bearer HTTP authentication is typically used in APIs. Authentication token is passed in `WWW-Authenticate` header.
 
 ```php
-$authenticationMethod = new \Yiisoft\Auth\Method\HttpBearer($identityRepository);
+$authenticator = new \Yiisoft\Auth\Method\HttpBearer($identityRepository);
 ```
 
 ### Custom HTTP header authentication
@@ -87,7 +87,7 @@ $authenticationMethod = new \Yiisoft\Auth\Method\HttpBearer($identityRepository)
 Custom HTTP header could be used if you do not want to leverage bearer token authentication:
 
 ```php
- $authenticationMethod = (new \Yiisoft\Auth\Method\HttpHeader($identityRepository))
+ $authenticator = (new \Yiisoft\Auth\Method\HttpHeader($identityRepository))
      ->withHeaderName('X-Api-Key')
      ->withPattern('/(.*)/'); // default
 ```
@@ -100,14 +100,14 @@ This authentication method is mainly used by clients unable to send headers. In 
 we advise not to use it.
 
 ```php
-$authenticationMethod = (new \Yiisoft\Auth\Method\QueryParameter($identityRepository))
+$authenticator = (new \Yiisoft\Auth\Method\QueryParameter($identityRepository))
     ->withParameterName('token');
 ```
 
 ### HTTP cookie authentication
 
 ```php
-$authenticationMethod = (new \Yiisoft\Auth\Method\HttpCookie($identityRepository))
+$authenticator = (new \Yiisoft\Auth\Method\HttpCookie($identityRepository))
     ->withCookieName('access-token');
 ```
 
@@ -118,7 +118,7 @@ Typical authentication for websites by storing a token in a browser cookie.
 To use multiple authentication methods, use `Yiisoft\Auth\Method\Composite`:
 
 ```php
-$authenticationMethod = new \Yiisoft\Auth\Method\Composite([
+$authenticator = new \Yiisoft\Auth\Method\Composite([
     $bearerAuthenticationMethod,
     $basicAuthenticationMethod
 ]);

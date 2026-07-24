@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Auth\Tests\Method;
 
-use Nyholm\Psr7\Response;
 use Nyholm\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
@@ -36,20 +35,6 @@ final class HttpHeaderTest extends TestCase
             $authenticationMethod->authenticate(
                 $this->createRequest(['X-Api-Key' => 'api-key']),
             ),
-        );
-    }
-
-    public function testChallengeIsCorrect(): void
-    {
-        $response = new Response(400);
-        $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authenticationMethod = new HttpHeader($identityRepository);
-
-        $this->assertEquals(
-            400,
-            $authenticationMethod
-                ->challenge($response)
-                ->getStatusCode(),
         );
     }
 
