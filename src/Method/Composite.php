@@ -7,6 +7,8 @@ namespace Yiisoft\Auth\Method;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
+use Yiisoft\Auth\AuthenticatorInterface;
+use Yiisoft\Auth\ChallengeInterface;
 use Yiisoft\Auth\IdentityInterface;
 use RuntimeException;
 
@@ -16,7 +18,7 @@ use RuntimeException;
 final class Composite implements AuthenticationMethodInterface
 {
     /**
-     * @param AuthenticationMethodInterface[] $methods
+     * @param AuthenticatorInterface[] $methods
      */
     public function __construct(
         private readonly array $methods,
@@ -25,8 +27,8 @@ final class Composite implements AuthenticationMethodInterface
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
     {
         foreach ($this->methods as $method) {
-            if (!$method instanceof AuthenticationMethodInterface) {
-                throw new RuntimeException('Authentication method must be an instance of ' . AuthenticationMethodInterface::class . '.');
+            if (!$method instanceof AuthenticatorInterface) {
+                throw new RuntimeException('Authentication method must be an instance of ' . AuthenticatorInterface::class . '.');
             }
 
             $identity = $method->authenticate($request);
@@ -41,7 +43,9 @@ final class Composite implements AuthenticationMethodInterface
     public function challenge(ResponseInterface $response): ResponseInterface
     {
         foreach ($this->methods as $method) {
-            $response = $method->challenge($response);
+            if ($method instanceof ChallengeInterface) {
+                $response = $method->challenge($response);
+            }
         }
         return $response;
     }

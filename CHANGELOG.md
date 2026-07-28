@@ -6,6 +6,7 @@
 - Enh #104: Explicitly mark readonly properties (@vjik)
 - Enh #105: Explicitly import classes and functions in "use" section (@mspirkov)
 - Enh #107: Remove unnecessary files from Composer package (@mspirkov)
+- Enh #113: Split `AuthenticationMethodInterface` into focused authentication and challenge interfaces (@samdark)
 
 ## 3.2.1 December 17, 2025
 

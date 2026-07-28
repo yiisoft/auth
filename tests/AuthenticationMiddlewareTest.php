@@ -14,6 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
+use Yiisoft\Auth\AuthenticatorInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\Http\Status;
@@ -148,6 +149,25 @@ final class AuthenticationMiddlewareTest extends TestCase
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals($headerValue, $response->getHeaderLine($header));
         $this->assertEquals($failureResponse, (string) $response->getBody());
+    }
+
+    public function testAuthenticatorWithoutChallenge(): void
+    {
+        $authenticator = new class implements AuthenticatorInterface {
+            public function authenticate(ServerRequestInterface $request): ?IdentityInterface
+            {
+                return null;
+            }
+        };
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler
+            ->expects($this->never())
+            ->method('handle');
+
+        $response = (new Authentication($authenticator, $this->responseFactory))
+            ->process(new ServerRequest('GET', '/'), $handler);
+
+        $this->assertSame(Status::UNAUTHORIZED, $response->getStatusCode());
     }
 
     public function testImmutability(): void
