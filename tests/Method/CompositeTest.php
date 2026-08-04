@@ -103,7 +103,7 @@ final class CompositeTest extends TestCase
         ]));
 
         $this->assertEquals(
-            'Authorization realm="api"',
+            'Bearer realm="api"',
             $authenticationMethod
                 ->challenge($response)
                 ->getHeaderLine(Header::WWW_AUTHENTICATE),
