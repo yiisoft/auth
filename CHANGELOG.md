@@ -2,7 +2,7 @@
 
 ## 3.2.2 under development
 
-- Bug #116: Fix authentication scheme in `HttpBearer` challenge (@samdark)
+- Bug #116: Fix authentication scheme in `HttpBearer` challenge according to RFC 6750 (@samdark)
 - Chg #104: Bump minimal PHP version to 8.1 (@vjik)
 - Enh #104: Explicitly mark readonly properties (@vjik)
 - Enh #105: Explicitly import classes and functions in "use" section (@mspirkov)
