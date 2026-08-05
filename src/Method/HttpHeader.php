@@ -102,7 +102,7 @@ class HttpHeader implements AuthenticationMethodInterface, AuthenticatorInterfac
     {
         $authHeaders = $request->getHeader($this->headerName);
         $authHeader = reset($authHeaders);
-        if (!empty($authHeader)) {
+        if ($authHeader !== false && $authHeader !== '') {
             if (preg_match($this->pattern, $authHeader, $matches)) {
                 $authHeader = $matches[1];
             } else {

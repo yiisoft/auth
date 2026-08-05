@@ -143,6 +143,27 @@ final class HttpHeaderTest extends TestCase
         );
     }
 
+    public function testZeroValueHeader(): void
+    {
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $result = (new HttpHeader($identityRepository))->authenticate(
+            $this->createRequest(['X-Api-Key' => '0']),
+        );
+
+        $this->assertNotNull($result);
+        $this->assertEquals('test-id', $result->getId());
+        $this->assertEquals(
+            [
+                'findIdentityByToken'
+                    => [
+                        'token' => '0',
+                        'type' => null,
+                    ],
+            ],
+            $identityRepository->getCallParams(),
+        );
+    }
+
     private function createIdentity(): IdentityInterface
     {
         return new FakeIdentity('test-id');
