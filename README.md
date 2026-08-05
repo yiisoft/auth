@@ -76,7 +76,8 @@ Custom authentication callback set in the above is the same as default behavior 
 
 ### HTTP bearer authentication
 
-Bearer HTTP authentication is typically used in APIs. Authentication token is passed in `WWW-Authenticate` header.
+Bearer HTTP authentication is typically used in APIs. The authentication token is passed in the request's
+`Authorization` header. On failure, the failure handler adds a `WWW-Authenticate` response header.
 
 ```php
 $authenticationMethod = new \Yiisoft\Auth\Method\HttpBearer($identityRepository);
@@ -131,7 +132,11 @@ $authenticationMethod = new \Yiisoft\Auth\Method\Composite([
   Typically, that is `UserIdentity`.
 - `\Yiisoft\Auth\IdentityWithTokenRepositoryInterface` could be additionally implemented by your application
   identity repository class in case token-based authentication is needed. Typically, that is `UserIdentity`.
-- `\Yiisoft\Auth\AuthenticationMethodInterface` could be implemented to provide your own authentication method.
+- `\Yiisoft\Auth\AuthenticatorInterface` should be implemented to provide your own authenticator.
+- `\Yiisoft\Auth\AuthenticatorWithChallengeInterface` could be implemented instead by an authenticator that also
+  needs to modify the authentication failure response, for example, to add an HTTP authentication challenge.
+- `\Yiisoft\Auth\AuthenticationMethodInterface` is equivalent to `AuthenticatorWithChallengeInterface` and is
+  deprecated. Existing implementations remain compatible; new implementations should use the focused interfaces.
 
 ## Documentation
 

@@ -2,6 +2,7 @@
 
 ## 3.2.2 under development
 
+- New #113: Split `AuthenticationMethodInterface` into focused authentication and challenge interfaces (@samdark, @vjik)
 - Bug #116: Fix authentication scheme in `HttpBearer` challenge according to RFC 6750 (@samdark)
 - Chg #104: Bump minimal PHP version to 8.1 (@vjik)
 - Enh #104: Explicitly mark readonly properties (@vjik)
