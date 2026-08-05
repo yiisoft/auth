@@ -8,14 +8,14 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\AuthenticatorInterface;
-use Yiisoft\Auth\ChallengeInterface;
+use Yiisoft\Auth\AuthenticatorWithChallengeInterface;
 use Yiisoft\Auth\IdentityInterface;
 use RuntimeException;
 
 /**
  * Composite allows multiple authentication methods at the same time.
  */
-final class Composite implements AuthenticationMethodInterface
+final class Composite implements AuthenticationMethodInterface, AuthenticatorWithChallengeInterface
 {
     /**
      * @param AuthenticatorInterface[] $methods
@@ -43,7 +43,7 @@ final class Composite implements AuthenticationMethodInterface
     public function challenge(ResponseInterface $response): ResponseInterface
     {
         foreach ($this->methods as $method) {
-            if ($method instanceof ChallengeInterface) {
+            if ($method instanceof AuthenticatorWithChallengeInterface) {
                 $response = $method->challenge($response);
             }
         }

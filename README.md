@@ -133,10 +133,10 @@ $authenticationMethod = new \Yiisoft\Auth\Method\Composite([
 - `\Yiisoft\Auth\IdentityWithTokenRepositoryInterface` could be additionally implemented by your application
   identity repository class in case token-based authentication is needed. Typically, that is `UserIdentity`.
 - `\Yiisoft\Auth\AuthenticatorInterface` should be implemented to provide your own authenticator.
-- `\Yiisoft\Auth\ChallengeInterface` could be additionally implemented by an authenticator that needs to modify the
-  authentication failure response, for example, to add an HTTP authentication challenge.
-- `\Yiisoft\Auth\AuthenticationMethodInterface` combines both interfaces and is deprecated. Existing implementations
-  remain compatible; new implementations should use the focused interfaces.
+- `\Yiisoft\Auth\AuthenticatorWithChallengeInterface` could be implemented instead by an authenticator that also
+  needs to modify the authentication failure response, for example, to add an HTTP authentication challenge.
+- `\Yiisoft\Auth\AuthenticationMethodInterface` is equivalent to `AuthenticatorWithChallengeInterface` and is
+  deprecated. Existing implementations remain compatible; new implementations should use the focused interfaces.
 
 ## Documentation
 

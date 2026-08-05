@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Auth\AuthenticatorInterface;
-use Yiisoft\Auth\ChallengeInterface;
+use Yiisoft\Auth\AuthenticatorWithChallengeInterface;
 use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
 use Yiisoft\Strings\WildcardPattern;
 
@@ -53,7 +53,7 @@ final class Authentication implements MiddlewareInterface
         if ($identity === null && !$this->isOptional($request)) {
             $response = $this->failureHandler->handle($request);
 
-            return $this->authenticationMethod instanceof ChallengeInterface
+            return $this->authenticationMethod instanceof AuthenticatorWithChallengeInterface
                 ? $this->authenticationMethod->challenge($response)
                 : $response;
         }
