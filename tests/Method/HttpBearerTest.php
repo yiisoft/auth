@@ -56,7 +56,7 @@ final class HttpBearerTest extends TestCase
         $authenticationMethod = new HttpBearer($identityRepository);
 
         $this->assertEquals(
-            'Authorization realm="api"',
+            'Bearer realm="api"',
             $authenticationMethod
                 ->challenge($response)
                 ->getHeaderLine(Header::WWW_AUTHENTICATE),
@@ -71,7 +71,7 @@ final class HttpBearerTest extends TestCase
             ->withRealm('gateway');
 
         $this->assertEquals(
-            'Authorization realm="gateway"',
+            'Bearer realm="gateway"',
             $authenticationMethod
                 ->challenge($response)
                 ->getHeaderLine(Header::WWW_AUTHENTICATE),
