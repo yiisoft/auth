@@ -69,6 +69,9 @@ final class HttpCookie implements AuthenticationMethodInterface, AuthenticatorIn
 
     private function getAuthenticationToken(ServerRequestInterface $request): ?string
     {
+        /**
+         * @var string[] $cookies
+         */
         $cookies = $request->getCookieParams();
 
         return $cookies[$this->cookieName] ?? null;

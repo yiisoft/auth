@@ -70,7 +70,7 @@
         "test-watch": "phpunit-watcher watch",
         "cs-fix": "php-cs-fixer fix",
         "rector": "rector",
-        "psalm": "psalm"
+        "psalm": "psalm --no-cache"
     },
     "config": {
         "sort-packages": true,
