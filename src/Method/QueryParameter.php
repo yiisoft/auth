@@ -15,6 +15,8 @@ use function is_string;
 
 /**
  * QueryParameter supports the authentication based on the access token passed through a query parameter.
+ *
+ * @psalm-suppress DeprecatedInterface
  */
 final class QueryParameter implements AuthenticationMethodInterface, AuthenticatorInterface
 {

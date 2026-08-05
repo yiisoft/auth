@@ -28,6 +28,8 @@ use function count;
  * ```
  * RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
  * ```
+ *
+ * @psalm-suppress DeprecatedInterface
  */
 final class HttpBasic implements AuthenticationMethodInterface, AuthenticatorWithChallengeInterface
 {

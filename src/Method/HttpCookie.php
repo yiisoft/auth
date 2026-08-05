@@ -15,6 +15,8 @@ use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
  * HTTP cookie authentication method.
  *
  * @see https://tools.ietf.org/html/rfc6265
+ *
+ * @psalm-suppress DeprecatedInterface
  */
 final class HttpCookie implements AuthenticationMethodInterface, AuthenticatorInterface
 {
