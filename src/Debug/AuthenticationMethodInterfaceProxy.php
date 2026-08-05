@@ -9,6 +9,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\IdentityInterface;
 
+/**
+ * @psalm-suppress DeprecatedInterface
+ */
 final class AuthenticationMethodInterfaceProxy implements AuthenticationMethodInterface
 {
     public function __construct(private readonly AuthenticationMethodInterface $decorated, private readonly IdentityCollector $collector) {}

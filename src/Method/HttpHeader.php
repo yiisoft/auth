@@ -20,6 +20,8 @@ use function reset;
  * The default implementation of HttpHeader uses the
  * {@see IdentityWithTokenRepositoryInterface::findIdentityByToken()}
  * and passes the value of the `X-Api-Key` header. This implementation is used mainly for authenticating API clients.
+ *
+ * @psalm-suppress DeprecatedInterface
  */
 class HttpHeader implements AuthenticationMethodInterface, AuthenticatorInterface
 {
@@ -100,7 +102,7 @@ class HttpHeader implements AuthenticationMethodInterface, AuthenticatorInterfac
     {
         $authHeaders = $request->getHeader($this->headerName);
         $authHeader = reset($authHeaders);
-        if (!empty($authHeader)) {
+        if ($authHeader !== false && $authHeader !== '') {
             if (preg_match($this->pattern, $authHeader, $matches)) {
                 $authHeader = $matches[1];
             } else {

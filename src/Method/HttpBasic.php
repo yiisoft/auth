@@ -28,6 +28,10 @@ use function count;
  * ```
  * RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
  * ```
+ *
+ * @psalm-suppress DeprecatedInterface
+ *
+ * @psalm-type TAuthenticationCallback = callable(?string, ?string, IdentityWithTokenRepositoryInterface): (?IdentityInterface)
  */
 final class HttpBasic implements AuthenticationMethodInterface, AuthenticatorWithChallengeInterface
 {
@@ -36,6 +40,7 @@ final class HttpBasic implements AuthenticationMethodInterface, AuthenticatorWit
 
     /**
      * @var callable|null
+     * @psalm-var TAuthenticationCallback|null
      */
     private $authenticationCallback;
 
@@ -69,7 +74,7 @@ final class HttpBasic implements AuthenticationMethodInterface, AuthenticatorWit
      * static function (
      *     ?string $username,
      *     #[\SensitiveParameter] ?string $password,
-     *     \Yiisoft\Auth\IdentityRepositoryInterface $identityRepository
+     *     \Yiisoft\Auth\IdentityWithTokenRepositoryInterface $identityRepository
      * ): ?\Yiisoft\Auth\IdentityInterface
      * ```
      *
@@ -81,6 +86,8 @@ final class HttpBasic implements AuthenticationMethodInterface, AuthenticatorWit
      * while the password information will be ignored.
      * The {@see IdentityWithTokenRepositoryInterface::findIdentityByToken()}
      * method will be called to authenticate an identity.
+     *
+     * @psalm-param TAuthenticationCallback $authenticationCallback
      */
     public function withAuthenticationCallback(callable $authenticationCallback): self
     {
@@ -121,11 +128,17 @@ final class HttpBasic implements AuthenticationMethodInterface, AuthenticatorWit
      * Obtains authentication credentials from request.
      *
      * @return array ['username', 'password'] array.
+     *
+     * @psalm-return array{0: ?string, 1: ?string}
      */
     private function getAuthenticationCredentials(ServerRequestInterface $request): array
     {
-        $username = $request->getServerParams()['PHP_AUTH_USER'] ?? null;
-        $password = $request->getServerParams()['PHP_AUTH_PW'] ?? null;
+        /**
+         * @var string[] $serverParams
+         */
+        $serverParams = $request->getServerParams();
+        $username = $serverParams['PHP_AUTH_USER'] ?? null;
+        $password = $serverParams['PHP_AUTH_PW'] ?? null;
         if ($username !== null || $password !== null) {
             return [$username, $password];
         }
@@ -156,9 +169,17 @@ final class HttpBasic implements AuthenticationMethodInterface, AuthenticatorWit
             return $header;
         }
 
-        return $request->getServerParams()['REDIRECT_HTTP_AUTHORIZATION'] ?? null;
+        /**
+         * @var string[] $serverParams
+         */
+        $serverParams = $request->getServerParams();
+
+        return $serverParams['REDIRECT_HTTP_AUTHORIZATION'] ?? null;
     }
 
+    /**
+     * @psalm-return array{0: ?string, 1?: ?string}
+     */
     private function extractCredentialsFromHeader(#[SensitiveParameter] string $authToken): array
     {
         return array_map(

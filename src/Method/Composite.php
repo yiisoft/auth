@@ -14,6 +14,8 @@ use RuntimeException;
 
 /**
  * Composite allows multiple authentication methods at the same time.
+ *
+ * @psalm-suppress DeprecatedInterface
  */
 final class Composite implements AuthenticationMethodInterface, AuthenticatorWithChallengeInterface
 {

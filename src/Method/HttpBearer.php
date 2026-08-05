@@ -12,6 +12,8 @@ use Yiisoft\Http\Header;
  * Authentication method based on HTTP Bearer token.
  *
  * @see https://tools.ietf.org/html/rfc6750
+ *
+ * @psalm-suppress DeprecatedInterface
  */
 final class HttpBearer extends HttpHeader implements AuthenticatorWithChallengeInterface
 {

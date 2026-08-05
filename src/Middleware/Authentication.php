@@ -27,7 +27,7 @@ final class Authentication implements MiddlewareInterface
     private RequestHandlerInterface $failureHandler;
 
     /**
-     * @var array Patterns to match to consider the given request URI path optional.
+     * @var string[] Patterns to match to consider the given request URI path optional.
      */
     private array $optionalPatterns = [];
     /**
@@ -62,7 +62,7 @@ final class Authentication implements MiddlewareInterface
     }
 
     /**
-     * @param array $optional Patterns to match to consider the given request URI path optional.
+     * @param string[] $optional Patterns to match to consider the given request URI path optional.
      *
      * @see WildcardPattern
      */
