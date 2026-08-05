@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Auth;
 
 /**
- * @deprecated Implement {@see AuthenticatorInterface} and, if a challenge is needed, {@see ChallengeInterface}.
+ * @deprecated Implement {@see AuthenticatorInterface} or, if a challenge is needed,
+ * {@see AuthenticatorWithChallengeInterface}.
  */
-interface AuthenticationMethodInterface extends AuthenticatorInterface, ChallengeInterface {}
+interface AuthenticationMethodInterface extends AuthenticatorWithChallengeInterface {}

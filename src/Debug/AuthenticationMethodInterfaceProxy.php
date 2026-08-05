@@ -7,11 +7,16 @@ namespace Yiisoft\Auth\Debug;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\AuthenticationMethodInterface;
+use Yiisoft\Auth\AuthenticatorInterface;
+use Yiisoft\Auth\AuthenticatorWithChallengeInterface;
 use Yiisoft\Auth\IdentityInterface;
 
-final class AuthenticationMethodInterfaceProxy implements AuthenticationMethodInterface
+final class AuthenticationMethodInterfaceProxy implements AuthenticationMethodInterface, AuthenticatorWithChallengeInterface
 {
-    public function __construct(private readonly AuthenticationMethodInterface $decorated, private readonly IdentityCollector $collector) {}
+    public function __construct(
+        private readonly AuthenticatorInterface $decorated,
+        private readonly IdentityCollector $collector,
+    ) {}
 
     public function authenticate(ServerRequestInterface $request): ?IdentityInterface
     {
@@ -26,6 +31,8 @@ final class AuthenticationMethodInterfaceProxy implements AuthenticationMethodIn
 
     public function challenge(ResponseInterface $response): ResponseInterface
     {
-        return $this->decorated->challenge($response);
+        return $this->decorated instanceof AuthenticatorWithChallengeInterface
+            ? $this->decorated->challenge($response)
+            : $response;
     }
 }

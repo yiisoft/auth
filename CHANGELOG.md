@@ -2,12 +2,12 @@
 
 ## 3.2.2 under development
 
+- New #113: Split `AuthenticationMethodInterface` into focused authentication and challenge interfaces (@samdark, @vjik)
 - Bug #116: Fix authentication scheme in `HttpBearer` challenge according to RFC 6750 (@samdark)
 - Chg #104: Bump minimal PHP version to 8.1 (@vjik)
 - Enh #104: Explicitly mark readonly properties (@vjik)
 - Enh #105: Explicitly import classes and functions in "use" section (@mspirkov)
 - Enh #107: Remove unnecessary files from Composer package (@mspirkov)
-- Enh #113: Split `AuthenticationMethodInterface` into focused authentication and challenge interfaces (@samdark)
 
 ## 3.2.1 December 17, 2025
 
