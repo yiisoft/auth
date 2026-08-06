@@ -1,14 +1,14 @@
 # Yii Auth Change Log
 
-## 3.2.2 under development
+## 3.3.0 August 06, 2026
 
 - New #113: Split `AuthenticationMethodInterface` into focused authentication and challenge interfaces (@samdark, @vjik)
-- Bug #116: Fix authentication scheme in `HttpBearer` challenge according to RFC 6750 (@samdark)
-- Bug #123: Fix `HttpHeader` authentication to correctly handle header value `"0"` (@vjik)
 - Chg #104: Bump minimal PHP version to 8.1 (@vjik)
 - Enh #104: Explicitly mark readonly properties (@vjik)
 - Enh #105: Explicitly import classes and functions in "use" section (@mspirkov)
 - Enh #107: Remove unnecessary files from Composer package (@mspirkov)
+- Bug #116: Fix authentication scheme in `HttpBearer` challenge according to RFC 6750 (@samdark)
+- Bug #123: Fix `HttpHeader` authentication to correctly handle header value `"0"` (@vjik)
 
 ## 3.2.1 December 17, 2025
 
