@@ -1,5 +1,9 @@
 # Yii Auth Change Log
 
+## 3.3.1 under development
+
+- no changes in this release.
+
 ## 3.3.0 August 06, 2026
 
 - New #113: Split `AuthenticationMethodInterface` into focused authentication and challenge interfaces (@samdark, @vjik)
