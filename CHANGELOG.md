@@ -2,7 +2,7 @@
 
 ## 3.3.1 under development
 
-- Enh: Document `AuthenticatorInterface` DI binding requirement for autowired `Authentication` middleware
+- Enh #127: Document `AuthenticatorInterface` DI binding requirement for autowired `Authentication` middleware
   (@rossaddison)
 
 ## 3.3.0 August 06, 2026
