@@ -11,4 +11,5 @@ return (new Configuration())
     ->addPathToScan(__DIR__ . '/config', isDev: false)
     ->addPathToScan(__DIR__ . '/src', isDev: false)
     ->addPathToScan(__DIR__ . '/tests', isDev: true)
-    ->ignoreErrorsOnPackages(['jetbrains/phpstorm-attributes', 'yiisoft/yii-debug'], [ErrorType::DEV_DEPENDENCY_IN_PROD]);
+    ->ignoreErrorsOnPackages(['jetbrains/phpstorm-attributes', 'yiisoft/yii-debug'], [ErrorType::DEV_DEPENDENCY_IN_PROD])
+    ->ignoreUnknownClasses(['SensitiveParameter']);
