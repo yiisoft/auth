@@ -54,6 +54,31 @@ public function actionIndex(\Psr\Http\Message\ServerRequestInterface $request): 
 }
 ```
 
+### Using with a DI container
+
+`Authentication`'s constructor requires `\Yiisoft\Auth\AuthenticatorInterface`. If your framework builds the
+middleware via autowiring — for example, applying it to a route by class name, as
+[yiisoft/router](https://github.com/yiisoft/router) groups commonly do (`->middleware(Authentication::class)`) —
+the container needs an explicit binding for `AuthenticatorInterface`, since there is no default implementation to
+autowire it to:
+
+```php
+// e.g. in config/web/di/auth.php
+AuthenticatorInterface::class => HttpBearer::class,
+```
+
+Without that binding, the container fails with a message that doesn't name the actual gap:
+
+```
+No definition or class found for "Yiisoft\Auth\Middleware\Authentication" ID.
+No definition or class found or resolvable for "Yiisoft\Auth\AuthenticatorInterface"
+while building "Yiisoft\Auth\Middleware\Authentication" -> "Yiisoft\Auth\AuthenticatorInterface".
+```
+
+If HTTP-challenge-style authentication isn't what you need for a given route — session/cookie-based login instead,
+for example — don't apply this middleware there at all; binding an authenticator you don't otherwise use just to
+satisfy the container isn't the fix.
+
 ### HTTP basic authentication
 
 Basic HTTP authentication is typically used for entering login and password in the browser.
