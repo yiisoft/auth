@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\Method\Composite;
+use Yiisoft\Auth\Method\HttpBasic;
 use Yiisoft\Auth\Method\HttpBearer;
 use Yiisoft\Auth\Method\QueryParameter;
 use Yiisoft\Auth\Tests\Stub\FakeIdentity;
@@ -107,6 +108,25 @@ final class CompositeTest extends TestCase
             $authenticationMethod
                 ->challenge($response)
                 ->getHeaderLine(Header::WWW_AUTHENTICATE),
+        );
+    }
+
+    public function testChallengeAccumulatesHeadersFromMultipleMethods(): void
+    {
+        $response = new Response(400);
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+
+        $authenticationMethod = new Composite([
+            new HttpBearer($identityRepository),
+            new HttpBasic($identityRepository),
+        ]);
+
+        $this->assertEquals(
+            [
+                'Bearer realm="api"',
+                'Basic realm="api"',
+            ],
+            $authenticationMethod->challenge($response)->getHeader(Header::WWW_AUTHENTICATE),
         );
     }
 

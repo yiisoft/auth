@@ -2,7 +2,7 @@
 
 ## 3.3.1 under development
 
-- no changes in this release.
+- Bug #124: Fix `HttpBasic` and `HttpBearer` to add `WWW-Authenticate` header instead of overwriting it (@vjik)
 
 ## 3.3.0 August 06, 2026
 
