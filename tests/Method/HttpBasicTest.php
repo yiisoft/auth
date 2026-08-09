@@ -136,6 +136,21 @@ final class HttpBasicTest extends TestCase
         );
     }
 
+    public function testChallengeAddsHeaderInsteadOfOverwritingExistingOne(): void
+    {
+        $response = (new Response())->withHeader(Header::WWW_AUTHENTICATE, 'Bearer realm="api"');
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $authenticationMethod = new HttpBasic($identityRepository);
+
+        $this->assertEquals(
+            [
+                'Bearer realm="api"',
+                'Basic realm="api"',
+            ],
+            $authenticationMethod->challenge($response)->getHeader(Header::WWW_AUTHENTICATE),
+        );
+    }
+
     public function testInvalidHeaderName(): void
     {
         $encodeFields = base64_encode('admin:pass');

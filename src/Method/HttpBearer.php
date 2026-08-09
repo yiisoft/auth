@@ -28,7 +28,7 @@ final class HttpBearer extends HttpHeader implements AuthenticatorWithChallengeI
 
     public function challenge(ResponseInterface $response): ResponseInterface
     {
-        return $response->withHeader(Header::WWW_AUTHENTICATE, "Bearer realm=\"{$this->realm}\"");
+        return $response->withAddedHeader(Header::WWW_AUTHENTICATE, "Bearer realm=\"{$this->realm}\"");
     }
 
     /**

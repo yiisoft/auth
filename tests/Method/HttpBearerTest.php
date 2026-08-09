@@ -78,6 +78,21 @@ final class HttpBearerTest extends TestCase
         );
     }
 
+    public function testChallengeAddsHeaderInsteadOfOverwritingExistingOne(): void
+    {
+        $response = (new Response())->withHeader(Header::WWW_AUTHENTICATE, 'Basic realm="api"');
+        $identityRepository = new FakeIdentityRepository($this->createIdentity());
+        $authenticationMethod = new HttpBearer($identityRepository);
+
+        $this->assertEquals(
+            [
+                'Basic realm="api"',
+                'Bearer realm="api"',
+            ],
+            $authenticationMethod->challenge($response)->getHeader(Header::WWW_AUTHENTICATE),
+        );
+    }
+
     public function testImmutability(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
