@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\AuthenticatorInterface;
 use Yiisoft\Auth\AuthenticatorWithChallengeInterface;
 use Yiisoft\Auth\Handler\AuthenticationFailureHandler;
@@ -36,7 +37,7 @@ final class Authentication implements MiddlewareInterface
     private array $wildcards = [];
 
     public function __construct(
-        private AuthenticatorInterface $authenticationMethod,
+        private AuthenticatorInterface|AuthenticationMethodInterface $authenticationMethod,
         ResponseFactoryInterface $responseFactory,
         ?RequestHandlerInterface $authenticationFailureHandler = null,
     ) {

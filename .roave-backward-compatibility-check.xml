@@ -2,11 +2,5 @@
     xsi:noNamespaceSchemaLocation="vendor/roave/backward-compatibility-check/Resources/schema.xsd">
     <baseline>
         <ignored-regex>#\[BC\] SKIPPED: Roave\\BetterReflection\\Reflection\\ReflectionClass "Yiisoft\\Yii\\Debug#</ignored-regex>
-        <!--
-        AuthenticationMethodInterface now extends AuthenticatorInterface, so accepting AuthenticatorInterface widens
-        the constructor parameter type. Roave compares the two package versions independently and cannot resolve this
-        newly introduced cross-version parent relationship as contravariant.
-        -->
-        <ignored-regex>#^\[BC\] CHANGED: The parameter \$authenticationMethod of Yiisoft\\Auth\\Middleware\\Authentication\#__construct\(\) changed from Yiisoft\\Auth\\AuthenticationMethodInterface to a non-contravariant Yiisoft\\Auth\\AuthenticatorInterface$#</ignored-regex>
     </baseline>
 </roave-bc-check>
