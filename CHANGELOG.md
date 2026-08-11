@@ -1,8 +1,13 @@
 # Yii Auth Change Log
 
-## 3.3.1 under development
+## 3.3.2 under development
 
 - no changes in this release.
+
+## 3.3.1 August 11, 2026
+
+- Bug #124: Fix `HttpBasic` and `HttpBearer` to add `WWW-Authenticate` header instead of overwriting it (@vjik)
+- Bug #128: Fix BC-breaking change in `Authentication` middleware constructor parameter type (@vjik)
 
 ## 3.3.0 August 06, 2026
 

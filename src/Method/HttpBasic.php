@@ -63,7 +63,7 @@ final class HttpBasic implements AuthenticationMethodInterface, AuthenticatorWit
 
     public function challenge(ResponseInterface $response): ResponseInterface
     {
-        return $response->withHeader(Header::WWW_AUTHENTICATE, "Basic realm=\"{$this->realm}\"");
+        return $response->withAddedHeader(Header::WWW_AUTHENTICATE, "Basic realm=\"{$this->realm}\"");
     }
 
     /**
