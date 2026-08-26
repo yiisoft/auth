@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Yiisoft\Auth\AuthenticationMethodInterface;
-use Yiisoft\Auth\Debug\AuthenticationMethodInterfaceProxy;
+use Yiisoft\Auth\AuthenticatorWithChallengeInterface;
+use Yiisoft\Auth\Debug\AuthenticatorWithChallengeInterfaceProxy;
 use Yiisoft\Auth\Debug\IdentityCollector;
 
 return [
@@ -12,7 +12,7 @@ return [
             IdentityCollector::class,
         ],
         'trackedServices' => [
-            AuthenticationMethodInterface::class => [AuthenticationMethodInterfaceProxy::class, IdentityCollector::class],
+            AuthenticatorWithChallengeInterface::class => [AuthenticatorWithChallengeInterfaceProxy::class, IdentityCollector::class],
         ],
     ],
 ];

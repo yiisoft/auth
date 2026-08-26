@@ -39,20 +39,6 @@ final class HttpHeaderTest extends TestCase
         );
     }
 
-    public function testChallengeIsCorrect(): void
-    {
-        $response = new Response(400);
-        $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authenticationMethod = new HttpHeader($identityRepository);
-
-        $this->assertEquals(
-            400,
-            $authenticationMethod
-                ->challenge($response)
-                ->getStatusCode(),
-        );
-    }
-
     public function testEmptyTokenHeader(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());

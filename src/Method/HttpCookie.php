@@ -6,7 +6,6 @@ namespace Yiisoft\Auth\Method;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\AuthenticatorInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
@@ -15,10 +14,8 @@ use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
  * HTTP cookie authentication method.
  *
  * @see https://tools.ietf.org/html/rfc6265
- *
- * @psalm-suppress DeprecatedInterface
  */
-final class HttpCookie implements AuthenticationMethodInterface, AuthenticatorInterface
+final class HttpCookie implements AuthenticatorInterface
 {
     private string $cookieName = 'access-token';
     private ?string $tokenType = null;
@@ -36,15 +33,6 @@ final class HttpCookie implements AuthenticationMethodInterface, AuthenticatorIn
         }
 
         return $this->identityRepository->findIdentityByToken($authToken, $this->tokenType);
-    }
-
-    /**
-     * @deprecated No-op kept only for compatibility with the deprecated {@see AuthenticationMethodInterface}.
-     * HTTP cookie authentication does not need a challenge.
-     */
-    public function challenge(ResponseInterface $response): ResponseInterface
-    {
-        return $response;
     }
 
     /**
