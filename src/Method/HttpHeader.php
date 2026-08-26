@@ -7,7 +7,6 @@ namespace Yiisoft\Auth\Method;
 use JetBrains\PhpStorm\Language;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\AuthenticatorInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
@@ -20,10 +19,8 @@ use function reset;
  * The default implementation of HttpHeader uses the
  * {@see IdentityWithTokenRepositoryInterface::findIdentityByToken()}
  * and passes the value of the `X-Api-Key` header. This implementation is used mainly for authenticating API clients.
- *
- * @psalm-suppress DeprecatedInterface
  */
-class HttpHeader implements AuthenticationMethodInterface, AuthenticatorInterface
+class HttpHeader implements AuthenticatorInterface
 {
     protected string $headerName = 'X-Api-Key';
 
@@ -44,15 +41,6 @@ class HttpHeader implements AuthenticationMethodInterface, AuthenticatorInterfac
         }
 
         return null;
-    }
-
-    /**
-     * @deprecated No-op kept only for compatibility with the deprecated {@see AuthenticationMethodInterface}.
-     * HTTP header authentication does not need a challenge.
-     */
-    public function challenge(ResponseInterface $response): ResponseInterface
-    {
-        return $response;
     }
 
     /**
