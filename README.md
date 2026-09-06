@@ -54,6 +54,23 @@ public function actionIndex(\Psr\Http\Message\ServerRequestInterface $request): 
 }
 ```
 
+### Using with a DI container
+
+When the `Yiisoft\Auth\Middleware\Authentication` middleware is created by a DI container (for example, when it is referenced by class name in router configuration), ensure the container can resolve `Yiisoft\Auth\AuthenticatorInterface` by binding it to a concrete authenticator:
+
+~~~php
+use Yiisoft\Auth\AuthenticatorInterface;
+use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
+use Yiisoft\Auth\Method\HttpBearer;
+
+return [
+    AuthenticatorInterface::class => static fn (IdentityWithTokenRepositoryInterface $identityRepository): AuthenticatorInterface =>
+        new HttpBearer($identityRepository),
+];
+~~~
+
+If a route does not require HTTP-challenge-style authentication, do not apply the `Authentication` middleware to it.
+
 ### HTTP basic authentication
 
 Basic HTTP authentication is typically used for entering login and password in the browser.
