@@ -92,9 +92,7 @@ final class Authentication implements MiddlewareInterface
 
     private function getOptionalPattern(string $pattern): WildcardPattern
     {
-        if (!isset($this->wildcards[$pattern])) {
-            $this->wildcards[$pattern] = new WildcardPattern($pattern);
-        }
+        $this->wildcards[$pattern] ??= new WildcardPattern($pattern);
 
         return $this->wildcards[$pattern];
     }
