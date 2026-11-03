@@ -6,7 +6,6 @@ namespace Yiisoft\Auth\Method;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\AuthenticatorWithChallengeInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityWithTokenRepositoryInterface;
@@ -29,11 +28,9 @@ use function count;
  * RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
  * ```
  *
- * @psalm-suppress DeprecatedInterface
- *
  * @psalm-type TAuthenticationCallback = callable(?string, ?string, IdentityWithTokenRepositoryInterface): (?IdentityInterface)
  */
-final class HttpBasic implements AuthenticationMethodInterface, AuthenticatorWithChallengeInterface
+final class HttpBasic implements AuthenticatorWithChallengeInterface
 {
     private string $realm = 'api';
     private ?string $tokenType = null;

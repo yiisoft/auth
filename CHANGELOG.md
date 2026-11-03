@@ -1,8 +1,8 @@
 # Yii Auth Change Log
 
-## 3.3.2 under development
+## 4.0.0 under development
 
-- no changes in this release.
+- Enh #122: Remove AuthenticationMethodInterface and challenge() methods in classes that not implement AuthenticatorWithChallengeInterface (@klsoft-web)
 
 ## 3.3.1 August 11, 2026
 

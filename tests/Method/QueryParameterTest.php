@@ -62,17 +62,6 @@ final class QueryParameterTest extends TestCase
         $this->assertEmpty($identityRepository->getCallParams());
     }
 
-    public function testChallengeIsCorrect(): void
-    {
-        $response = new Response(400);
-        $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authenticationMethod = new QueryParameter($identityRepository);
-
-        $this->assertEquals(400, $authenticationMethod
-            ->challenge($response)
-            ->getStatusCode());
-    }
-
     public function testCustomTokenParam(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());

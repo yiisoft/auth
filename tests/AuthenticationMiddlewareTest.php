@@ -13,8 +13,8 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\AuthenticatorInterface;
+use Yiisoft\Auth\AuthenticatorWithChallengeInterface;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\Http\Status;
@@ -23,13 +23,13 @@ final class AuthenticationMiddlewareTest extends TestCase
 {
     private ResponseFactoryInterface $responseFactory;
 
-    /** @var AuthenticationMethodInterface|MockObject */
-    private AuthenticationMethodInterface $authenticationMethod;
+    /** @var AuthenticatorWithChallengeInterface|MockObject */
+    private AuthenticatorWithChallengeInterface $authenticationMethod;
 
     protected function setUp(): void
     {
         $this->responseFactory = new Psr17Factory();
-        $this->authenticationMethod = $this->createMock(AuthenticationMethodInterface::class);
+        $this->authenticationMethod = $this->createMock(AuthenticatorWithChallengeInterface::class);
     }
 
     public function testShouldAuthenticateAndSetAttribute(): void

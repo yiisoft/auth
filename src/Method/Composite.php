@@ -6,7 +6,6 @@ namespace Yiisoft\Auth\Method;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Yiisoft\Auth\AuthenticationMethodInterface;
 use Yiisoft\Auth\AuthenticatorInterface;
 use Yiisoft\Auth\AuthenticatorWithChallengeInterface;
 use Yiisoft\Auth\IdentityInterface;
@@ -14,10 +13,8 @@ use RuntimeException;
 
 /**
  * Composite allows multiple authentication methods at the same time.
- *
- * @psalm-suppress DeprecatedInterface
  */
-final class Composite implements AuthenticationMethodInterface, AuthenticatorWithChallengeInterface
+final class Composite implements AuthenticatorWithChallengeInterface
 {
     /**
      * @param AuthenticatorInterface[] $methods

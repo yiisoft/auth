@@ -60,15 +60,6 @@ final class HttpCookieTest extends TestCase
         );
     }
 
-    public function testChallengeImmutabilityStatus(): void
-    {
-        $response = new Response(400);
-        $identityRepository = new FakeIdentityRepository($this->createIdentity());
-        $authenticationMethod = new HttpCookie($identityRepository);
-
-        $this->assertSame($response, $authenticationMethod->challenge($response));
-    }
-
     public function testCustomTokenParam(): void
     {
         $identityRepository = new FakeIdentityRepository($this->createIdentity());
